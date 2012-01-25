@@ -150,7 +150,7 @@
 
     $(function () {
         var authToken = $.cookie('authtoken');
-        if (authToken === undefined || authToken === '')
+        if (!authToken)
             showLogin();
         else {
             campfire.authToken = authToken;
