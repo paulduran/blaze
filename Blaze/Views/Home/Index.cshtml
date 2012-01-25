@@ -1,0 +1,216 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Campfire Client";
+}
+<div id="login-form" class="hide">
+    <form>
+    <div class="modal">
+        <div class="modal-header">
+            <h3>
+                CampFire Login</h3>
+        </div>
+        <div class="modal-body">
+            <div class="clearfix">
+                <div class="input">
+                    <input type="text" data-bind="value:username" placeholder="Username" />
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="input">
+                    <input type="password" data-bind="value:password" placeholder="Password" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-bind="click: login">Login</a>
+        </div>
+    </div>
+    </form>
+</div>
+<div id="main" class="hide">
+    <ul class="tabs" data-tabs="tabs">
+        <li class="active"><a href="#lobby">lobby</a></li>
+        <li><a href="#room">room</a></li>
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+        <div class="active tab-pane" id="lobby">
+            <h3>
+                Chat Rooms</h3>
+            <div class="row" data-bind="foreach: rooms">
+                <div class="span-one-third">
+                    <h5>
+                        <a data-bind="attr: { href: url}, text: name, click: displayRoom"></a>
+                    </h5>
+                    <p>
+                        <small data-bind="text: topic"></small>
+                    </p>
+                    <ul data-bind="foreach: users">
+                        <li data-bind="text: name"></li>
+                    </ul>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="room">
+            <div class="row">
+                <div class="messages span12" data-bind="foreach: messages">
+                    <div class="message" data-bind="visible: type()=='TextMessage'">
+                        <div class="author" data-bind="text: username, css: {starred: starred}">
+                        </div>
+                        <div class="body" data-bind="text: body">
+                        </div>
+                    </div>
+                    <div class="message paste" data-bind="visible: type()=='PasteMessage'">
+                        <div class="author" data-bind="text: username, css: {starred: starred}">
+                        </div>
+                        <pre class="body" data-bind="text: body">
+                        </pre>
+                    </div>
+                    <div class="enter-message" data-bind="visible: type()=='EnterMessage'">
+                        <span data-bind="text: username"></span> has entered the room      
+                    </div>
+                    <div class="exit-message" data-bind="visible: type()=='KickMessage'">
+                        <span data-bind="text: username"></span> has left the room              
+                    </div>
+                    <div class="timestamp-message" data-bind="visible: type()=='TimestampMessage', text: nice_created"></div>
+                </div>
+                <div class="span4">
+                    <h4 data-bind="text: name">
+                    </h4>
+                    <p>
+                        <small data-bind="text: topic"></small>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span16 input-area">
+                    <textarea rows="3" class="span10" placeholder="type a message and press [enter]"></textarea> <button class="btn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .input-area {
+        padding-top: 5px;
+    }
+    .messages {
+        height: 800px;
+        overflow-y: scroll;
+    }
+    .message {
+        padding: 4px;
+        clear: both;
+    }
+    .enter-message {
+        background-color: lightgreen;
+        text-align: center;
+        clear: both;
+    }
+    .exit-message {
+        background-color: lightcoral;
+        text-align: center;        
+        clear: both;
+    }
+    .timestamp-message {
+        background-color: #eee;        
+        text-align: center;
+        clear: both;
+    }
+    .author {
+        font-weight: bold;
+        float: left;       
+        width: 100px;
+        /* background-color: whiteSmoke;*/
+    }
+    .body {
+        float: left;
+        padding-left: 100px;     
+    }
+    .paste .body {
+        font-size: 11px;
+        background-color: #fdf5d9;
+    }
+</style>
+<script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
+<script type="text/javascript">
+    var userCache = {};
+    var campfire = new Campfire();
+
+    $(function () {
+        var authToken = $.cookie('authtoken');
+        if (authToken === undefined || authToken === '')
+            showLogin();
+        else {
+            campfire.authToken = authToken;
+            showRooms();
+        }
+    });
+
+    function showLogin() {
+        $('#login-form').show();
+        var loginModel = {
+            username: ko.observable(''),
+            password: ko.observable(''),
+            login: function () {
+                var self = this;
+                campfire.login(self.username(), self.password(), function(authToken) {
+                    $.cookie('authtoken', authToken, { expires: 1 });
+                    $('#login-form').hide();
+                    showRooms();
+                });                
+            }
+        };
+        ko.applyBindings(loginModel, document.getElementById('login-form'));
+    }
+    
+    function showRooms() {
+        $('#main').show();
+
+        var roomsModel = new RoomsModel();
+        var loadUsers = function (room) {
+            campfire.getUsers(room.id(), function(users) {
+                $.map(users, function (o) {
+                    var userModel = new UserModel(o);
+                    room.users.push(userModel);
+                    userCache[userModel.id()] = userModel;
+                });
+            });            
+        };
+
+        ko.applyBindings(roomsModel, document.getElementById('lobby'));
+        campfire.getRooms(function(rooms) {
+            $.map(rooms, function(o) {
+                var roomModel = new RoomModel(o);
+                roomsModel.rooms.push(roomModel);
+                loadUsers(roomModel);
+            });
+        });        
+    }   
+    
+    function showRoom(room) {
+        ko.applyBindings(room, document.getElementById('room'));
+        campfire.getRecentMessages(room.id(), function(messages) {
+            $.map(messages, function (o) {
+                var user = o.user_id ? getUser(o.user_id) : new UserModel({id:0,name:''});
+                var messageModel = new MessageModel(o, user);
+                room.messages.push(messageModel);
+            });
+        });
+    }
+
+    function getUser(id) {
+        if (userCache[id] !== undefined) {
+            return (userCache[id]);
+        } else {
+            var model = new UserModel({ id: id, name: '' });
+            userCache[id] = model;
+            campfire.getUser(id, function (user) {
+                model.name(user.name);
+            });
+            return model;
+        }
+    }
+
+</script>
