@@ -181,16 +181,20 @@
         var roomsModel = new RoomsModel();
         var loadUsers = function (room) {
             campfire.getUsers(room.id(), function(users) {
+                room.users.removeAll();
                 $.map(users, function (o) {
                     var userModel = new UserModel(o);
                     room.users.push(userModel);
                     userCache[userModel.id()] = userModel;
                 });
                 roomsModel.rooms.sort(function(l, r) {
-                if( l.users().length == r.users().length ) return 0;
-                if( l.users().length < r.users().length) return 1;
-                return -1;
-            });
+                    if( l.users().length == r.users().length ) return 0;
+                    if( l.users().length < r.users().length) return 1;
+                    return -1;
+                });
+                setTimeout(function() {
+                    loadUsers(room);
+                }, 30000);
             });            
         };
 
