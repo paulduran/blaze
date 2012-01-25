@@ -36,8 +36,8 @@
         <div class="active tab-pane" id="lobby">
             <h3>
                 Chat Rooms</h3>
-            <div class="row" data-bind="foreach: rooms">
-                <div class="span-one-third">
+            <div class="row rooms" data-bind="foreach: rooms">
+                <div class="span-one-third room-summary">
                     <h5>
                         <a data-bind="attr: { href: url}, text: name, click: displayRoom"></a>
                     </h5>
@@ -92,6 +92,9 @@
     </div>
 </div>
 <style>
+    .room-summary:nth-child(3n+1) {
+        clear: left;
+    }
     .input-area {
         padding-top: 5px;
     }
