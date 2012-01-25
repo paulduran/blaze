@@ -36,7 +36,8 @@ namespace Blaze.Controllers
             request.Method = "GET";
             request.Headers[HttpRequestHeader.Authorization] = auth;
             request.Accept = "application/xml";
-            var response = request.GetResponse();
+            var response = (HttpWebResponse) request.GetResponse();
+            Response.StatusCode = (int) response.StatusCode;
             return new FileStreamResult(response.GetResponseStream(), "application/xml");
         }
     }

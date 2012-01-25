@@ -186,6 +186,11 @@
                     room.users.push(userModel);
                     userCache[userModel.id()] = userModel;
                 });
+                roomsModel.rooms.sort(function(l, r) {
+                if( l.users().length == r.users().length ) return 0;
+                if( l.users().length < r.users().length) return 1;
+                return -1;
+            });
             });            
         };
 
@@ -195,7 +200,7 @@
                 var roomModel = new RoomModel(o);
                 roomsModel.rooms.push(roomModel);
                 loadUsers(roomModel);
-            });
+            });            
         });        
     }   
     
