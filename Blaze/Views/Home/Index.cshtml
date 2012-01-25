@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model Blaze.Models.HomeModel
 @{
     ViewBag.Title = "Campfire Client";
 }
@@ -53,17 +53,17 @@
         </div>
         <div class="tab-pane" id="room">
             <div class="row">
-                <div class="messages span12" data-bind="foreach: messages">
+                <div class="messages" style="float: left; width: 80%" data-bind="foreach: messages">
                     <div class="message" data-bind="visible: type()=='TextMessage'">
                         <div class="author" data-bind="text: username, css: {starred: starred}">
                         </div>
-                        <div class="body" data-bind="text: body">
+                        <div class="body" data-bind="html: parsed_body">
                         </div>
                     </div>
                     <div class="message paste" data-bind="visible: type()=='PasteMessage'">
                         <div class="author" data-bind="text: username, css: {starred: starred}">
                         </div>
-                        <pre class="body" data-bind="text: body">
+                        <pre class="body" data-bind="html: body">
                         </pre>
                     </div>
                     <div class="enter-message" data-bind="visible: type()=='EnterMessage'">
@@ -74,13 +74,14 @@
                     </div>
                     <div class="timestamp-message" data-bind="visible: type()=='TimestampMessage', text: nice_created"></div>
                 </div>
-                <div class="span4">
-                    <h4 data-bind="text: name">
+                <div style="float: left; width: auto;">
+                    <h4 data-bind="text: name">stuff
                     </h4>
                     <p>
-                        <small data-bind="text: topic"></small>
+                        <small data-bind="text: topic">stuff</small>
                     </p>
                 </div>
+                <div style="clear: both;"></div>
             </div>
             <div class="row">
                 <div class="span16 input-area">
@@ -96,6 +97,7 @@
     }
     .messages {
         height: 800px;
+        overflow-x: hidden;
         overflow-y: scroll;
     }
     .message {
@@ -120,18 +122,24 @@
     .author {
         font-weight: bold;
         float: left;       
-        width: 100px;
+        width: auto;
+        max-width: 100px;       
         /* background-color: whiteSmoke;*/
     }
     .body {
-        float: left;
-        padding-left: 100px;     
+        float: right;
+        width: 90%;
     }
     .paste .body {
         font-size: 11px;
         background-color: #fdf5d9;
     }
+    .emoji {
+        width: 24px;
+        height: 24px;
+    }
 </style>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
 <script type="text/javascript">
@@ -196,6 +204,7 @@
                 var user = o.user_id ? getUser(o.user_id) : new UserModel({id:0,name:''});
                 var messageModel = new MessageModel(o, user);
                 room.messages.push(messageModel);
+                $('.messages').linkify();
             });
         });
     }
@@ -212,5 +221,25 @@
             return model;
         }
     }
+    function processBody(body) {
+        var re = new RegExp(":[a-z0-9]+:", "i");
+        var match;
+        while(match = re.exec(body)) {
+            var emoji = emojis[match];
+            if( emoji !== undefined )
+                body = body.replace(match, '<img class="emoji" src="'+ emoji + '"/>'); 
+            else {
+                body = body.replace(match, match.replace(':', '_'));
+            }
+        }
+        return body;
+    }
+    
+    var emojis = {
+        @foreach(var e in Model.Emojis)
+        {
+        <text>'@e.Name':'@e.ImageUrl',</text>
+        }
+    };
 
 </script>

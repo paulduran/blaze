@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Blaze.Models;
 
 namespace Blaze.Controllers
 {
@@ -17,7 +20,13 @@ namespace Blaze.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var emojis = ConfigurationManager.GetSection("emojis") as NameValueCollection;
+            var model = new HomeModel
+                            {
+                                Emojis = (from e in emojis.AllKeys
+                                          select new Emoji {Name = e, ImageUrl = emojis[e]})
+                            };
+            return View(model);
         }
 
         public ActionResult Proxy(string url)

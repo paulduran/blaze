@@ -24,6 +24,9 @@ function MessageModel(obj, user) {
     var self = this;
     this.id = ko.observable(obj.id);
     this.body = ko.observable(obj.body);
+    this.parsed_body = ko.computed(function() {
+        return processBody(self.body());
+    });
     this.type = ko.observable(obj.type);
     this.starred = ko.observable(obj.starred);
     this.created_at = ko.observable(obj.created_at);
