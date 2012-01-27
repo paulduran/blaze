@@ -28,9 +28,11 @@
     </form>
 </div>
 <div id="main" class="hide">
-    <ul class="tabs" data-tabs="tabs">
+    <ul class="tabs" data-tabs="tabs" id="tabs">
         <li class="active"><a href="#lobby">lobby</a></li>
-        <li><a href="#room">room</a></li>
+        <!-- ko foreach: activeRooms -->
+        <li><a data-bind="attr: {href: domId}, text: name"></a></li>
+        <!-- /ko -->
     </ul>
     <div id="my-tab-content" class="tab-content">
         <div class="active tab-pane" id="lobby">
@@ -39,7 +41,7 @@
             <div class="row rooms" data-bind="foreach: rooms">
                 <div class="span-one-third room-summary">
                     <h5>
-                        <a data-bind="attr: { href: url}, text: name, click: displayRoom"></a>
+                        <a data-bind="attr: { href: url}, text: name, click: $parent.displayRoom"></a>
                     </h5>
                     <p>
                         <small data-bind="text: topic"></small>
@@ -85,7 +87,7 @@
             </div>
             <div class="row">
                 <div class="span16 input-area">
-                    <textarea rows="3" class="span10" placeholder="type a message and press [enter]"></textarea> <button class="btn">Send</button>
+                    <textarea rows="3" class="span10" placeholder="type a message and press [enter]" data-bind="value: message"></textarea> <button class="btn" data-bind="click: sendMessage">Send</button>
                 </div>
             </div>
         </div>
@@ -195,6 +197,7 @@
         };
 
         ko.applyBindings(roomsModel, document.getElementById('lobby'));
+        ko.applyBindings(roomsModel, document.getElementById('tabs'));
         campfire.getRooms(function(rooms) {
             $.map(rooms, function(o) {
                 var roomModel = new RoomModel(o);
@@ -205,14 +208,28 @@
     }   
     
     function showRoom(room) {
-        ko.applyBindings(room, document.getElementById('room'));
-        campfire.getRecentMessages(room.id(), function(messages) {
-            $.map(messages, function (o) {
-                var user = o.user_id ? getUser(o.user_id) : new UserModel({id:0,name:''});
+        if($(room.domId()).length == 0) {
+            var roomDom = $('#room').clone();
+            roomDom.attr('id', 'room-' + room.id());
+            $('#room').parent().append(roomDom);
+
+            $(roomDom).each(function(i, r) {
+                 ko.applyBindings(room, r);
+            });
+            //ko.applyBindings(room, document.getElementById('room-' + room.id()));
+            loadMessages(room);            
+        }
+    }
+    
+    function loadMessages(room) {
+        campfire.getRecentMessages(room.id(), room.lastMessageId, function(messages) {
+            $.map(messages, function(o) {
+                var user = o.user_id ? getUser(o.user_id) : new UserModel({ id: 0, name: '' });
                 var messageModel = new MessageModel(o, user);
                 room.messages.push(messageModel);
-                $('.messages').linkify();
+                room.lastMessageId = messageModel.id();
             });
+            $('.messages').linkify();
         });
     }
 
@@ -240,6 +257,12 @@
             }
         }
         return body;
+    }
+    
+    function sendMessage(room, message) {
+        campfire.sendMessage(room.id(), message, function () {
+            loadMessages(room);    
+        });        
     }
     
     var emojis = {
