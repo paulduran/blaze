@@ -69,76 +69,93 @@
                         </pre>
                     </div>
                     <div class="enter-message" data-bind="visible: type()=='EnterMessage'">
-                        <span data-bind="text: username"></span> has entered the room      
+                        <span data-bind="text: username"></span>&nbsp;has entered the room
                     </div>
                     <div class="exit-message" data-bind="visible: type()=='KickMessage'">
-                        <span data-bind="text: username"></span> has left the room              
+                        <span data-bind="text: username"></span>&nbsp;has left the room
                     </div>
-                    <div class="timestamp-message" data-bind="visible: type()=='TimestampMessage', text: nice_created"></div>
+                    <div class="timestamp-message" data-bind="visible: type()=='TimestampMessage', text: nice_created">
+                    </div>
                 </div>
                 <div style="float: left; width: auto;">
-                    <h4 data-bind="text: name">stuff
+                    <h4 data-bind="text: name">
+                        stuff
                     </h4>
                     <p>
                         <small data-bind="text: topic">stuff</small>
                     </p>
                 </div>
-                <div style="clear: both;"></div>
+                <div style="clear: both;">
+                </div>
             </div>
             <div class="row">
                 <div class="span16 input-area">
-                    <textarea rows="3" class="span10" placeholder="type a message and press [enter]" data-bind="value: message"></textarea> <button class="btn" data-bind="click: sendMessage">Send</button>
+                    <textarea rows="3" class="span10" placeholder="type a message and press [enter]"
+                        data-bind="value: input_message"></textarea>
+                    <button class="btn" data-bind="click: sendMessage">
+                        Send</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <style>
-    .room-summary:nth-child(3n+1) {
+    .room-summary:nth-child(3n+1)
+    {
         clear: left;
     }
-    .input-area {
+    .input-area
+    {
         padding-top: 5px;
     }
-    .messages {
+    .messages
+    {
         height: 800px;
         overflow-x: hidden;
         overflow-y: scroll;
     }
-    .message {
+    .message
+    {
         padding: 4px;
         clear: both;
     }
-    .enter-message {
+    .enter-message
+    {
         background-color: lightgreen;
         text-align: center;
         clear: both;
     }
-    .exit-message {
+    .exit-message
+    {
         background-color: lightcoral;
-        text-align: center;        
-        clear: both;
-    }
-    .timestamp-message {
-        background-color: #eee;        
         text-align: center;
         clear: both;
     }
-    .author {
-        font-weight: bold;
-        float: left;       
-        width: auto;
-        max-width: 100px;       
+    .timestamp-message
+    {
+        background-color: #eee;
+        text-align: center;
+        clear: both;
     }
-    .body {
+    .author
+    {
+        font-weight: bold;
+        float: left;
+        width: auto;
+        max-width: 100px;
+    }
+    .body
+    {
         float: right;
         width: 90%;
     }
-    .paste .body {
+    .paste .body
+    {
         font-size: 11px;
         background-color: #fdf5d9;
     }
-    .emoji {
+    .emoji
+    {
         width: 24px;
         height: 24px;
     }
@@ -189,10 +206,10 @@
                     userCache[userModel.id()] = userModel;
                 });
                 roomsModel.rooms.sort(function(l, r) {
-                if( l.users().length == r.users().length ) return 0;
-                if( l.users().length < r.users().length) return 1;
-                return -1;
-            });
+                    if (l.users().length == r.users().length) return 0;
+                    if (l.users().length < r.users().length) return 1;
+                    return -1;
+                });
             });            
         };
 
@@ -276,7 +293,7 @@
     }
     
     var emojis = {
-        @foreach(var e in Model.Emojis)
+        @foreach (var e in Model.Emojis)
         {
         <text>'@e.Name':'@e.ImageUrl',</text>
         }

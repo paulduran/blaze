@@ -12,10 +12,10 @@
         return '#';
     });
     this.messages = ko.observableArray([]);
-    this.message = ko.observable('');
-    this.refreshRate = ko.observable(30000);
+    this.refreshRate = ko.observable(30000);    
+    this.input_message = ko.observable('');
     this.sendMessage = function () {
-        sendMessage(self, self.message());
+        sendMessage(self, self.input_message());
     };
 }
 function RoomsModel() {
