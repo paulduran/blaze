@@ -56,26 +56,11 @@
         <div class="tab-pane" id="room">
             <div class="row">
                 <div class="messages" style="float: left; width: 80%" data-bind="foreach: messages">
-                    <div class="message" data-bind="visible: type()=='TextMessage'">
+                    <div data-bind="attr: {'class':css_class}">
                         <div class="author" data-bind="text: username, css: {starred: starred}">
+                        </div><div class="body" data-bind="html: parsed_body">
                         </div>
-                        <div class="body" data-bind="html: parsed_body">
-                        </div>
-                    </div>
-                    <div class="message paste" data-bind="visible: type()=='PasteMessage'">
-                        <div class="author" data-bind="text: username, css: {starred: starred}">
-                        </div>
-                        <pre class="body" data-bind="html: body">
-                        </pre>
-                    </div>
-                    <div class="enter-message" data-bind="visible: type()=='EnterMessage'">
-                        <span data-bind="text: username"></span>&nbsp;has entered the room
-                    </div>
-                    <div class="exit-message" data-bind="visible: type()=='KickMessage'">
-                        <span data-bind="text: username"></span>&nbsp;has left the room
-                    </div>
-                    <div class="timestamp-message" data-bind="visible: type()=='TimestampMessage', text: nice_created">
-                    </div>
+                    </div>                    
                 </div>
                 <div style="float: left; width: auto;">
                     <h4 data-bind="text: name">
@@ -114,52 +99,95 @@
         overflow-x: hidden;
         overflow-y: scroll;
     }
+    .emoji
+    {
+        width: 24px;
+        height: 24px;
+    }
     .message
     {
         border-bottom: dotted #eee 1px;
         margin: 4px;
         clear: both;
     }
-    .enter-message
+    .message .body
     {
-        background-color: lightgreen;
-        text-align: center;
-        clear: both;
+        display: inline-block;
+        width: 80%;
     }
-    .exit-message
+    .message .author
     {
-        background-color: lightcoral;
-        text-align: center;
-        clear: both;
-    }
-    .timestamp-message
-    {
-        background-color: #eee;
-        text-align: center;
-        clear: both;
-    }
-    .author
-    {
+        vertical-align: top;
         font-weight: bold;
-        float: left;
+        display: inline-block;
         width: auto;
         max-width: 100px;
+        width: 100px;
     }
-    .body
-    {
-        float: right;
-        width: 90%;
-    }
+    
     .paste .body
     {
         font-size: 11px;
         background-color: #fdf5d9;
     }
-    .emoji
+       
+    .enter-message .author, .enter-message .body 
     {
-        width: 24px;
-        height: 24px;
+        background-color: lightgreen;
+        max-width: inherit;
+        float: none;
+        display: inline;
     }
+            
+    .exit-message .author, .exit-message .body
+    {
+        background-color: #FCC3C3;
+        max-width: inherit;
+        float: none;
+        display: inline;
+    }
+    
+    .exit-message, .enter-message
+    {
+        text-align: center;
+        clear: both;
+    }
+
+    .exit-message .author, .enter-message .author
+    {
+        padding: 1px 0px 1px 10px;
+        border-radius: 5px 0px 0px 5px;
+        -webkit-border-radius: 5px 0px 0px 5px;
+        -moz-border-radius: 5px 0px 0px 5px;
+    }
+    
+    .exit-message .body , .enter-message .body
+    {        
+        padding: 1px 10px 1px 0px;
+        border-radius: 0px 5px 5px 0px;
+        -webkit-border-radius: 0px 5px 5px 0px;
+        -moz-border-radius: 0px 5px 5px 0px;
+    }
+        
+    .timestamp-message
+    {
+        background-color: #eee;
+        text-align: center;
+        clear: both;
+    }      
+    .timestamp-message .body
+    {
+        background-color: #eee;
+        text-align: center;
+        clear: both;
+        width: 100%;
+    }    
+    .timestamp-message .author
+    {
+        display: none;
+    }    
+    
+  
 </style>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>

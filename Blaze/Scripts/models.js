@@ -41,12 +41,21 @@ function UserModel(obj) {
 }
 function MessageModel(obj, user) {
     var self = this;
+    var classes = {
+        'EnterMessage':'enter-message',
+        'KickMessage': 'exit-message',
+        'LeaveMessage': 'exit-message',
+        'TimestampMessage':'timestamp-message',
+        'PasteMessage':'message paste'
+    };
     this.id = ko.observable(obj.id);
     this.body = ko.observable(obj.body);
-    this.parsed_body = ko.computed(function() {
-        return processBody(self.body());
-    });
     this.type = ko.observable(obj.type);
+    this.css_class = ko.computed(function () {
+        var cls = classes[self.type()];
+        if (cls) return cls;
+        return 'message';
+    });
     this.starred = ko.observable(obj.starred);
     this.created_at = ko.observable(obj.created_at);
     this.nice_created = ko.computed(function () {
@@ -58,4 +67,15 @@ function MessageModel(obj, user) {
     this.username = ko.computed(function () {
         return self.user.short_name();
     });
+    this.parsed_body = ko.computed(function () {
+        if (self.type() === 'EnterMessage') {
+            return ' has entered the room';
+        } else if (self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {
+            return ' has left the room';
+        } else if (self.type() === 'TimestampMessage') {
+            return self.nice_created();
+        }
+        return processBody(self.body());
+    });
+
 }
