@@ -26,6 +26,11 @@ namespace Blaze.Controllers
             return View(model);
         }
 
+        public ActionResult Test()
+        {
+            return View();
+        }
+
         public ActionResult Proxy(string url)
         {
             var request = (HttpWebRequest) WebRequest.Create(string.Format("https://{0}.campfirenow.com/{1}?{2}", accountName, url, Request["QUERY_STRING"]));

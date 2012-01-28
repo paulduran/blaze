@@ -1,75 +1,69 @@
-body
+html, body
 {
-    font-size: .85em;
-    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
-    color: #232323;
-    background-color: #fff;
+    height: 100%;
+}
+.header-wrap
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.header-container
+{
+    height: 90px;
 }
 
-header,
-footer,
-nav,
-section {
-    display: block;
+.tabs
+{
+    margin: 0 auto;
+    position: relative;
+    height: 90px;
 }
 
-/* Styles for basic forms
------------------------------------------------------------*/
-
-fieldset 
+.container
 {
-    border:1px solid #ddd;
-    padding:0 1.4em 1.4em 1.4em;
-    margin:0 0 1.5em 0;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    overflow: auto;
+    padding-top: 90px;
+    padding-bottom: 140px;
+}
+.content
+{
+    height: 100%;
+    width: auto;
+    margin-right: 240px;
+    float: left;
 }
 
-legend 
+.sidebar
 {
-    font-size:1.2em;
-    font-weight: bold;
+    position: fixed;
+    top: 90;
+    right: 0;
+    width: 240px;
+    height: 100%;
+}
+.footer-wrap
+{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 
-textarea 
+.footer-container
 {
-    min-height: 75px;
+    height: 140px;
 }
 
-.editor-label 
+.footer
 {
-    margin: 1em 0 0 0;
-}
-
-.editor-field 
-{
-    margin:0.5em 0 0 0;
-}
-
-
-/* Styles for validation helpers
------------------------------------------------------------*/
-.field-validation-error
-{
-    color: #ff0000;
-}
-
-.field-validation-valid
-{
-    display: none;
-}
-
-.input-validation-error
-{
-    border: 1px solid #ff0000;
-    background-color: #ffeeee;
-}
-
-.validation-summary-errors
-{
-    font-weight: bold;
-    color: #ff0000;
-}
-
-.validation-summary-valid
-{
-    display: none;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    opacity: 1;
+    height: 140px;
 }
