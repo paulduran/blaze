@@ -34,20 +34,9 @@ function UserModel(obj) {
     this.id = ko.observable(obj.id);
     this.name = ko.observable(obj.name);
     this.short_name = ko.computed(function () {
-        var n = self.name();
-        if (!n) return null;
-        var re = /\s+([^\s]+)/g;
-        //new RegExp('\\s+([^\s]+)', "g");
-        var curIndex = 0;
-        var newName = '';
-        var match;
-        while (match = re.exec(n)) {
-            newName += n.substring(curIndex, match.index);
-            curIndex = match.index + match[0].length;
-            newName += ' ' + match[1].substring(0, 1) + '.';
-        }
-        newName += n.substring(curIndex, n.length);
-        return newName;
+        return self.name().replace(/\s+([^\s]+)/g, function (str) {
+            return ' ' + str.substring(1, 2) + '.';
+        });        
     });
 }
 function MessageModel(obj, user) {

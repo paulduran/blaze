@@ -269,22 +269,14 @@
     }
     function processBody(body) {
         if( !body ) return null;
-        var re = new RegExp(":[a-z0-9]+:", "ig");
-        var match;
-        var newBody = '';
-        var curIndex = 0;
-        while(match = re.exec(body)) {
-            newBody += body.substring(curIndex, match.index);
-            curIndex = match.index + match[0].length;
-            var emoji = emojis[match[0]];
+        return body.replace( /:[a-z0-9]+:/ig , function(str) {
+            var emoji = emojis[str];
             if( emoji !== undefined ) {
-                newBody += '<img class="emoji" src="' + emoji + '"/>';
+                return '<img class="emoji" src="' + emoji + '"/>';
             } else {
-                newBody += match[0];
+                return str;
             }
-        }
-        newBody += body.substring(curIndex, body.length);
-        return newBody;
+        });
     }
     
     function sendMessage(room, message) {
