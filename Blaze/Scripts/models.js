@@ -1,5 +1,8 @@
-﻿function RoomModel(obj) {
+﻿function RoomModel(obj, user) {
     var self = this;
+    this.currentUserId = ko.computed(function () {
+        return user.id();
+    });
     this.id = ko.observable(obj.id);
     this.domId = ko.computed(function () {
         return '#room-' + self.id();
@@ -18,10 +21,10 @@
         sendMessage(self, self.input_message());
     };
 }
-function RoomsModel() {
-    var self = this;
+function RoomsModel(user) {
+    var self = this;   
     this.rooms = ko.observableArray([]);
-    this.activeRooms = ko.observableArray([]);
+    this.activeRooms = ko.observableArray([]);   
     this.displayRoom = function (room) {
         showRoom(room);
         //$('body').tabs('ul[data-tabs] li > a, ul[data-pills] > li > a');
@@ -63,7 +66,10 @@ function MessageModel(obj, user) {
         var mins = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
         return d.getHours() + ':' + mins;
     });
-    this.user = user;    
+    this.user = user;
+    this.userId = ko.computed(function () {
+        return self.user.id();
+    });
     this.username = ko.computed(function () {
         return self.user.short_name();
     });

@@ -12,7 +12,7 @@ Campfire.prototype.login = function (username, password, callback) {
         },
         success: function (data) {
             self.authToken = data.user.api_auth_token;
-            callback(self.authToken);
+            callback(data.user);
         },
         dataType: 'json'
     });

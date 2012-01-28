@@ -56,7 +56,7 @@
         <div class="tab-pane" id="room">
             <div class="row">
                 <div class="messages" style="float: left; width: 80%" data-bind="foreach: messages">
-                    <div data-bind="attr: {'class':css_class}">
+                    <div data-bind="attr: {'class':css_class}, css: {me: $root.currentUserId() === userId()}">
                         <div class="author" data-bind="text: username, css: {starred: starred}">
                         </div><div class="body" data-bind="html: parsed_body">
                         </div>
@@ -128,6 +128,11 @@
     .paste .body
     {
         font-size: 11px;
+        background-color: #fdf5d9;
+    }
+    
+    .me
+    {     
         background-color: #fdf5d9;
     }
        
@@ -202,7 +207,9 @@
             showLogin();
         else {
             campfire.authToken = authToken;
-            showRooms();
+            campfire.login(campfire.authToken, 'x', function(user) {
+                showRooms(user);
+            });            
         }
     });
 
@@ -213,18 +220,20 @@
             password: ko.observable(''),
             login: function () {
                 var self = this;
-                campfire.login(self.username(), self.password(), function(authToken) {
-                    $.cookie('authtoken', authToken, { expires: 1 });
+                campfire.login(self.username(), self.password(), function(user) {
+                    $.cookie('authtoken', user.api_auth_token, { expires: 1 });
                     $('#login-form').hide();
-                    showRooms();
+                    showRooms(user);
                 });                
             }
         };
         ko.applyBindings(loginModel, document.getElementById('login-form'));
     }
     
-    function showRooms() {
+    function showRooms(user) {
         $('#main').show();
+        var currentUserModel = new UserModel(user);
+        userCache[currentUserModel.id()] = currentUserModel;
 
         var roomsModel = new RoomsModel();
         var loadUsers = function (room) {
@@ -246,7 +255,7 @@
         ko.applyBindings(roomsModel, document.getElementById('tabs'));
         campfire.getRooms(function(rooms) {
             $.map(rooms, function(o) {
-                var roomModel = new RoomModel(o);
+                var roomModel = new RoomModel(o, currentUserModel);
                 roomsModel.rooms.push(roomModel);
                 loadUsers(roomModel);
             });            
