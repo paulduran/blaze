@@ -150,7 +150,7 @@
     var userCache = {};
     var campfire = new Campfire();
 
-    $(function () {
+    $(function () {        
         var authToken = $.cookie('authtoken');
         if (!authToken)
             showLogin();
@@ -216,12 +216,11 @@
             $(roomDom).each(function(i, r) {
                  ko.applyBindings(room, r);
             });
-            //ko.applyBindings(room, document.getElementById('room-' + room.id()));
-            loadMessages(room);            
+            loadMessages(room, true);
         }
     }
     
-    function loadMessages(room) {
+    function loadMessages(room, autorefresh) {
         campfire.getRecentMessages(room.id(), room.lastMessageId, function(messages) {
             $.map(messages, function(o) {
                 var user = o.user_id ? getUser(o.user_id) : new UserModel({ id: 0, name: '' });
@@ -230,6 +229,11 @@
                 room.lastMessageId = messageModel.id();
             });
             $('.messages').linkify();
+            if( autorefresh === true ) {
+                room.timer = setTimeout(function() {
+                    loadMessages(room, true);
+                }, room.refreshRate());
+            }
         });
     }
 
@@ -246,17 +250,23 @@
         }
     }
     function processBody(body) {
-        var re = new RegExp(":[a-z0-9]+:", "i");
+        if( !body ) return null;
+        var re = new RegExp(":[a-z0-9]+:", "ig");
         var match;
+        var newBody = '';
+        var curIndex = 0;
         while(match = re.exec(body)) {
-            var emoji = emojis[match];
-            if( emoji !== undefined )
-                body = body.replace(match, '<img class="emoji" src="'+ emoji + '"/>'); 
-            else {
-                body = body.replace(match, match.replace(':', '_'));
+            newBody += body.substring(curIndex, match.index);
+            curIndex = match.index + match[0].length;
+            var emoji = emojis[match[0]];
+            if( emoji !== undefined ) {
+                newBody += '<img class="emoji" src="' + emoji + '"/>';
+            } else {
+                newBody += match[0];
             }
         }
-        return body;
+        newBody += body.substring(curIndex, body.length);
+        return newBody;
     }
     
     function sendMessage(room, message) {

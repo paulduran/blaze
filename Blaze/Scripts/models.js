@@ -13,6 +13,7 @@
     });
     this.messages = ko.observableArray([]);
     this.message = ko.observable('');
+    this.refreshRate = ko.observable(30000);
     this.sendMessage = function () {
         sendMessage(self, self.message());
     };
