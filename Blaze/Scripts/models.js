@@ -30,8 +30,25 @@ function RoomsModel() {
     };
 }
 function UserModel(obj) {
+    var self = this;
     this.id = ko.observable(obj.id);
     this.name = ko.observable(obj.name);
+    this.short_name = ko.computed(function () {
+        var n = self.name();
+        if (!n) return null;
+        var re = /\s+([^\s]+)/g;
+        //new RegExp('\\s+([^\s]+)', "g");
+        var curIndex = 0;
+        var newName = '';
+        var match;
+        while (match = re.exec(n)) {
+            newName += n.substring(curIndex, match.index);
+            curIndex = match.index + match[0].length;
+            newName += ' ' + match[1].substring(0, 1) + '.';
+        }
+        newName += n.substring(curIndex, n.length);
+        return newName;
+    });
 }
 function MessageModel(obj, user) {
     var self = this;
@@ -50,6 +67,6 @@ function MessageModel(obj, user) {
     });
     this.user = user;    
     this.username = ko.computed(function () {
-        return self.user.name();
+        return self.user.short_name();
     });
 }
