@@ -13,7 +13,6 @@ namespace Blaze.Controllers
     {
         //
         // GET: /Home/
-        private const string accountName = "freshview";
 
         public ActionResult Index()
         {
@@ -31,9 +30,9 @@ namespace Blaze.Controllers
             return View();
         }
 
-        public ActionResult Proxy(string url)
+        public ActionResult Proxy(string account, string url)
         {
-            var request = (HttpWebRequest) WebRequest.Create(string.Format("https://{0}.campfirenow.com/{1}?{2}", accountName, url, Request["QUERY_STRING"]));
+            var request = (HttpWebRequest) WebRequest.Create(string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]));
             request.Method = Request.HttpMethod;
             request.ContentType = Request.ContentType;
             request.ContentLength = Request.ContentLength;

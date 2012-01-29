@@ -12,12 +12,17 @@
         <div class="modal-body">
             <div class="clearfix">
                 <div class="input">
-                    <input type="text" data-bind="value:username" placeholder="Username" />
+                    <input type="text" data-bind="value:account" placeholder="Account Name" />
                 </div>
             </div>
             <div class="clearfix">
                 <div class="input">
-                    <input type="password" data-bind="value:password" placeholder="Password" />
+                    <input type="text" class="username" data-bind="value:username" placeholder="Username" />
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="input">
+                    <input type="password" class="password" data-bind="value:password" placeholder="Password" />
                 </div>
             </div>
         </div>
@@ -221,11 +226,13 @@
 
     $(function () {        
         var authToken = $.cookie('authtoken');
-        if (!authToken)
+        var account = $.cookie('account');
+        if (!authToken || !account)
             showLogin();
         else {
             campfire.authToken = authToken;
-            campfire.login(campfire.authToken, 'x', function(user) {
+            campfire.setAccount(account);
+            campfire.login(account, campfire.authToken, 'x', function(user) {
                 showRooms(user);
             });            
         }
@@ -236,10 +243,12 @@
         var loginModel = {
             username: ko.observable(''),
             password: ko.observable(''),
+            account: ko.observable(''),
             login: function () {
                 var self = this;
-                campfire.login(self.username(), self.password(), function(user) {
+                campfire.login(self.account(), self.username(), self.password(), function(user) {
                     $.cookie('authtoken', user.api_auth_token, { expires: 1 });
+                    $.cookie('account', self.account(), { expires: 1 });
                     $('#login-form').hide();
                     showRooms(user);
                 });                

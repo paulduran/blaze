@@ -1,10 +1,16 @@
 ﻿function Campfire() {
-    this.base = '/x';
+    this.origbase = '/x';
+    this.base = this.origbase;
     this.authToken = '';
 }
 
-Campfire.prototype.login = function (username, password, callback) {
+Campfire.prototype.setAccount = function(account) {
+    this.base = this.origbase + '/' + account;
+};
+
+Campfire.prototype.login = function (account, username, password, callback) {
     var self = this;
+    self.setAccount(account);
     $.ajax({
         url: self.base + '/users/me.json',
         beforeSend: function (xhr) {

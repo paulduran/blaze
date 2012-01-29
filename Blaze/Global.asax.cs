@@ -23,7 +23,7 @@ namespace Blaze
 
             routes.MapRoute(
                 "proxy_route", // Route name
-                "x/{*url}", // URL with parameters
+                "x/{account}/{*url}", // URL with parameters
                 new { controller = "Home", action = "Proxy" } // Parameter defaults
             );
 
