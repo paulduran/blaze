@@ -27,17 +27,23 @@
     </div>
     </form>
 </div>
-<div id="main" class="hide">
-    <ul class="tabs" data-tabs="tabs" id="tabs">
-        <li class="active"><a href="#lobby">lobby</a></li>
-        <!-- ko foreach: activeRooms -->
-        <li><a data-bind="attr: {href: domId}, text: name"></a></li>
-        <!-- /ko -->
-    </ul>
-    <div id="my-tab-content" class="tab-content">
-        <div class="active tab-pane" id="lobby">
-            <h3>
-                Chat Rooms</h3>
+<div class="header-wrap hide">
+    <div class="header-container">
+        <div id="tabs" class="header">
+            <ul class="tabs" data-tabs="tabs">
+                <li class="active"><a href="#lobby">Lobby</a></li>
+                <!-- ko foreach: activeRooms -->
+                <li><a data-bind="attr: {href: domId}, text: name"></a></li>
+                <!-- /ko -->
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="ie6-container-wrap" class="tab-content hide">
+    <div class="chatcontainer active tab-pane" id="lobby">
+        <div class="content">
+        <h3>
+            Chat Rooms</h3>
             <div class="row rooms" data-bind="foreach: rooms">
                 <div class="span-one-third room-summary">
                     <h5>
@@ -53,28 +59,28 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="room">
-            <div class="row">
-                <div class="messages" style="float: left; width: 80%" data-bind="foreach: messages">
-                    <div data-bind="attr: {'class':css_class}, css: {me: $root.currentUserId() === userId()}">
-                        <div class="author" data-bind="text: username, css: {starred: starred}">
-                        </div><div class="body" data-bind="html: parsed_body">
-                        </div>
-                    </div>                    
-                </div>
-                <div style="float: left; width: auto;">
-                    <h4 data-bind="text: name">
-                        stuff
-                    </h4>
-                    <p>
-                        <small data-bind="text: topic">stuff</small>
-                    </p>
-                </div>
-                <div style="clear: both;">
+    </div>
+    <div id="room" class="tab-pane">
+        <div class="chatcontainer">
+            <div class="content" data-bind="foreach: messages">
+                <div data-bind="attr: {'class':css_class}, css: {me: $root.currentUserId() === userId()}">
+                    <div class="author" data-bind="text: username, css: {starred: starred}">
+                    </div><div class="body" data-bind="html: parsed_body">
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="span16 input-area">
+            <div class="sidebar">
+                <h4 data-bind="text: name">
+                    stuff
+                </h4>
+                <p>
+                    <small data-bind="text: topic">stuff</small>
+                </p>
+            </div>
+        </div>
+        <div class="footer-wrap">
+            <div class="footer-container">
+                <div class="footer">
                     <textarea rows="3" class="span10" placeholder="type a message and press [enter]"
                         data-bind="value: input_message"></textarea>
                     <button class="btn" data-bind="click: sendMessage">
@@ -85,6 +91,10 @@
     </div>
 </div>
 <style>
+    .content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
     .room-summary:nth-child(3n+1)
     {
         clear: left;
@@ -95,7 +105,6 @@
     }
     .messages
     {
-        height: 800px;
         overflow-x: hidden;
         overflow-y: scroll;
     }
@@ -119,7 +128,7 @@
     
     .message .body > a
     {
-        vertical-align: top;     
+        vertical-align: top;
     }
     
     .message .author
@@ -139,13 +148,13 @@
     }
     
     .me
-    {     
+    {
         background-color: #fdf5d9;
     }
-       
-    .enter-message .author, .enter-message .body 
+    
+    .enter-message .author, .enter-message .body
     {
-    /*    background: -webkit-gradient(linear, 0 0, 0 100%, from(#d4e884), to(#a2f90f));
+        /*    background: -webkit-gradient(linear, 0 0, 0 100%, from(#d4e884), to(#a2f90f));
         background: -moz-linear-gradient(#d4e884, #a2f90f);
         background: -o-linear-gradient(#d4e884, #a2f90f);
         background: linear-gradient(#d4e884, #a2f90f);*/
@@ -154,7 +163,7 @@
         float: none;
         display: inline;
     }
-            
+    
     .exit-message .author, .exit-message .body
     {
         background-color: #FCC3C3;
@@ -168,7 +177,7 @@
         text-align: center;
         clear: both;
     }
-
+    
     .exit-message .author, .enter-message .author
     {
         padding: 1px 0px 1px 10px;
@@ -177,33 +186,31 @@
         -moz-border-radius: 5px 0px 0px 5px;
     }
     
-    .exit-message .body , .enter-message .body
-    {        
+    .exit-message .body, .enter-message .body
+    {
         padding: 1px 10px 1px 0px;
         border-radius: 0px 5px 5px 0px;
         -webkit-border-radius: 0px 5px 5px 0px;
         -moz-border-radius: 0px 5px 5px 0px;
     }
-        
+    
     .timestamp-message
     {
         background-color: #eee;
         text-align: center;
         clear: both;
-    }      
+    }
     .timestamp-message .body
     {
         background-color: #eee;
         text-align: center;
         clear: both;
         width: 100%;
-    }    
+    }
     .timestamp-message .author
     {
         display: none;
-    }    
-    
-  
+    }
 </style>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
@@ -242,7 +249,8 @@
     }
     
     function showRooms(user) {
-        $('#main').show();
+        $('.header-wrap').show();
+        $('#ie6-container-wrap').show();
         var currentUserModel = new UserModel(user);
         userCache[currentUserModel.id()] = currentUserModel;
 
@@ -294,7 +302,7 @@
                 room.messages.push(messageModel);
                 room.lastMessageId = messageModel.id();
             });
-            $('.messages').linkify();
+            $('.content').linkify();
             if( autorefresh === true ) {
                 room.timer = setTimeout(function() {
                     loadMessages(room, true);
