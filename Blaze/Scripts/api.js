@@ -1,10 +1,16 @@
 ﻿function Campfire() {
-    this.base = '/x';
+    this.origbase = '/x';
+    this.base = this.origbase;
     this.authToken = '';
 }
 
-Campfire.prototype.login = function (username, password, callback) {
+Campfire.prototype.setAccount = function(account) {
+    this.base = this.origbase + '/' + account;
+};
+
+Campfire.prototype.login = function (account, username, password, callback) {
     var self = this;
+    self.setAccount(account);
     $.ajax({
         url: self.base + '/users/me.json',
         beforeSend: function (xhr) {
@@ -12,7 +18,7 @@ Campfire.prototype.login = function (username, password, callback) {
         },
         success: function (data) {
             self.authToken = data.user.api_auth_token;
-            callback(self.authToken);
+            callback(data.user);
         },
         dataType: 'json'
     });
@@ -30,15 +36,38 @@ Campfire.prototype.getRooms = function (callback) {
     });
 };
 
-Campfire.prototype.getRecentMessages = function (roomId, callback) {
+Campfire.prototype.getRecentMessages = function (roomId, lastMessageId, callback) {
     var self = this;
+    var data = { };
+    if(lastMessageId !== undefined )
+        data['since_message_id'] = lastMessageId;
     $.ajax({
         url: self.base + '/room/' + roomId + '/recent.json',
+        data: data,
         beforeSend: $.proxy(self.setAuthHeader, self),
         success: function(data) {
             callback(data.messages);
         },
         dataType: 'json'
+    });
+};
+
+Campfire.prototype.sendMessage = function (roomId, message, callback) {
+    var self = this;
+    //var payload = $('<?xml version="1.0"?><payload><message><type><TextMessage></type><body></body></message></payload>');    
+    //payload.find('body').text(message);
+    //payload = payload.html();
+    var payload = '<message><type>TextMessage</type><body>' +message + '</body></message>';
+    $.ajax({
+        url: self.base + '/room/' + roomId + '/speak.xml',
+        data: payload,
+        type: 'POST',
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function () {
+            callback();
+        },
+        contentType: 'application/xml',
+        dataType: 'xml'
     });
 };
 
