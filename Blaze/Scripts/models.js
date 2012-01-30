@@ -57,7 +57,7 @@ function MessageModel(obj, user) {
     this.css_class = ko.computed(function () {
         var cls = classes[self.type()];
         if (cls) return cls;
-        return 'message';
+        return 'message ' + self.type();
     });
     this.starred = ko.observable(obj.starred);
     this.created_at = ko.observable(obj.created_at);

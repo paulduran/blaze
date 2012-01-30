@@ -218,12 +218,13 @@
     }
 </style>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
 <script type="text/javascript">
     var userCache = {};
     var campfire = new Campfire();
-
+    
     $(function () {        
         var authToken = $.cookie('authtoken');
         var account = $.cookie('account');
@@ -338,6 +339,13 @@
     }
     function processBody(body) {
         if( !body ) return null;
+        $.each(parsers, function(i, p) {
+            body = p(body);
+        });        
+        return body;        
+    }
+    
+    function processEmoji(body) {
         return body.replace( /:[a-z0-9]+:/ig , function(str) {
             var emoji = emojis[str];
             if( emoji !== undefined ) {
@@ -348,6 +356,17 @@
         });
     }
     
+    function processYoutube(body) {
+        return body.replace( /http:\/\/www.youtube.com\/watch\?v=([^&]+)/ig, function (str) {
+            return '<a class="youtube" href="' + str + '" target="_blank"><img src="' + $.jYoutube(str, 'small') + '"/></a>';
+        });
+    }
+    
+    var parsers = [
+        processEmoji,
+        processYoutube
+    ];
+
     function sendMessage(room, message) {
         campfire.sendMessage(room.id(), message, function () {
             loadMessages(room);    
