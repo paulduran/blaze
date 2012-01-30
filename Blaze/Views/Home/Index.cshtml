@@ -57,7 +57,7 @@
                     <p>
                         <small data-bind="text: topic"></small>
                     </p>
-                    <ul data-bind="foreach: users">
+                    <ul class="member-list" data-bind="foreach: users">
                         <li data-bind="text: name"></li>
                     </ul>
                     <br />
@@ -81,6 +81,10 @@
                 <p>
                     <small data-bind="text: topic">stuff</small>
                 </p>
+                <h6>Room Members</h6>
+                <ul class="member-list" data-bind="foreach: users">
+                    <li data-bind="text: name"></li>
+                </ul>
             </div>
         </div>
         <div class="footer-wrap">
@@ -117,6 +121,10 @@
     {
         width: 24px;
         height: 24px;
+    }
+    .member-list {
+        list-style: none;   
+        margin-left: 0px;   
     }
     .message
     {
