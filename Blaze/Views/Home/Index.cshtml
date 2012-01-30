@@ -244,7 +244,7 @@
         var loginModel = {
             username: ko.observable(''),
             password: ko.observable(''),
-            account: ko.observable(''),
+            account: ko.observable('@ViewBag.AccountName'),
             login: function () {
                 var self = this;
                 campfire.login(self.account(), self.username(), self.password(), function(user) {

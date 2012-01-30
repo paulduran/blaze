@@ -14,8 +14,9 @@ namespace Blaze.Controllers
         //
         // GET: /Home/
 
-        public ActionResult Index()
+        public ActionResult Index(string accountName)
         {
+            ViewBag.AccountName = accountName;
             var emojis = ConfigurationManager.GetSection("emojis") as NameValueCollection;
             var model = new HomeModel
                             {
