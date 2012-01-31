@@ -67,11 +67,12 @@
     </div>
     <div id="room" class="tab-pane">
         <div class="chatcontainer">
-            <div class="content" data-bind="foreach: messages">
+            <div class="content messages" data-bind="foreach: messages">
                 <div data-bind="attr: {'class':css_class}, css: {me: $root.currentUserId() === userId()}">
                     <div class="author" data-bind="text: username, css: {starred: starred}">
                     </div><div class="body" data-bind="html: parsed_body">
                     </div>
+                    <div class="message-timestamp"><p><small data-bind="text: nice_created"></small></p></div>
                 </div>
             </div>
             <div class="sidebar">
@@ -90,7 +91,7 @@
         <div class="footer-wrap">
             <div class="footer-container">
                 <div class="footer">
-                    <textarea rows="3" class="span10" placeholder="type a message and press [enter]"
+                    <textarea rows="3" class="input-message" placeholder="type a message and press [enter]" 
                         data-bind="value: input_message"></textarea>
                     <button class="btn" data-bind="click: sendMessage">
                         Send</button>
@@ -114,8 +115,7 @@
     }
     .messages
     {
-        overflow-x: hidden;
-        overflow-y: scroll;
+        border-right: 1px dashed #ccc;
     }
     .emoji
     {
@@ -187,7 +187,7 @@
     
     .exit-message, .enter-message
     {
-        text-align: center;
+        text-align: right;
         clear: both;
     }
     
@@ -207,11 +207,15 @@
         -moz-border-radius: 0px 5px 5px 0px;
     }
     
+    .message-timestamp {
+        float: right;
+        text-align: right;
+        width: 40px;
+    }
+    
     .timestamp-message
     {
-        background-color: #eee;
-        text-align: center;
-        clear: both;
+        display: none;
     }
     .timestamp-message .body
     {
@@ -223,6 +227,10 @@
     .timestamp-message .author
     {
         display: none;
+    }
+    
+    .input-message {
+        width: 80%;
     }
 </style>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
