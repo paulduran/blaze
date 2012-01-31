@@ -16,7 +16,7 @@ ChatController.prototype.init = function (accountName) {
         authToken = $.cookie(account + '_authtoken');
     }
     if (!authToken || !account) {
-        self.loginView.show(account, self.login);
+        self.loginView.show(account, $.proxy(self.login, self));
     } else {
         self.campfire.authToken = authToken;
         self.campfire.setAccount(account);
