@@ -1,77 +1,56 @@
-﻿function Chat(campfire, contentProcessor) {
+﻿function ChatController(campfire, contentProcessor, view, loginView) {
     this.userCache = {};
     this.contentProcessor = contentProcessor;
     this.campfire = campfire;
-    this.roomsModel = new RoomsModel(this);
-    this.visibleRoom = null;
+    this.view = view;
+    this.loginView = loginView;
 }
 
-Chat.prototype.init = function (accountName) {
+ChatController.prototype.init = function (accountName) {
     var self = this,
         account = accountName ? accountName : $.cookie('account'),
         authToken;
 
+    self.view.init(new RoomsModel(this));
     if (account) {
         authToken = $.cookie(account + '_authtoken');
     }
     if (!authToken || !account) {
-        self.showLogin(account);
+        self.loginView.show(account, self.login);
     } else {
         self.campfire.authToken = authToken;
         self.campfire.setAccount(account);
         self.campfire.login(account, self.campfire.authToken, 'x', function (user) {
-            self.showRooms(user);
+            self.showLobby(user);
         });
     }
-    $('.tabs').bind('change', function (e) {
-        if (self.visibleRoom != null) self.visibleRoom.isVisible(false);
-        var domId = $(e.target).attr('href');
-        if (domId === '#lobby') return;
-        self.roomsModel.roomsByDomId[domId].isVisible(true);
-        self.scrollToEnd();
+};
+
+ChatController.prototype.login = function (account, username, password) {
+    var self = this;
+    self.campfire.login(account, username, password, function (user) {
+        $.cookie('account', account, { expires: 1 });
+        $.cookie(account + '_authtoken', user.api_auth_token, { expires: 1 });
+        self.loginView.hide();
+        self.showLobby(user);
     });
 };
 
-Chat.prototype.showLogin = function (account) {
-    $('#login-form').show();
-    var chat = this;
-    var loginModel = {
-        username: ko.observable(''),
-        password: ko.observable(''),
-        account: ko.observable(account),
-        login: function () {
-            var self = this;
-            chat.campfire.login(self.account(), self.username(), self.password(), function (user) {
-                $.cookie('account', self.account(), { expires: 1 });
-                $.cookie(self.account() + '_authtoken', user.api_auth_token, { expires: 1 });
-                $('#login-form').hide();
-                chat.showRooms(user);
-            });
-        }
-    };
-    ko.applyBindings(loginModel, document.getElementById('login-form'));
-};
-
-Chat.prototype.showRooms = function (user) {
+ChatController.prototype.showLobby = function (user) {
     var self = this;
-    $('.header-wrap').show();
-    $('#ie6-container-wrap').show();
     var currentUserModel = new UserModel(user);
     self.userCache[currentUserModel.id()] = currentUserModel;
-
-    ko.applyBindings(self.roomsModel, document.getElementById('lobby'));
-    ko.applyBindings(self.roomsModel, document.getElementById('tabs'));
+    self.view.show();
     self.campfire.getRooms(function (rooms) {
         $.map(rooms, function (o) {
             var roomModel = new RoomModel(o, currentUserModel);
-            self.roomsModel.rooms.push(roomModel);
-            self.roomsModel.roomsByDomId[roomModel.domId()] = roomModel;
+            self.view.addRoom(roomModel);
             self.loadUsers(roomModel);
         });
     });
 };
 
-Chat.prototype.loadUsers = function (room) {
+ChatController.prototype.loadUsers = function (room) {
     var self = this;
     self.campfire.getUsers(room.id(), function (users) {
         room.users.removeAll();
@@ -80,32 +59,20 @@ Chat.prototype.loadUsers = function (room) {
             room.users.push(userModel);
             self.userCache[userModel.id()] = userModel;
         });
-        self.roomsModel.rooms.sort(function (l, r) {
-            if (l.users().length == r.users().length) return 0;
-            if (l.users().length < r.users().length) return 1;
-            return -1;
-        });
+        self.view.sortRooms();
         setTimeout(function () {
             self.loadUsers(room);
         }, 30000);
     });
 };
 
-Chat.prototype.showRoom = function (room) {
+ChatController.prototype.showRoom = function (room) {
     var self = this;
-    if ($(room.domId()).length == 0) {
-        var roomDom = $('#room').clone();
-        roomDom.attr('id', 'room-' + room.id());
-        $('#room').parent().append(roomDom);
-
-        $(roomDom).each(function (i, r) {
-            ko.applyBindings(room, r);
-        });
-        self.loadMessages(room, true);
-    }
+    self.loadMessages(room, true);
+    self.view.showRoom(room);
 };
 
-Chat.prototype.loadMessages = function (room, autorefresh) {
+ChatController.prototype.loadMessages = function (room, autorefresh) {
     var self = this;
     self.campfire.getRecentMessages(room.id(), room.lastMessageId, function (messages) {
         var hasContent = false;
@@ -123,7 +90,7 @@ Chat.prototype.loadMessages = function (room, autorefresh) {
             });
             room.isActive(true);
             if (room.isVisible())
-                self.scrollToEnd();
+                self.view.scrollToEnd();
         }
         if (autorefresh === true) {
             room.timer = setTimeout(function () {
@@ -133,7 +100,7 @@ Chat.prototype.loadMessages = function (room, autorefresh) {
     });
 };
 
-Chat.prototype.getUser = function(id) {
+ChatController.prototype.getUser = function(id) {
     var self = this;
     if (self.userCache[id] !== undefined) {
         return (self.userCache[id]);
@@ -147,16 +114,10 @@ Chat.prototype.getUser = function(id) {
     }
 };
 
-
-
-Chat.prototype.sendMessage = function(room, message) {
+ChatController.prototype.sendMessage = function(room, message) {
     var self = this;
     self.campfire.sendMessage(room.id(), message, function() {
         self.loadMessages(room);
     });
-};
-
-Chat.prototype.scrollToEnd = function() {
-    $(document).scrollTo('max');
 };
 

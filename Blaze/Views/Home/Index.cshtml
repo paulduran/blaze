@@ -244,14 +244,18 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.scrollto.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/chat.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/chatview.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/loginview.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
 <script type="text/javascript"> 
     $(function () {
         var contentProcessor = new ContentProcessor(emojis);
-        var campfire = new Campfire();        
-        var chat = new Chat(campfire, contentProcessor);
+        var campfire = new Campfire();
+        var chatView = new ChatView();
+        var loginView = new LoginView();
+        var chat = new ChatController(campfire, contentProcessor, chatView, loginView);
         chat.init('@ViewBag.AccountName');
     });
     
@@ -260,5 +264,5 @@
             {
             <text>'@e.Name':'@e.ImageUrl',</text>
             }
-        };
+            };
 </script>
