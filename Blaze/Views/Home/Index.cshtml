@@ -38,7 +38,7 @@
             <ul class="tabs" data-tabs="tabs">
                 <li class="active"><a href="#lobby">Lobby</a></li>
                 <!-- ko foreach: activeRooms -->
-                <li data-bind="css: {isactive:isactive}, click: resetActiveFlag"><a data-bind="attr: {href: domId}, text: name"></a></li>
+                <li data-bind="css: {isactive:isActive}, click: resetActiveFlag"><a data-bind="attr: {href: domId}, text: name"></a></li>
                 <!-- /ko -->
             </ul>
         </div>
@@ -242,11 +242,18 @@
 </style>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.scrollto.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
 <script type="text/javascript">
     var userCache = {};
     var campfire = new Campfire();
+    var roomsModel = new RoomsModel();
+    var visibleRoom;
+    
+    function scrollToEnd() {
+        $(document).scrollTo('max');
+    }
     
     $(function () {        
         var authToken = $.cookie('authtoken');
@@ -260,8 +267,14 @@
                 showRooms(user);
             });            
         }
+        $('.tabs').bind('change', function (e) {
+            if(visibleRoom != null) visibleRoom.isVisible(false);
+            var domId = $(e.target).attr('href');
+            roomsModel.roomsByDomId[domId].isVisible(true);
+            scrollToEnd();
+        });
     });
-
+    
     function showLogin() {
         $('#login-form').show();
         var loginModel = {
@@ -287,7 +300,6 @@
         var currentUserModel = new UserModel(user);
         userCache[currentUserModel.id()] = currentUserModel;
 
-        var roomsModel = new RoomsModel();
         var loadUsers = function (room) {
             campfire.getUsers(room.id(), function(users) {
                 room.users.removeAll();
@@ -313,6 +325,7 @@
             $.map(rooms, function(o) {
                 var roomModel = new RoomModel(o, currentUserModel);
                 roomsModel.rooms.push(roomModel);
+                roomsModel.roomsByDomId[roomModel.domId()] = roomModel;
                 loadUsers(roomModel);
             });            
         });        
@@ -333,14 +346,22 @@
     
     function loadMessages(room, autorefresh) {
         campfire.getRecentMessages(room.id(), room.lastMessageId, function(messages) {
+            var hasContent = false;
             $.map(messages, function(o) {
                 var user = o.user_id ? getUser(o.user_id) : new UserModel({ id: 0, name: '' });
                 var messageModel = new MessageModel(o, user);
                 room.messages.push(messageModel);
                 room.lastMessageId = messageModel.id();
-                room.isactive(true);
+                hasContent = true;
             });
-            $('.content').linkify();
+            if( hasContent ) {
+                $('.content').linkify(function (links) { 
+                    links.addClass('linkified');
+                    links.attr('target', '_blank'); });
+                room.isActive(true);
+                if( room.isVisible())
+                    scrollToEnd();
+            }
             if( autorefresh === true ) {
                 room.timer = setTimeout(function() {
                     loadMessages(room, true);

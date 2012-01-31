@@ -20,14 +20,16 @@
     this.sendMessage = function () {
         sendMessage(self, self.input_message());
     };
-    this.isactive = ko.observable(false);
+    this.isActive = ko.observable(false);
+    this.isVisible = ko.observable(false);
     this.resetActiveFlag = function() {
-        self.isactive(false);
+        self.isActive(false);
     };
 }
-function RoomsModel(user) {
-    var self = this;   
+function RoomsModel() {
+    var self = this;
     this.rooms = ko.observableArray([]);
+    this.roomsByDomId = { };
     this.activeRooms = ko.observableArray([]);   
     this.displayRoom = function (room) {
         showRoom(room);
