@@ -38,7 +38,7 @@
             <ul class="tabs" data-tabs="tabs">
                 <li class="active"><a href="#lobby">Lobby</a></li>
                 <!-- ko foreach: activeRooms -->
-                <li><a data-bind="attr: {href: domId}, text: name"></a></li>
+                <li data-bind="css: {isactive:isactive}, click: resetActiveFlag"><a data-bind="attr: {href: domId}, text: name"></a></li>
                 <!-- /ko -->
             </ul>
         </div>
@@ -232,6 +232,13 @@
     .input-message {
         width: 80%;
     }
+    
+    .isactive a {
+        background-color: lemonchiffon;
+    }
+    .isactive a:before {
+        content: '* '
+    }
 </style>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
@@ -331,6 +338,7 @@
                 var messageModel = new MessageModel(o, user);
                 room.messages.push(messageModel);
                 room.lastMessageId = messageModel.id();
+                room.isactive(true);
             });
             $('.content').linkify();
             if( autorefresh === true ) {

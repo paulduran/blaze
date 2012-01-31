@@ -20,6 +20,10 @@
     this.sendMessage = function () {
         sendMessage(self, self.input_message());
     };
+    this.isactive = ko.observable(false);
+    this.resetActiveFlag = function() {
+        self.isactive(false);
+    };
 }
 function RoomsModel(user) {
     var self = this;   
