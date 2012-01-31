@@ -243,186 +243,22 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.scrollto.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/chat.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
-<script type="text/javascript">
-    var userCache = {};
-    var campfire = new Campfire();
-    var roomsModel = new RoomsModel();
-    var visibleRoom;
-    
-    function scrollToEnd() {
-        $(document).scrollTo('max');
-    }
-    
-    $(function () {        
-        var authToken = $.cookie('authtoken');
-        var account = $.cookie('account');
-        if (!authToken || !account)
-            showLogin();
-        else {
-            campfire.authToken = authToken;
-            campfire.setAccount(account);
-            campfire.login(account, campfire.authToken, 'x', function(user) {
-                showRooms(user);
-            });            
-        }
-        $('.tabs').bind('change', function (e) {
-            if(visibleRoom != null) visibleRoom.isVisible(false);
-            var domId = $(e.target).attr('href');
-            roomsModel.roomsByDomId[domId].isVisible(true);
-            scrollToEnd();
-        });
+<script type="text/javascript"> 
+    $(function () {
+        var contentProcessor = new ContentProcessor(emojis);
+        var campfire = new Campfire();        
+        var chat = new Chat(campfire, contentProcessor);
+        chat.init('@ViewBag.AccountName');
     });
     
-    function showLogin() {
-        $('#login-form').show();
-        var loginModel = {
-            username: ko.observable(''),
-            password: ko.observable(''),
-            account: ko.observable('@ViewBag.AccountName'),
-            login: function () {
-                var self = this;
-                campfire.login(self.account(), self.username(), self.password(), function(user) {
-                    $.cookie('authtoken', user.api_auth_token, { expires: 1 });
-                    $.cookie('account', self.account(), { expires: 1 });
-                    $('#login-form').hide();
-                    showRooms(user);
-                });                
-            }
-        };
-        ko.applyBindings(loginModel, document.getElementById('login-form'));
-    }
-    
-    function showRooms(user) {
-        $('.header-wrap').show();
-        $('#ie6-container-wrap').show();
-        var currentUserModel = new UserModel(user);
-        userCache[currentUserModel.id()] = currentUserModel;
-
-        var loadUsers = function (room) {
-            campfire.getUsers(room.id(), function(users) {
-                room.users.removeAll();
-                $.map(users, function (o) {
-                    var userModel = new UserModel(o);
-                    room.users.push(userModel);
-                    userCache[userModel.id()] = userModel;
-                });
-                roomsModel.rooms.sort(function(l, r) {
-                    if( l.users().length == r.users().length ) return 0;
-                    if( l.users().length < r.users().length) return 1;
-                    return -1;
-                });
-                setTimeout(function() {
-                    loadUsers(room);
-                }, 30000);
-            });            
-        };
-
-        ko.applyBindings(roomsModel, document.getElementById('lobby'));
-        ko.applyBindings(roomsModel, document.getElementById('tabs'));
-        campfire.getRooms(function(rooms) {
-            $.map(rooms, function(o) {
-                var roomModel = new RoomModel(o, currentUserModel);
-                roomsModel.rooms.push(roomModel);
-                roomsModel.roomsByDomId[roomModel.domId()] = roomModel;
-                loadUsers(roomModel);
-            });            
-        });        
-    }   
-    
-    function showRoom(room) {
-        if($(room.domId()).length == 0) {
-            var roomDom = $('#room').clone();
-            roomDom.attr('id', 'room-' + room.id());
-            $('#room').parent().append(roomDom);
-
-            $(roomDom).each(function(i, r) {
-                 ko.applyBindings(room, r);
-            });
-            loadMessages(room, true);
-        }
-    }
-    
-    function loadMessages(room, autorefresh) {
-        campfire.getRecentMessages(room.id(), room.lastMessageId, function(messages) {
-            var hasContent = false;
-            $.map(messages, function(o) {
-                var user = o.user_id ? getUser(o.user_id) : new UserModel({ id: 0, name: '' });
-                var messageModel = new MessageModel(o, user);
-                room.messages.push(messageModel);
-                room.lastMessageId = messageModel.id();
-                hasContent = true;
-            });
-            if( hasContent ) {
-                $('.content').linkify(function (links) { 
-                    links.addClass('linkified');
-                    links.attr('target', '_blank'); });
-                room.isActive(true);
-                if( room.isVisible())
-                    scrollToEnd();
-            }
-            if( autorefresh === true ) {
-                room.timer = setTimeout(function() {
-                    loadMessages(room, true);
-                }, room.refreshRate());
-            }
-        });
-    }
-
-    function getUser(id) {
-        if (userCache[id] !== undefined) {
-            return (userCache[id]);
-        } else {
-            var model = new UserModel({ id: id, name: '' });
-            userCache[id] = model;
-            campfire.getUser(id, function (user) {
-                model.name(user.name);
-            });
-            return model;
-        }
-    }
-    function processBody(body) {
-        if( !body ) return null;
-        $.each(parsers, function(i, p) {
-            body = p(body);
-        });        
-        return body;        
-    }
-    
-    function processEmoji(body) {
-        return body.replace( /:[a-z0-9]+:/ig , function(str) {
-            var emoji = emojis[str];
-            if( emoji !== undefined ) {
-                return '<img class="emoji" src="' + emoji + '"/>';
-            } else {
-                return str;
-            }
-        });
-    }
-    
-    function processYoutube(body) {
-        return body.replace( /http:\/\/www.youtube.com\/watch\?v=([^&]+)/ig, function (str) {
-            return '<a class="youtube" href="' + str + '" target="_blank"><img src="' + $.jYoutube(str, 'small') + '"/></a>';
-        });
-    }
-    
-    var parsers = [
-        processEmoji,
-        processYoutube
-    ];
-
-    function sendMessage(room, message) {
-        campfire.sendMessage(room.id(), message, function () {
-            loadMessages(room);    
-        });        
-    }
-    
     var emojis = {
-        @foreach (var e in Model.Emojis)
-        {
-        <text>'@e.Name':'@e.ImageUrl',</text>
-        }
-    };
-
+            @foreach (var e in Model.Emojis)
+            {
+            <text>'@e.Name':'@e.ImageUrl',</text>
+            }
+        };
 </script>

@@ -26,13 +26,13 @@
         self.isActive(false);
     };
 }
-function RoomsModel() {
+function RoomsModel(chat) {
     var self = this;
     this.rooms = ko.observableArray([]);
     this.roomsByDomId = { };
     this.activeRooms = ko.observableArray([]);   
     this.displayRoom = function (room) {
-        showRoom(room);
+        chat.showRoom(room);
         //$('body').tabs('ul[data-tabs] li > a, ul[data-pills] > li > a');
         if (self.activeRooms.indexOf(room) === -1)
             self.activeRooms.push(room);
@@ -48,7 +48,7 @@ function UserModel(obj) {
         });        
     });
 }
-function MessageModel(obj, user) {
+function MessageModel(obj, user, contentProcessor) {
     var self = this;
     var classes = {
         'EnterMessage':'enter-message',
@@ -87,7 +87,7 @@ function MessageModel(obj, user) {
         } else if (self.type() === 'TimestampMessage') {
             return self.nice_created();
         }
-        return processBody(self.body());
+        return contentProcessor.process(self.body());
     });
 
 }
