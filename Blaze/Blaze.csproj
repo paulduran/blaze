@@ -645,6 +645,7 @@
     <Content Include="Scripts\chatcontroller.js" />
     <Content Include="Scripts\content.js" />
     <Content Include="Scripts\chatview.js" />
+    <Content Include="Scripts\jquery.insertAtCaret.js" />
     <Content Include="Scripts\jquery.scrollto.js" />
     <Content Include="Scripts\loginview.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
