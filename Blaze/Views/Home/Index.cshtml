@@ -92,7 +92,7 @@
             <div class="footer-container">
                 <div class="footer">
                     <textarea rows="3" class="input-message" placeholder="type a message and press [enter]" 
-                        data-bind="value: input_message"></textarea>
+                        data-bind="value: inputMessage, valueUpdate: 'afterkeydown'"></textarea>
                     <button class="btn" data-bind="click: sendMessage">
                         Send</button>
                 </div>
@@ -243,6 +243,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.scrollto.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.insertAtCaret.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatview.js")"></script>

@@ -1,4 +1,4 @@
-﻿function RoomModel(obj, user) {
+﻿function RoomModel(obj, user, chat) {
     var self = this;
     this.currentUserId = ko.computed(function () {
         return user.id();
@@ -16,9 +16,10 @@
     });
     this.messages = ko.observableArray([]);
     this.refreshRate = ko.observable(30000);    
-    this.input_message = ko.observable('');
+    this.inputMessage = ko.observable('');
     this.sendMessage = function () {
-        sendMessage(self, self.input_message());
+        chat.sendMessage(self, self.inputMessage());
+        self.inputMessage('');
     };
     this.isActive = ko.observable(false);
     this.isVisible = ko.observable(false);

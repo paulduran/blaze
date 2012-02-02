@@ -14,6 +14,16 @@ ChatView.prototype.init = function (roomsModel) {
         if (domId === '#lobby') return;
         self.changeRoom(domId);
     });
+    $('.input-message').live('keydown', function (e) {
+        if (e.keyCode === 13) {
+            if(!e.ctrlKey) {
+                $(this).parent().find('button').click();
+                return false;
+            } else {
+                $(this).insertAtCaret('\n');
+            }
+        }
+    });
 };
 
 ChatView.prototype.addRoom = function(roomModel) {

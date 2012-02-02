@@ -43,7 +43,7 @@ ChatController.prototype.showLobby = function (user) {
     self.view.show();
     self.campfire.getRooms(function (rooms) {
         $.map(rooms, function (o) {
-            var roomModel = new RoomModel(o, currentUserModel);
+            var roomModel = new RoomModel(o, currentUserModel, self);
             self.view.addRoom(roomModel);
             self.loadUsers(roomModel);
         });
