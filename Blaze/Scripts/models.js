@@ -15,16 +15,34 @@
         return '#';
     });
     this.messages = ko.observableArray([]);
-    this.refreshRate = ko.observable(30000);    
+    this.refreshRate = ko.observable(30000);
+    this.isPaste = ko.observable(false);
     this.inputMessage = ko.observable('');
     this.sendMessage = function () {
-        chat.sendMessage(self, self.inputMessage());
+        chat.sendMessage(self, self.inputMessage(), self.isPaste());
+        //console.log('sending. paste:' + self.isPaste());
         self.inputMessage('');
+        self.isPaste(false);
     };
     this.isActive = ko.observable(false);
     this.isVisible = ko.observable(false);
     this.resetActiveFlag = function() {
         self.isActive(false);
+    };
+    this.onKeyDown = function(data,e) {
+        if (e.keyCode === 13) {
+            if (!e.ctrlKey) {
+                self.sendMessage();
+                return false;
+            } else {
+                self.isPaste(true);
+            }
+        }
+        return true;
+    };
+    this.onPaste = function (data,e) {
+        self.isPaste(true);
+        return true;
     };
 }
 function RoomsModel(chat) {
@@ -34,7 +52,6 @@ function RoomsModel(chat) {
     this.activeRooms = ko.observableArray([]);   
     this.displayRoom = function (room) {
         chat.showRoom(room);
-        //$('body').tabs('ul[data-tabs] li > a, ul[data-pills] > li > a');
         if (self.activeRooms.indexOf(room) === -1)
             self.activeRooms.push(room);
     };
@@ -88,7 +105,10 @@ function MessageModel(obj, user, contentProcessor) {
         } else if (self.type() === 'TimestampMessage') {
             return self.nice_created();
         }
-        return contentProcessor.process(self.body());
+        var body = contentProcessor.process(self.body());
+        if(self.type() === 'PasteMessage') {
+            return '<pre>' + body + '</pre>';
+        } else return body;
     });
 
 }

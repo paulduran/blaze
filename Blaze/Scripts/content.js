@@ -5,7 +5,8 @@
 ContentProcessor.prototype.process = function (body) {
     var parsers = [
         this.processEmoji,
-        this.processYoutube
+        this.processYoutube,
+        this.processImage
     ];
 
     if (!body) return null;
@@ -30,5 +31,11 @@ ContentProcessor.prototype.processEmoji = function (body) {
 ContentProcessor.prototype.processYoutube = function (body) {
     return body.replace(/http:\/\/www.youtube.com\/watch\?v=([^&]+)/ig, function (str) {
         return '<a class="youtube" href="' + str + '" target="_blank"><img src="' + $.jYoutube(str, 'small') + '"/></a>';
+    });
+};
+
+ContentProcessor.prototype.processImage = function (body) {
+    return body.replace(/https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpg|gif|png)/ig, function (str) {
+        return '<img class="image" src="' + str + '"/>';
     });
 };

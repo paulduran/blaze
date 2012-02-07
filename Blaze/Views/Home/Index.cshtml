@@ -92,7 +92,7 @@
             <div class="footer-container">
                 <div class="footer">
                     <textarea rows="3" class="input-message" placeholder="type a message and press [enter]" 
-                        data-bind="value: inputMessage, valueUpdate: 'afterkeydown'"></textarea>
+                        data-bind="value: inputMessage, valueUpdate: 'afterkeydown', event: {keydown: onKeyDown, paste: onPaste}"></textarea>
                     <button class="btn" data-bind="click: sendMessage">
                         Send</button>
                 </div>
@@ -157,7 +157,7 @@
     .paste .body
     {
         font-size: 11px;
-        background-color: #fdf5d9;
+        /*background-color: #fdf5d9;*/
     }
     
     .me
@@ -238,6 +238,10 @@
     }
     .isactive a:before {
         content: '* '
+    }
+    .image {
+        max-width: 300px;
+        width: auto;
     }
 </style>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>

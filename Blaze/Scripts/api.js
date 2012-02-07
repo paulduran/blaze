@@ -52,16 +52,14 @@ Campfire.prototype.getRecentMessages = function (roomId, lastMessageId, callback
     });
 };
 
-Campfire.prototype.sendMessage = function (roomId, message, callback) {
+Campfire.prototype.sendMessage = function (roomId, message, isPaste, callback) {
     var self = this;
     if(message === '') {
         callback();
         return;
     }
-    //var payload = $('<?xml version="1.0"?><payload><message><type><TextMessage></type><body></body></message></payload>');    
-    //payload.find('body').text(message);
-    //payload = payload.html();
-    var payload = '<message><type>TextMessage</type><body><![CDATA[' + message + ']]></body></message>';
+    var type = isPaste ? 'PasteMessage' : 'TextMessage';
+    var payload = '<message><type>' + type + '</type><body><![CDATA[' + message + ']]></body></message>';
     $.ajax({
         url: self.base + '/room/' + roomId + '/speak.xml',
         data: payload,

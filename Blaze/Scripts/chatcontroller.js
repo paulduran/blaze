@@ -114,9 +114,9 @@ ChatController.prototype.getUser = function(id) {
     }
 };
 
-ChatController.prototype.sendMessage = function(room, message) {
+ChatController.prototype.sendMessage = function(room, message, isPaste) {
     var self = this;
-    self.campfire.sendMessage(room.id(), message, function() {
+    self.campfire.sendMessage(room.id(), message, isPaste, function() {
         self.loadMessages(room);
     });
 };
