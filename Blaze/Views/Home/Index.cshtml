@@ -95,6 +95,7 @@
                         data-bind="value: inputMessage, valueUpdate: 'afterkeydown', event: {keydown: onKeyDown, paste: onPaste}"></textarea>
                     <button class="btn" data-bind="click: sendMessage">
                         Send</button>
+                    <input type="hidden" class="paste-val" data-bind="value: isPaste"/>
                 </div>
             </div>
         </div>
