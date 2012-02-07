@@ -35,7 +35,7 @@ ContentProcessor.prototype.processYoutube = function (body) {
 };
 
 ContentProcessor.prototype.processImage = function (body) {
-    return body.replace(/https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpg|gif|png)/ig, function (str) {
+    return body.replace(/https?:\/\/(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpg|gif|png)/ig, function (str) {
         return '<img class="image" src="' + str + '"/>';
     });
 };
