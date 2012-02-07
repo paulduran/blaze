@@ -5,8 +5,8 @@
 ContentProcessor.prototype.process = function (body) {
     var parsers = [
         this.processEmoji,
+        this.processImage,
         this.processYoutube,
-        this.processImage
     ];
 
     if (!body) return null;
