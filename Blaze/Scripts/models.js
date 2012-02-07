@@ -15,11 +15,14 @@
         return '#';
     });
     this.messages = ko.observableArray([]);
-    this.refreshRate = ko.observable(30000);    
+    this.refreshRate = ko.observable(30000);
+    this.isPaste = ko.observable(false);
     this.inputMessage = ko.observable('');
     this.sendMessage = function () {
-        chat.sendMessage(self, self.inputMessage());
+        //chat.sendMessage(self, self.inputMessage(), self.isPaste());
+        console.log('sending. paste:' + self.isPaste());
         self.inputMessage('');
+        self.isPaste(false);
     };
     this.isActive = ko.observable(false);
     this.isVisible = ko.observable(false);
@@ -88,7 +91,10 @@ function MessageModel(obj, user, contentProcessor) {
         } else if (self.type() === 'TimestampMessage') {
             return self.nice_created();
         }
-        return contentProcessor.process(self.body());
+        var body = contentProcessor.process(self.body());
+        if(self.type() === 'PasteMessage') {
+            return '<pre>' + body + '</pre>';
+        } else return body;
     });
 
 }

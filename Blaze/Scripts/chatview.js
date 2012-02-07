@@ -20,9 +20,13 @@ ChatView.prototype.init = function (roomsModel) {
                 $(this).parent().find('button').click();
                 return false;
             } else {
+                $(this).parent().find('.paste-checkbox').prop('checked', true);
                 $(this).insertAtCaret('\n');
             }
         }
+    });
+    $('.input-message').live('paste', function() {
+        $(this).parent().find('.paste-val').val('true');
     });
 };
 

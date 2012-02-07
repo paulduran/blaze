@@ -95,6 +95,7 @@
                         data-bind="value: inputMessage, valueUpdate: 'afterkeydown'"></textarea>
                     <button class="btn" data-bind="click: sendMessage">
                         Send</button>
+                    <input type="hidden" class="paste-val" data-bind="value: isPaste"/>
                 </div>
             </div>
         </div>
@@ -157,7 +158,7 @@
     .paste .body
     {
         font-size: 11px;
-        background-color: #fdf5d9;
+        /*background-color: #fdf5d9;*/
     }
     
     .me
