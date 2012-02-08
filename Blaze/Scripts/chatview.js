@@ -61,6 +61,7 @@ ChatView.prototype.showRoom = function (room) {
         $('.current').removeClass('current');
         $('#tab-' + room.id()).addClass('current');
         $('#messages-' + room.id()).addClass('current').show();
+        $('#userlist-' + room.id()).addClass('current').show();
     }
 };
 

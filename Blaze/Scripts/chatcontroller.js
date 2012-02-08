@@ -85,7 +85,7 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
             hasContent = true;
         });
         if (hasContent) {
-            $('.content').linkify(function (links) {
+            $('#chat-area').linkify(function (links) {
                 links.addClass('linkified');
                 links.attr('target', '_blank');
             });
