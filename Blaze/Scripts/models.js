@@ -109,9 +109,9 @@ function MessageModel(obj, user, contentProcessor) {
     });
     this.message = ko.computed(function () {
         if (self.type() === 'EnterMessage') {
-            return ' has entered the room';
+            return self.trimmedName() + ' has entered the room';
         } else if (self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {
-            return ' has left the room';
+            return self.trimmedName() + ' has left the room';
         } else if (self.type() === 'TimestampMessage') {
             return self.when();
         }
@@ -120,5 +120,9 @@ function MessageModel(obj, user, contentProcessor) {
             return '<pre>' + body + '</pre>';
         } else return body;
     });
-
+    this.isNotification = ko.computed(function() {
+        if (self.type() === 'EnterMessage' || self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {
+            return true;
+        } else return false;
+    });
 }

@@ -1,0 +1,8 @@
+input.username {
+    background: url('images/user_12x16.png') no-repeat 10px 5px;
+    padding-left: 30px;
+}
+input.password {
+    background: url('images/key_fill_16x16.png') no-repeat 10px 5px;
+    padding-left: 30px;
+}

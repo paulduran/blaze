@@ -2,7 +2,9 @@
 }
 
 LoginView.prototype.show = function (account, loginCallback) {
-    $('#login-form').show();
+    $('#login-form').show().modal({
+        keyboard: false
+    });
     var loginModel = {
         username: ko.observable(''),
         password: ko.observable(''),

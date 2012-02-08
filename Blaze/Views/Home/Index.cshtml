@@ -8,33 +8,55 @@
         <title>Blaze - Campfire Chat Client</title>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
         <link href="@Url.Content("~/Content/Chat.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/Blaze.css")" rel="Stylesheet" />
     </head>
     <body>
         @Html.Partial("_Login")
+        <script id="base-message-template" type="text/x-jquery-tmpl">
+            {{if isNotification}}
+                {{tmpl "#new-notification-template"}}
+            {{else}}
+                {{tmpl "#new-message-template"}}
+            {{/if}}            
+        </script>
         <script id="new-message-template" type="text/x-jquery-tmpl">
-        <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${date}">
-            <div class="left">
-                {{if showUser}}
-                <img src="${user.avatar_url}" class="gravatar" />
-                <span class="name">${trimmedName}</span>
-                {{/if}}
-            </div>
-            <div class="middle">
+            <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${date}">
+                <div class="left">
+                    {{if showUser}}
+                    <img src="${user.avatar_url}" class="gravatar" />
+                    <span class="name">${trimmedName}</span>
+                    {{/if}}
+                </div>
+                <div class="middle">
+                    {{html message}}
+                </div>
+                <div class="right">
+                    <span id="t-${id}" class="time" title="${created_at}">${when}</span>
+                </div>
+            </li>
+        
+        </script>
+        <script id="new-notification-template" type="text/x-jquery-tmpl">
+        <li class="notification" data-timestamp="${date}">
+            <div class="content">
                 {{html message}}
+                <a class="info" href="#"></a>
             </div>
             <div class="right">
-                <span id="t-${id}" class="time" title="${created_at}">${when}</span>
+                <span class="time" title="${fulldate}">${when}</span>
             </div>
         </li>
         </script>
+
         <div id="page">
             <div id="heading">
                 <div class="banner">
                     <h1>
                         Blaze</h1>
                     @*                <img alt="logo" src="Content/images/logo32.png" id="logo" />*@
-                    <div>
-                        Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a></div>
+                    <div class="right">
+                        Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a> and JabbR</div>
                 </div>
                 <a class="janrainEngage" href="#" style="display:none">Sign-In</a>
                 <div style="clear: both">
@@ -88,7 +110,7 @@
                     <input type="submit" id="send" value="Send" class="send" />
                     <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
                 </form>
-                <ul id="room-template" data-bind="template: {name:'new-message-template', foreach: messages}, css: {currentx: isVisible}" class="messages" style="display: none;">
+                <ul id="room-template" data-bind="template: {name:'base-message-template', foreach: messages}, css: {currentx: isVisible}" class="messages" style="display: none;">
                 </ul>
             </div>
             <audio src="Content/sounds/notification.wav" id="noftificationSound" hidden="hidden" />
@@ -103,6 +125,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/jQuery.tmpl.min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.insertAtCaret.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-2.0.0.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatview.js")"></script>
