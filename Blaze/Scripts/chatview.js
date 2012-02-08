@@ -6,7 +6,7 @@
 ChatView.prototype.init = function (roomsModel) {
     var self = this;
     self.roomsModel = roomsModel;
-    ko.applyBindings(self.roomsModel, document.getElementById('lobby'));
+    ko.applyBindings(self.roomsModel, document.getElementById('messages-lobby'));
     ko.applyBindings(self.roomsModel, document.getElementById('tabs'));
 
     $('.tabs').bind('change', function (e) {
@@ -18,6 +18,14 @@ ChatView.prototype.init = function (roomsModel) {
         if (e.keyCode === 13 && e.ctrlKey) {
             $(this).insertAtCaret('\n');
         }
+    });
+    $('#tabs li').live('click', function () {
+        var name = $(this).data('name');
+        $('#chat-area .current').hide();
+        $('.current').removeClass('current');
+        $('#tab-' + name).addClass('current');
+        $('#messages-' + name).addClass('current').show();
+        $('#userlist-' + name).addClass('current').show();
     });
 };
 
@@ -31,7 +39,8 @@ ChatView.prototype.changeRoom = function (roomId) {
     var self = this;
     if (self.visibleRoom != null) self.visibleRoom.isVisible(false);
     self.roomsModel.roomsByDomId[roomId].isVisible(true);
-    self.scrollToEnd();
+    //    self.scrollToEnd();
+    
 };
 
 ChatView.prototype.show = function () {
@@ -39,15 +48,19 @@ ChatView.prototype.show = function () {
     $('#ie6-container-wrap').show();
 };
 
-ChatView.prototype.showRoom = function(room) {
+ChatView.prototype.showRoom = function (room) {
     if ($(room.domId()).length == 0) {
-        var roomDom = $('#room').clone();
-        roomDom.attr('id', 'room-' + room.id());
-        $('#room').parent().append(roomDom);
+        var roomDom = $('#room-template').clone();
+        roomDom.attr('id', 'messages-' + room.id());
+        $('#room-template').parent().append(roomDom);
 
-        $(roomDom).each(function(i, r) {
+        $(roomDom).each(function (i, r) {
             ko.applyBindings(room, r);
         });
+        //this.changeRoom(room.id());
+        $('.current').removeClass('current');
+        $('#tab-' + room.id()).addClass('current');
+        $('#messages-' + room.id()).addClass('current').show();
     }
 };
 

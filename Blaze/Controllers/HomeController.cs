@@ -26,6 +26,18 @@ namespace Blaze.Controllers
             return View(model);
         }
 
+        public ActionResult Old(string accountName)
+        {
+            ViewBag.AccountName = accountName;
+            var emojis = ConfigurationManager.GetSection("emojis") as NameValueCollection;
+            var model = new HomeModel
+            {
+                Emojis = (from e in emojis.AllKeys
+                          select new Emoji { Name = e, ImageUrl = emojis[e] })
+            };
+            return View(model);
+        }
+
         public ActionResult Test()
         {
             return View();

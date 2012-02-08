@@ -4,6 +4,9 @@
         return user.id();
     });
     this.id = ko.observable(obj.id);
+    this.tabId = ko.computed(function () {
+        return 'tab-' + self.id();
+    });
     this.domId = ko.computed(function () {
         return '#room-' + self.id();
     });
@@ -63,8 +66,9 @@ function UserModel(obj) {
     this.short_name = ko.computed(function () {
         return self.name().replace(/\s+([^\s]+)/g, function (str) {
             return ' ' + str.substring(1, 2) + '.';
-        });        
+        });
     });
+    this.avatar_url = ko.observable(obj.avatar_url);
 }
 function MessageModel(obj, user, contentProcessor) {
     var self = this;
@@ -85,7 +89,7 @@ function MessageModel(obj, user, contentProcessor) {
     });
     this.starred = ko.observable(obj.starred);
     this.created_at = ko.observable(obj.created_at);
-    this.nice_created = ko.computed(function () {
+    this.when = ko.computed(function () {
         var d = new Date(self.created_at());
         var mins = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
         return d.getHours() + ':' + mins;
@@ -94,16 +98,22 @@ function MessageModel(obj, user, contentProcessor) {
     this.userId = ko.computed(function () {
         return self.user.id();
     });
-    this.username = ko.computed(function () {
+    this.trimmedName = ko.computed(function() {
         return self.user.short_name();
     });
-    this.parsed_body = ko.computed(function () {
+    this.username = ko.computed(function () {
+        return self.user.name();
+    });
+    this.showUser = ko.computed(function () {
+        return self.type() !== 'TimestampMessage';
+    });
+    this.message = ko.computed(function () {
         if (self.type() === 'EnterMessage') {
             return ' has entered the room';
         } else if (self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {
             return ' has left the room';
         } else if (self.type() === 'TimestampMessage') {
-            return self.nice_created();
+            return self.when();
         }
         var body = contentProcessor.process(self.body());
         if(self.type() === 'PasteMessage') {

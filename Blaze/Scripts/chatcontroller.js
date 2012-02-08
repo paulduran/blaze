@@ -79,7 +79,8 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
         $.map(messages, function (o) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
             var messageModel = new MessageModel(o, user, self.contentProcessor);
-            room.messages.push(messageModel);
+            if( messageModel.type() !== 'TimestampMessage')
+                room.messages.push(messageModel);
             room.lastMessageId = messageModel.id();
             hasContent = true;
         });

@@ -1,260 +1,115 @@
 ﻿@model Blaze.Models.HomeModel
 @{
     ViewBag.Title = "Campfire Client";
+    Layout = null;
 }
-<div id="login-form" class="hide">
-    <form>
-    <div class="modal">
-        <div class="modal-header">
-            <h3>
-                CampFire Login</h3>
-        </div>
-        <div class="modal-body">
-            <div class="clearfix">
-                <div class="input">
-                    <input type="text" data-bind="value:account" placeholder="Account Name" />
-                </div>
+<html>
+    <head>
+        <title>Blaze - Campfire Chat Client</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <link href="@Url.Content("~/Content/Chat.css")" rel="Stylesheet" />
+    </head>
+    <body>
+        @Html.Partial("_Login")
+        <script id="new-message-template" type="text/x-jquery-tmpl">
+        <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${date}">
+            <div class="left">
+                {{if showUser}}
+                <img src="${user.avatar_url}" class="gravatar" />
+                <span class="name">${trimmedName}</span>
+                {{/if}}
             </div>
-            <div class="clearfix">
-                <div class="input">
-                    <input type="text" class="username" data-bind="value:username" placeholder="Username" />
-                </div>
+            <div class="middle">
+                {{html message}}
             </div>
-            <div class="clearfix">
-                <div class="input">
-                    <input type="password" class="password" data-bind="value:password" placeholder="Password" />
-                </div>
+            <div class="right">
+                <span id="t-${id}" class="time" title="${created_at}">${when}</span>
             </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-bind="click: login">Login</a>
-        </div>
-    </div>
-    </form>
-</div>
-<div class="header-wrap hide">
-    <div class="header-container">
-        <div id="tabs" class="header">
-            <ul class="tabs" data-tabs="tabs">
-                <li class="active"><a href="#lobby">Lobby</a></li>
-                <!-- ko foreach: activeRooms -->
-                <li data-bind="css: {isactive:isActive}, click: resetActiveFlag"><a data-bind="attr: {href: domId}, text: name"></a></li>
-                <!-- /ko -->
-            </ul>
-        </div>
-    </div>
-</div>
-<div id="ie6-container-wrap" class="tab-content hide">
-    <div class="chatcontainer active tab-pane" id="lobby">
-        <div class="content">
-        <h3>
-            Chat Rooms</h3>
-            <div class="row rooms" data-bind="foreach: rooms">
-                <div class="span-one-third room-summary">
-                    <h5>
-                        <a data-bind="attr: { href: url}, text: name, click: $parent.displayRoom"></a>
-                    </h5>
-                    <p>
-                        <small data-bind="text: topic"></small>
-                    </p>
-                    <ul class="member-list" data-bind="foreach: users">
-                        <li data-bind="text: name"></li>
-                    </ul>
-                    <br />
+        </li>
+        </script>
+        <div id="page">
+            <div id="heading">
+                <div class="banner">
+                    <h1>
+                        Blaze</h1>
+                    @*                <img alt="logo" src="Content/images/logo32.png" id="logo" />*@
+                    <div>
+                        Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a></div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="room" class="tab-pane">
-        <div class="chatcontainer">
-            <div class="content messages" data-bind="foreach: messages">
-                <div data-bind="attr: {'class':css_class}, css: {me: $root.currentUserId() === userId()}">
-                    <div class="author" data-bind="text: username, css: {starred: starred}">
-                    </div><div class="body" data-bind="html: parsed_body">
-                    </div>
-                    <div class="message-timestamp"><p><small data-bind="text: nice_created"></small></p></div>
+                <a class="janrainEngage" href="#" style="display:none">Sign-In</a>
+                <div style="clear: both">
                 </div>
-            </div>
-            <div class="sidebar">
-                <h4 data-bind="text: name">
-                    stuff
-                </h4>
-                <p>
-                    <small data-bind="text: topic">stuff</small>
-                </p>
-                <h6>Room Members</h6>
-                <ul class="member-list" data-bind="foreach: users">
-                    <li data-bind="text: name"></li>
+                <ul id="tabs">
+                    <li id="tabs-lobby" class="current lobby" data-name="lobby">
+                        <button accesskey="l">
+                            <span class="content">Lobby</span></button>
+                    </li>
+                    <!-- ko foreach: activeRooms -->
+                    <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {currentx: isVisible}">
+                        <span class="lock"></span>
+                        <button> 
+                            <span class="content" data-bind="text: name"></span>
+                        </button>
+                        <div class="close"></div>
+                    </li>
+                    <!-- /ko -->
                 </ul>
             </div>
-        </div>
-        <div class="footer-wrap">
-            <div class="footer-container">
-                <div class="footer">
-                    <textarea rows="3" class="input-message" placeholder="type a message and press [enter]" 
-                        data-bind="value: inputMessage, valueUpdate: 'afterkeydown', event: {keydown: onKeyDown, paste: onPaste}"></textarea>
-                    <button class="btn" data-bind="click: sendMessage">
-                        Send</button>
-                    <input type="hidden" class="paste-val" data-bind="value: isPaste"/>
-                </div>
+            <div id="janrainEngageEmbed">
             </div>
+            <div id="chat-area">
+                <ul id="messages-lobby" class="messages current" data-bind="foreach: rooms">
+                    <li class="span-one-third room-summary">
+                        <h5>
+                            <a data-bind="attr: { href: url}, text: name, click: $parent.displayRoom"></a>
+                        </h5>
+                        <p>
+                            <small data-bind="text: topic"></small>
+                        </p>
+                        <ul class="member-list" data-bind="foreach: users">
+                            <li data-bind="text: name"></li>
+                        </ul>
+                        <br />
+                    </li>
+                </ul>
+                <form id="users-filter-form" action="#">
+                    <input id="users-filter" class="filter" type="text" />
+                </form>
+                <ul id="userlist-lobby" class="users current">
+                </ul>
+                <div id="preferences">
+                    <a class="sound" title="audible notifications"></a><a class="toast" title="popup notifications">
+                                                                       </a>
+                </div>
+                <form id="send-message" action="#">
+                    <div id="message-box">
+                        <textarea id="new-message" autocomplete="off" accesskey="m"></textarea>
+                    </div>
+                    <input type="submit" id="send" value="Send" class="send" />
+                    <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
+                </form>
+                <ul id="room-template" data-bind="template: {name:'new-message-template', foreach: messages}, css: {currentx: isVisible}" class="messages" style="display: none;">
+                </ul>
+            </div>
+            <audio src="Content/sounds/notification.wav" id="noftificationSound" hidden="hidden" />
         </div>
-    </div>
-</div>
-<style>
-    .content {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-    .room-summary:nth-child(3n+1)
-    {
-        clear: left;
-    }
-    .input-area
-    {
-        padding-top: 5px;
-    }
-    .messages
-    {
-        border-right: 1px dashed #ccc;
-    }
-    .emoji
-    {
-        width: 24px;
-        height: 24px;
-    }
-    .member-list {
-        list-style: none;   
-        margin-left: 0px;   
-    }
-    .message
-    {
-        border-bottom: dotted #eee 1px;
-        margin: 4px;
-        clear: both;
-    }
-    .message .body
-    {
-        display: inline-block;
-        vertical-align: top;
-        width: 80%;
-    }
-    
-    .message .body > a
-    {
-        vertical-align: top;
-    }
-    
-    .message .author
-    {
-        vertical-align: top;
-        font-weight: bold;
-        display: inline-block;
-        width: auto;
-        max-width: 100px;
-        width: 100px;
-    }
-    
-    .paste .body
-    {
-        font-size: 11px;
-        /*background-color: #fdf5d9;*/
-    }
-    
-    .me
-    {
-        background-color: #fdf5d9;
-    }
-    
-    .enter-message .author, .enter-message .body
-    {
-        /*    background: -webkit-gradient(linear, 0 0, 0 100%, from(#d4e884), to(#a2f90f));
-        background: -moz-linear-gradient(#d4e884, #a2f90f);
-        background: -o-linear-gradient(#d4e884, #a2f90f);
-        background: linear-gradient(#d4e884, #a2f90f);*/
-        background-color: lightgreen;
-        max-width: inherit;
-        float: none;
-        display: inline;
-    }
-    
-    .exit-message .author, .exit-message .body
-    {
-        background-color: #FCC3C3;
-        max-width: inherit;
-        float: none;
-        display: inline;
-    }
-    
-    .exit-message, .enter-message
-    {
-        text-align: right;
-        clear: both;
-    }
-    
-    .exit-message .author, .enter-message .author
-    {
-        padding: 1px 0px 1px 10px;
-        border-radius: 5px 0px 0px 5px;
-        -webkit-border-radius: 5px 0px 0px 5px;
-        -moz-border-radius: 5px 0px 0px 5px;
-    }
-    
-    .exit-message .body, .enter-message .body
-    {
-        padding: 1px 10px 1px 0px;
-        border-radius: 0px 5px 5px 0px;
-        -webkit-border-radius: 0px 5px 5px 0px;
-        -moz-border-radius: 0px 5px 5px 0px;
-    }
-    
-    .message-timestamp {
-        float: right;
-        text-align: right;
-        width: 40px;
-    }
-    
-    .timestamp-message
-    {
-        display: none;
-    }
-    .timestamp-message .body
-    {
-        background-color: #eee;
-        text-align: center;
-        clear: both;
-        width: 100%;
-    }
-    .timestamp-message .author
-    {
-        display: none;
-    }
-    
-    .input-message {
-        width: 80%;
-    }
-    
-    .isactive a {
-        background-color: lemonchiffon;
-    }
-    .isactive a:before {
-        content: '* '
-    }
-    .image {
-        max-width: 300px;
-        width: auto;
-    }
-</style>
+    </body>
+</html>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cookie.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.scrollto.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jQuery.tmpl.min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.insertAtCaret.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/knockout-2.0.0.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatview.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/loginview.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/base64.js")"></script>
 <script type="text/javascript"> 
     $(function () {
         var contentProcessor = new ContentProcessor(emojis);
