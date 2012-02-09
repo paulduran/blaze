@@ -47,7 +47,7 @@ ChatView.prototype.changeRoom = function (roomId) {
 };
 
 ChatView.prototype.show = function () {
-    $('#page').show();    
+    $('#page').fadeIn(1000);    
 };
 
 ChatView.prototype.showRoom = function (room) {

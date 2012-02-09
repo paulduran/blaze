@@ -1,0 +1,55 @@
+#login-form {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#login-form h3 {
+    font-size: 18px;
+}
+#login-form .clearfix {
+margin-bottom: 18px;
+zoom: 1;
+}
+#login-form .input {
+margin-left: 150px;
+}
+#login-form input {
+  display: inline-block;
+  width: 210px;
+  height: 26px;
+  padding: 4px;
+  font-size: 13px;
+  line-height: 18px;    
+  color: #808080;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+#login-form input {
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+  transition: border linear 0.2s, box-shadow linear 0.2s;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+#login-form input:focus {
+  outline: 0;
+  border-color: rgba(82, 168, 236, 0.8);
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+  -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+#login-form .modal-footer .btn {
+    float: right;
+    margin-left: 5px;
+}
+#login-form input.username {
+    background: url('images/user_12x16.png') no-repeat 10px 5px;
+    padding-left: 30px !important;
+}
+#login-form input.password {
+    background: url('images/key_fill_16x16.png') no-repeat 10px 5px;
+    padding-left: 30px !important;
+}

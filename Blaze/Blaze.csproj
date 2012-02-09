@@ -633,22 +633,16 @@
     <Content Include="Content\images\key_fill_16x16.png" />
     <Content Include="Content\images\user_12x16.png" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\Login.css" />
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\api.js" />
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\backbone.min.js" />
-    <Content Include="Scripts\bootstrap-alerts.js" />
-    <Content Include="Scripts\bootstrap-buttons.js" />
-    <Content Include="Scripts\bootstrap-dropdown.js" />
     <Content Include="Scripts\bootstrap-modal.js" />
-    <Content Include="Scripts\bootstrap-popover.js" />
-    <Content Include="Scripts\bootstrap-scrollspy.js" />
-    <Content Include="Scripts\bootstrap-tabs.js" />
-    <Content Include="Scripts\bootstrap-twipsy.js" />
     <Content Include="Scripts\chatcontroller.js" />
     <Content Include="Scripts\content.js" />
     <Content Include="Scripts\chatview.js" />
+    <Content Include="Scripts\bootstrap-transition.js" />
     <Content Include="Scripts\jquery.insertAtCaret.js" />
     <Content Include="Scripts\jquery.scrollto.js" />
     <Content Include="Scripts\jQuery.tmpl.min.js" />
@@ -671,6 +665,7 @@
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Views\bootstrap.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

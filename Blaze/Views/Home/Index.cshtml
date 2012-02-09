@@ -10,6 +10,7 @@
         <link href="@Url.Content("~/Content/Chat.css")" rel="Stylesheet" />
         <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="Stylesheet" />
         <link href="@Url.Content("~/Content/Blaze.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/Login.css")" rel="Stylesheet" />
     </head>
     <body>
         @Html.Partial("_Login")
@@ -49,7 +50,7 @@
         </li>
         </script>
 
-        <div id="page">
+        <div id="page" style="display: none;">
             <div id="heading">
                 <div class="banner">
                     <h1>
@@ -104,7 +105,7 @@
                     <div id="message-box">
                         <textarea id="new-message" autocomplete="off" accesskey="m"></textarea>
                     </div>
-                    <input type="submit" id="send" value="Send" class="send" />
+                    <input type="submit" id="send" value="Send" class="send btn" />
                     <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
                 </form>
                 <ul id="room-template" data-bind="template: {name:'base-message-template', foreach: messages}, css: {current: isVisible}, visible: isVisible" class="messages" style="display: none;">
@@ -128,6 +129,7 @@
     </body>
 </html>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.17.min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cookie.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
@@ -135,6 +137,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/jQuery.tmpl.min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.insertAtCaret.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-2.0.0.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>

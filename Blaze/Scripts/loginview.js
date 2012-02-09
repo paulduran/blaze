@@ -2,9 +2,6 @@
 }
 
 LoginView.prototype.show = function (account, loginCallback) {
-    $('#login-form').show().modal({
-        keyboard: false
-    });
     var loginModel = {
         username: ko.observable(''),
         password: ko.observable(''),
@@ -15,8 +12,9 @@ LoginView.prototype.show = function (account, loginCallback) {
         }
     };
     ko.applyBindings(loginModel, document.getElementById('login-form'));
+    $('#login-form').fadeIn(1000);
 };
 
-LoginView.prototype.hide = function() {
-    $('#login-form').hide();
+LoginView.prototype.hide = function () {
+    $('#login-form').fadeOut(1000);
 };

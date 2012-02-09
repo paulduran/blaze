@@ -44,8 +44,8 @@
         </div>
     </div>
 </div>
-<div id="ie6-container-wrap" class="tab-content hide">
-    <div class="chatcontainer active tab-pane" id="lobby">
+<div id="page" class="tab-content hide">
+    <div class="chatcontainer active tab-pane" id="#page">
         <div class="content">
         <h3>
             Chat Rooms</h3>
@@ -65,7 +65,7 @@
             </div>
         </div>
     </div>
-    <div id="room" class="tab-pane">
+    <div id="room-template" class="tab-pane">
         <div class="chatcontainer">
             <div class="content messages" data-bind="foreach: messages">
                 <div data-bind="attr: {'class':css_class}, css: {me: $root.currentUserId() === userId()}">
@@ -261,8 +261,9 @@
         var campfire = new Campfire();
         var chatView = new ChatView();
         var loginView = new LoginView();
-        var chat = new ChatController(campfire, contentProcessor, chatView, loginView);
-        chat.init('@ViewBag.AccountName');
+        loginView.show();
+        //var chat = new ChatController(campfire, contentProcessor, chatView, loginView);
+        //chat.init('@ViewBag.AccountName');
     });
     
     var emojis = {
