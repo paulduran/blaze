@@ -24,11 +24,7 @@
         return '('+self.users().length + ')';
     });
     this.messages = ko.observableArray([]);
-    this.refreshRate = ko.observable(30000);    
-    this.sendMessage = function (message, isPaste) {
-        chat
-        //console.log('sending. ' + message + ', paste:' + isPaste);
-    };
+    this.refreshRate = ko.observable(30000);
     this.isActive = ko.observable(false);
     this.isVisible = ko.observable(false);
     this.resetActiveFlag = function() {
