@@ -62,6 +62,14 @@ ChatView.prototype.sortRooms = function() {
     });
 };
 
+ChatView.prototype.isNearTheEnd = function () {
+    if (this.roomsModel.visibleRoom != null) {
+        var msgs = $('#messages-' + this.roomsModel.visibleRoom.id());
+        return msgs[0].scrollTop + msgs.height() >= msgs[0].scrollHeight;
+    }
+    return false;
+};
+
 ChatView.prototype.scrollToEnd = function () {
     if (this.roomsModel.visibleRoom != null) {
         console.log('scrolling to end for #messages-' + this.roomsModel.visibleRoom.id());

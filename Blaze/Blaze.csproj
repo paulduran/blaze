@@ -681,12 +681,18 @@
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\backbone.min.js" />
     <Content Include="Scripts\bootstrap-modal.js" />
+    <Content Include="Content\Chat.bbcnews.css" />
+    <Content Include="Content\Chat.githubissues.css" />
+    <Content Include="Scripts\Chat.githubissues.js" />
+    <Content Include="Scripts\Chat.twitter.js" />
+    <Content Include="Scripts\Chat.utility.js" />
     <Content Include="Scripts\chatcontroller.js" />
     <Content Include="Scripts\content.js" />
     <Content Include="Scripts\chatview.js" />
     <Content Include="Scripts\bootstrap-transition.js" />
     <Content Include="Scripts\jquery.insertAtCaret.js" />
     <Content Include="Scripts\jquery.scrollto.js" />
+    <Content Include="Scripts\jquery.timeago.0.10.js" />
     <Content Include="Scripts\jQuery.tmpl.min.js" />
     <Content Include="Scripts\loginview.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
@@ -703,6 +709,7 @@
     <Content Include="Scripts\knockout-2.0.0.debug.js" />
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\base64.js" />
+    <Content Include="Scripts\Markdown.Converter.js" />
     <Content Include="Scripts\models.js" />
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Scripts\underscore.js" />

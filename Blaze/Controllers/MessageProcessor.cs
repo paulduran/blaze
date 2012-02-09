@@ -89,7 +89,7 @@ namespace Blaze.Controllers
             // REVIEW: is this safe to do? We're holding on to this instance 
             // when this should really be a fire and forget.
             var contentTasks = links.Select(_resourceProcessor.ExtractResource).ToArray();
-            Task.Factory.ContinueWhenAll(contentTasks, tasks =>
+            var end = Task.Factory.ContinueWhenAll(contentTasks, tasks =>
             {
                 foreach (var task in tasks)
                 {
@@ -111,6 +111,7 @@ namespace Blaze.Controllers
                     result += extractedContent;
                 }
             });
+            end.Wait();
             return result;
         }
     }
