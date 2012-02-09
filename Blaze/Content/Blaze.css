@@ -70,3 +70,10 @@ input.password {
 #new-message {
     height: 32px;
 }
+#userlist-lobby {
+    top: 55px;
+}
+.banner > div.right {
+    float: right ;
+    padding-right: 20px;
+}

@@ -56,7 +56,7 @@
                         Blaze</h1>
                     @*                <img alt="logo" src="Content/images/logo32.png" id="logo" />*@
                     <div class="right">
-                        Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a> and JabbR</div>
+                        Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a> and <a href="https://github.com/davidfowl/JabbR" target="_blank">JabbR</a></div>
                 </div>
                 <a class="janrainEngage" href="#" style="display:none">Sign-In</a>
                 <div style="clear: both">
@@ -83,27 +83,19 @@
                 <ul id="messages-lobby" class="messages current" >
                     <li class="notification"><div class="content">Welcome to the Campfire lobby</div></li>
                     <li class="notification"><div class="content">You can join any of the rooms on the right.</div></li>
-                    <!-- ko foreach: rooms -->
-                        <li class="notification">
-                            <div class="left">
-                            </div>
-                            <div class="middle">
-                                <a data-bind="attr: { href: url}, text: name, click: $parent.displayRoom"></a> - <small data-bind="text: topic"></small>
-                            </div>
-                            <div class="right">
-                            </div>
-                        </li>
-                        <!-- /ko -->
                 </ul>
                 <form id="users-filter-form" action="#">
                     <input id="users-filter" class="filter" type="text" />
                 </form>
-                <ul id="userlist-lobby" class="users current" data-bind="foreach: rooms">
-                    <li class="room" data-bind="attr: {'data-room':name}, click: $parent.displayRoom">
-                        <span class="name" data-bind="text: name, attr: {title: topic}"></span>
-                        <span class="count" data-bind="text: numUsers"></span>
-                    </li>
-                </ul>
+                <div id="userlist-lobby" class="users current">
+                    <h3 class="userlist-header nav-header">Rooms</h3>
+                    <ul data-bind="foreach: rooms">
+                        <li class="room" data-bind="attr: {'data-room':name}, click: $parent.displayRoom" style="background-color: rgb(229,229,229)">
+                            <span class="name" data-bind="text: name, attr: {title: topic}"></span>
+                            <span class="count" data-bind="text: numUsers"></span>
+                        </li>
+                    </ul>
+                </div>
                 <div id="preferences">
                     <a class="sound" title="audible notifications"></a><a class="toast" title="popup notifications">
                                                                        </a>
