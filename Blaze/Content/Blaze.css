@@ -6,7 +6,67 @@ input.password {
     background: url('images/key_fill_16x16.png') no-repeat 10px 5px;
     padding-left: 30px;
 }
-
 .user .gravatar {
     width: 24px;
+}
+#preferences .sound {
+    background: url('images/sound-on.png') no-repeat;
+}
+#preferences .sound.off {
+    background: url('images/sound-off.png') no-repeat;
+}
+#preferences .toast {
+    background: url('images/toast-on.png') no-repeat;
+}
+#preferences .toast.off {
+    background: url('images/toast-off.png') no-repeat;
+}
+.users li.typing {
+    background-image: url('images/typing.png');
+}
+.users li.room.locked .lock {
+    background: url(images/lock.png) no-repeat;
+}
+.note.afk {
+    background: url(images/stopwatch.png) no-repeat;
+}
+.note.message {
+    background: url(images/clippy.png) no-repeat;
+}
+#tabs li .close {
+    background: url(images/close-icon.png);
+}
+#tabs li.locked .lock {
+    background: url(images/lockwhite.png) no-repeat;
+}
+#tabs li.locked.current .lock, #tabs li.locked:hover .lock {
+    background: url(images/lock.png) no-repeat;
+}
+#tabs li .close:hover {
+    background: url(images/close-icon-hover.png);
+}
+.collapsible_pin {
+    background-image: url('images/pop-out-icon.png');
+}
+.flag {
+    background: url('images/flags.png') no-repeat;
+}
+#send-message { 
+    margin-top: 10px;
+    bottom: 10px;
+}
+#heading {
+    background-color: #831f04;
+}
+#tabs li {
+    background-color: #ba3815;
+}
+#tabs li.lobby {
+    background-color: #831f04;
+}
+#tabs li.lobby.current {
+    background-color: #831f04;
+}
+#new-message {
+    height: 32px;
 }

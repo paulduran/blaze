@@ -67,7 +67,7 @@
                             <span class="content">Lobby</span></button>
                     </li>
                     <!-- ko foreach: activeRooms -->
-                    <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible}">
+                    <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible}, click: $parent.displayRoom">
                         <span class="lock"></span>
                         <button> 
                             <span class="content" data-bind="text: name"></span>
@@ -80,22 +80,26 @@
             <div id="janrainEngageEmbed">
             </div>
             <div id="chat-area">
-                <ul id="messages-lobby" class="messages current" data-bind="foreach: rooms">
-                    <li class="message clearfix">
-                        <div class="left">
-                        </div>
-                        <div class="middle">
-                            <a data-bind="attr: { href: url}, text: name, click: $parent.displayRoom"></a> - <small data-bind="text: topic"></small>
-                        </div>
-                        <div class="right">
-                        </div>
-                    </li>
+                <ul id="messages-lobby" class="messages current" >
+                    <li class="notification"><div class="content">Welcome to the Campfire lobby</div></li>
+                    <li class="notification"><div class="content">You can join any of the rooms on the right.</div></li>
+                    <!-- ko foreach: rooms -->
+                        <li class="notification">
+                            <div class="left">
+                            </div>
+                            <div class="middle">
+                                <a data-bind="attr: { href: url}, text: name, click: $parent.displayRoom"></a> - <small data-bind="text: topic"></small>
+                            </div>
+                            <div class="right">
+                            </div>
+                        </li>
+                        <!-- /ko -->
                 </ul>
                 <form id="users-filter-form" action="#">
                     <input id="users-filter" class="filter" type="text" />
                 </form>
                 <ul id="userlist-lobby" class="users current" data-bind="foreach: rooms">
-                    <li class="room" data-bind="attr: {'data-room':name}">
+                    <li class="room" data-bind="attr: {'data-room':name}, click: $parent.displayRoom">
                         <span class="name" data-bind="text: name, attr: {title: topic}"></span>
                         <span class="count" data-bind="text: numUsers"></span>
                     </li>

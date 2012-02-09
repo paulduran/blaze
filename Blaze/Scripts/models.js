@@ -5,7 +5,7 @@
     });
     this.id = ko.observable(obj.id);
     this.tabId = ko.computed(function () {
-        return 'tab-' + self.id();
+        return 'tabs-' + self.id();
     });
     this.domId = ko.computed(function () {
         return '#room-' + self.id();
@@ -71,6 +71,9 @@ function UserModel(obj) {
             return ' ' + str.substring(1, 2) + '.';
         });
     });
+    if (!obj.avatar_url) {
+        obj.avatar_url = 'http://asset0.37img.com/global/missing/avatar.gif?r=3'; 
+    }
     this.avatar_url = ko.observable(obj.avatar_url);
 }
 function MessageModel(obj, user, contentProcessor) {

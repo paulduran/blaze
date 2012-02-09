@@ -15,7 +15,7 @@ ChatView.prototype.init = function (roomsModel) {
             $(this).insertAtCaret('\n');
         }
     });
-    $('#tabs li').live('click', function () {
+    $('#tabs-lobby').live('click', function () {
         var name = $(this).data('name');
         self.changeRoom(name);
     });
@@ -39,7 +39,7 @@ ChatView.prototype.changeRoom = function (roomId) {
     } else {
         // lobby
         self.visibleRoom = null;
-        $('#tab-' + roomId).addClass('current');
+        $('#tabs-' + roomId).addClass('current');
         $('#messages-' + roomId).addClass('current').show();
         $('#userlist-' + roomId).addClass('current').show();
     }
@@ -47,8 +47,7 @@ ChatView.prototype.changeRoom = function (roomId) {
 };
 
 ChatView.prototype.show = function () {
-    $('.header-wrap').show();
-    $('#ie6-container-wrap').show();
+    $('#page').show();    
 };
 
 ChatView.prototype.showRoom = function (room) {
