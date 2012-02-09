@@ -22,7 +22,7 @@ ChatView.prototype.init = function (roomsModel) {
 
         $(this).next().toggle(0, function () {
             if (nearEnd) {
-                self.scrollToBottom();
+                self.scrollToEnd();
             }
         });
     });
