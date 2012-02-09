@@ -74,14 +74,15 @@ ChatController.prototype.showRoom = function (room) {
 
 ChatController.prototype.loadMessages = function (room, autorefresh) {
     var self = this;
-    self.campfire.getRecentMessages(room.id(), room.lastMessageId, function (messages) {
+    var lastMsgId = room.lastMessage ? room.lastMessage.id() : undefined;
+    self.campfire.getRecentMessages(room.id(), lastMsgId, function (messages) {
         var hasContent = false;
         $.map(messages, function (o) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
-            var messageModel = new MessageModel(o, user, self.contentProcessor);
+            var messageModel = new MessageModel(o, user, room.lastMessage, self.contentProcessor);
             if( messageModel.type() !== 'TimestampMessage')
                 room.messages.push(messageModel);
-            room.lastMessageId = messageModel.id();
+            room.lastMessage = messageModel;
             hasContent = true;
         });
         if (hasContent) {

@@ -89,7 +89,7 @@ function UserModel(obj) {
     }
     this.avatar_url = ko.observable(obj.avatar_url);
 }
-function MessageModel(obj, user, contentProcessor) {
+function MessageModel(obj, user, previousMessage, contentProcessor) {
     var self = this;
     var classes = {
         'EnterMessage':'enter-message',
@@ -125,7 +125,13 @@ function MessageModel(obj, user, contentProcessor) {
         return self.user.name();
     });
     this.showUser = ko.computed(function () {
-        return self.type() !== 'TimestampMessage';
+        if (self.type() === 'TimestampMessage')
+            return false;
+        if (previousMessage === undefined)
+            return true;
+        if (previousMessage.type() === 'EnterMessage' || previousMessage.type() === 'KickMessage' || previousMessage.type() === 'LeaveMessage')
+            return true;
+        return self.user != previousMessage.user;            
     });
     this.message = ko.computed(function () {
         if (self.type() === 'EnterMessage') {
