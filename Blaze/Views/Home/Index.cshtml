@@ -104,9 +104,9 @@
                 </div>
                 <form id="send-message" action="#">
                     <div id="message-box">
-                        <textarea id="new-message" autocomplete="off" accesskey="m"></textarea>
+                        <textarea id="new-message" autocomplete="off" accesskey="m" data-bind="value: inputMessage, valueUpdate: 'afterkeydown', event: {keydown: onKeyDown, paste: onPaste}"></textarea>
                     </div>
-                    <input type="submit" id="send" value="Send" class="send btn" />
+                    <input type="submit" id="send" value="Send" class="send btn" data-bind="click: sendMessage" />
                     <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
                 </form>
                 <!-- ko foreach: activeRooms -->

@@ -24,35 +24,16 @@
         return '('+self.users().length + ')';
     });
     this.messages = ko.observableArray([]);
-    this.refreshRate = ko.observable(30000);
-    this.isPaste = ko.observable(false);
-    this.inputMessage = ko.observable('');
-    this.sendMessage = function () {
-        chat.sendMessage(self, self.inputMessage(), self.isPaste());
-        //console.log('sending. paste:' + self.isPaste());
-        self.inputMessage('');
-        self.isPaste(false);
+    this.refreshRate = ko.observable(30000);    
+    this.sendMessage = function (message, isPaste) {
+        chat
+        //console.log('sending. ' + message + ', paste:' + isPaste);
     };
     this.isActive = ko.observable(false);
     this.isVisible = ko.observable(false);
     this.resetActiveFlag = function() {
         self.isActive(false);
-    };
-    this.onKeyDown = function(data,e) {
-        if (e.keyCode === 13) {
-            if (!e.ctrlKey) {
-                self.sendMessage();
-                return false;
-            } else {
-                self.isPaste(true);
-            }
-        }
-        return true;
-    };
-    this.onPaste = function (data,e) {
-        self.isPaste(true);
-        return true;
-    };
+    };    
 }
 function RoomsModel(chat) {
     var self = this;
@@ -63,6 +44,30 @@ function RoomsModel(chat) {
         if (self.activeRooms.indexOf(room) === -1)
             self.activeRooms.push(room);
         chat.showRoom(room);
+    };
+    this.inputMessage = ko.observable('');
+    this.isPaste = ko.observable(false);
+    this.sendMessage = function () {
+        if (self.visibleRoom) {
+            chat.sendMessage(self.visibleRoom,self.inputMessage(), self.isPaste());
+        }
+        self.inputMessage('');
+        self.isPaste(false);
+    };
+    this.onKeyDown = function (data, e) {
+        if (e.keyCode === 13) {
+            if (!e.ctrlKey) {
+                self.sendMessage();
+                return false;
+            } else {
+                self.isPaste(true);
+            }
+        }
+        return true;
+    };
+    this.onPaste = function (data, e) {
+        self.isPaste(true);
+        return true;
     };
 }
 function UserModel(obj) {

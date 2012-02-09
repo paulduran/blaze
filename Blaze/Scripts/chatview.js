@@ -1,5 +1,4 @@
 ﻿function ChatView() {
-    this.visibleRoom = null;
     this.roomsModel = null;
 }
 
@@ -8,7 +7,7 @@ ChatView.prototype.init = function (roomsModel) {
     self.roomsModel = roomsModel;
     ko.applyBindings(self.roomsModel, document.getElementById('page'));
 
-    $('.input-message').live('keydown', function (e) {
+    $('#new-message').live('keydown', function (e) {
         if (e.keyCode === 13 && e.ctrlKey) {
             $(this).insertAtCaret('\n');
         }
@@ -27,16 +26,16 @@ ChatView.prototype.addRoom = function(roomModel) {
 
 ChatView.prototype.changeRoom = function (roomId) {
     var self = this;
-    if (self.visibleRoom != null) self.visibleRoom.isVisible(false);
+    if (self.roomsModel.visibleRoom != null) self.roomsModel.visibleRoom.isVisible(false);
     $('#chat-area .current').hide();
     $('.current').removeClass('current');
     var room = self.roomsModel.roomsByDomId['room-' + roomId];
     if(room) {
         room.isVisible(true);
-        self.visibleRoom = room;        
+        self.roomsModel.visibleRoom = room;        
     } else {
         // lobby
-        self.visibleRoom = null;
+        self.roomsModel.visibleRoom = null;
         $('#tabs-' + roomId).addClass('current');
         $('#messages-' + roomId).addClass('current').show();
         $('#userlist-' + roomId).addClass('current').show();
@@ -64,8 +63,8 @@ ChatView.prototype.sortRooms = function() {
 };
 
 ChatView.prototype.scrollToEnd = function () {
-    if (this.visibleRoom != null) {
-        console.log('scrolling to end for #messages-' + this.visibleRoom.id());
-        $('#messages-' + this.visibleRoom.id()).scrollTo('max');
+    if (this.roomsModel.visibleRoom != null) {
+        console.log('scrolling to end for #messages-' + this.roomsModel.visibleRoom.id());
+        $('#messages-' + this.roomsModel.visibleRoom.id()).scrollTo('max');
     }
 };
