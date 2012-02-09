@@ -29,7 +29,7 @@ ChatView.prototype.changeRoom = function (roomId) {
     if (self.roomsModel.visibleRoom != null) self.roomsModel.visibleRoom.isVisible(false);
     $('#chat-area .current').hide();
     $('.current').removeClass('current');
-    var room = self.roomsModel.roomsByDomId['room-' + roomId];
+    var room = self.roomsModel.roomsByDomId['messages-' + roomId];
     if(room) {
         room.isVisible(true);
         self.roomsModel.visibleRoom = room;        
@@ -65,6 +65,8 @@ ChatView.prototype.sortRooms = function() {
 ChatView.prototype.scrollToEnd = function () {
     if (this.roomsModel.visibleRoom != null) {
         console.log('scrolling to end for #messages-' + this.roomsModel.visibleRoom.id());
-        $('#messages-' + this.roomsModel.visibleRoom.id()).scrollTo('max');
+        // $('#messages-' + this.roomsModel.visibleRoom.id()).scrollTo('max');
+        var msgs = $('#messages-' + this.roomsModel.visibleRoom.id());
+        msgs.scrollTop(msgs[0].scrollHeight);
     }
 };

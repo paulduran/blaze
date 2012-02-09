@@ -8,7 +8,7 @@
         return 'tabs-' + self.id();
     });
     this.roomDomId = ko.computed(function () {
-        return 'room-' + self.id();
+        return 'messages-' + self.id();
     });
     this.usersDomId = ko.computed(function () {
         return 'userlist-' + self.id();
@@ -40,6 +40,15 @@ function RoomsModel(chat) {
         if (self.activeRooms.indexOf(room) === -1)
             self.activeRooms.push(room);
         chat.showRoom(room);
+    };
+    this.leaveRoom = function (room) {
+        var idx = self.activeRooms.indexOf(room);
+        if (idx !== -1) {
+            self.activeRooms.remove(room);
+            if (idx > 0) {
+                chat.showRoom(self.activeRooms[idx - 1]);
+            }
+        }
     };
     this.inputMessage = ko.observable('');
     this.isPaste = ko.observable(false);
