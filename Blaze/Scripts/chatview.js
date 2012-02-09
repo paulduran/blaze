@@ -21,11 +21,7 @@ ChatView.prototype.init = function (roomsModel) {
     });
     $('#tabs li').live('click', function () {
         var name = $(this).data('name');
-        $('#chat-area .current').hide();
-        $('.current').removeClass('current');
-        $('#tab-' + name).addClass('current');
-        $('#messages-' + name).addClass('current').show();
-        $('#userlist-' + name).addClass('current').show();
+        self.changeRoom(name);
     });
 };
 
@@ -38,9 +34,20 @@ ChatView.prototype.addRoom = function(roomModel) {
 ChatView.prototype.changeRoom = function (roomId) {
     var self = this;
     if (self.visibleRoom != null) self.visibleRoom.isVisible(false);
-    self.roomsModel.roomsByDomId[roomId].isVisible(true);
-    //    self.scrollToEnd();
-    
+    $('#chat-area .current').hide();
+    $('.current').removeClass('current');
+    var room = self.roomsModel.roomsByDomId['#room-' + roomId];
+    if(room) {
+        room.isVisible(true);
+        self.visibleRoom = room;        
+    } else {
+        // lobby
+        self.visibleRoom = null;
+        $('#tab-' + roomId).addClass('current');
+        $('#messages-' + roomId).addClass('current').show();
+        $('#userlist-' + roomId).addClass('current').show();
+    }
+    self.scrollToEnd();
 };
 
 ChatView.prototype.show = function () {
@@ -49,6 +56,7 @@ ChatView.prototype.show = function () {
 };
 
 ChatView.prototype.showRoom = function (room) {
+    var self = this;
     if ($(room.domId()).length == 0) {
         var roomDom = $('#room-template').clone();
         roomDom.attr('id', 'messages-' + room.id());
@@ -57,11 +65,16 @@ ChatView.prototype.showRoom = function (room) {
         $(roomDom).each(function (i, r) {
             ko.applyBindings(room, r);
         });
-        //this.changeRoom(room.id());
-        $('.current').removeClass('current');
-        $('#tab-' + room.id()).addClass('current');
-        $('#messages-' + room.id()).addClass('current').show();
-        $('#userlist-' + room.id()).addClass('current').show();
+        var usersDom = $('#userlist-template').clone();
+        usersDom.attr('id', 'userlist-' + room.id());
+        $('#userlist-template').parent().append(usersDom);
+
+        $(usersDom).each(function (i, r) {
+            ko.applyBindings(room, r);
+        });
+
+
+        self.changeRoom(room.id());
     }
 };
 
@@ -74,5 +87,8 @@ ChatView.prototype.sortRooms = function() {
 };
 
 ChatView.prototype.scrollToEnd = function () {
-    $(document).scrollTo('max');
+    if (this.visibleRoom != null) {
+        console.log('scrolling to end for #messages-' + this.visibleRoom.id());
+        $('#messages-' + this.visibleRoom.id()).scrollTo('max');
+    }
 };

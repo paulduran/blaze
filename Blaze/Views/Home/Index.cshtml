@@ -67,7 +67,7 @@
                             <span class="content">Lobby</span></button>
                     </li>
                     <!-- ko foreach: activeRooms -->
-                    <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {currentx: isVisible}">
+                    <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible}">
                         <span class="lock"></span>
                         <button> 
                             <span class="content" data-bind="text: name"></span>
@@ -81,17 +81,14 @@
             </div>
             <div id="chat-area">
                 <ul id="messages-lobby" class="messages current" data-bind="foreach: rooms">
-                    <li class="span-one-third room-summary">
-                        <h5>
-                            <a data-bind="attr: { href: url}, text: name, click: $parent.displayRoom"></a>
-                        </h5>
-                        <p>
-                            <small data-bind="text: topic"></small>
-                        </p>
-                        <ul class="member-list" data-bind="foreach: users">
-                            <li data-bind="text: name"></li>
-                        </ul>
-                        <br />
+                    <li class="message clearfix">
+                        <div class="left">
+                        </div>
+                        <div class="middle">
+                            <a data-bind="attr: { href: url}, text: name, click: $parent.displayRoom"></a> - <small data-bind="text: topic"></small>
+                        </div>
+                        <div class="right">
+                        </div>
                     </li>
                 </ul>
                 <form id="users-filter-form" action="#">
@@ -110,8 +107,21 @@
                     <input type="submit" id="send" value="Send" class="send" />
                     <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
                 </form>
-                <ul id="room-template" data-bind="template: {name:'base-message-template', foreach: messages}, css: {currentx: isVisible}" class="messages" style="display: none;">
-                </ul>
+                <ul id="room-template" data-bind="template: {name:'base-message-template', foreach: messages}, css: {current: isVisible}, visible: isVisible" class="messages" style="display: none;">
+                </ul>                
+                <div id="userlist-template" class="users" data-bind="css: {current: isVisible}, visible: isVisible" style="display: none;">
+                    <h3 class="userlist-header nav-header">Users</h3>
+                    <div>
+                        <ul data-bind="foreach: users">
+                            <li class="user" data-bind="attr: {'data-name':name}">
+                                <img class="gravatar" data-bind="attr: {src: avatar_url}"/>
+                                <div class="details">
+                                    <span class="name" data-bind="text: name"></span>                               
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <audio src="Content/sounds/notification.wav" id="noftificationSound" hidden="hidden" />
         </div>

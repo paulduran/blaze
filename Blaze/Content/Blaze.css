@@ -6,3 +6,7 @@ input.password {
     background: url('images/key_fill_16x16.png') no-repeat 10px 5px;
     padding-left: 30px;
 }
+
+.user .gravatar {
+    width: 24px;
+}

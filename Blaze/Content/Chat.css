@@ -86,7 +86,7 @@
 }
 
 #heading {
-    background-color: #00103f;
+    background-color: #831f04;
     color: #fff;
     position: absolute;
     left: 0;
@@ -225,7 +225,7 @@
     height: 30px;
     border-bottom: 0px;
     position: relative;
-    background-color: #164c85;
+    background-color: #ba3815;
     color: #fff;
     font-weight: bold;
     cursor: pointer;
@@ -305,7 +305,7 @@ li.room:hover {
 }
 
 #tabs li.lobby {
-    background-color: #00103f;
+    background-color: #831f04;
     color: #fff;
     padding-right: 0;
 }
@@ -316,7 +316,7 @@ li.room:hover {
 }
 
 #tabs li.lobby.current {
-    background-color: #00103f;
+    background-color: #831f04;
     color: #000;
 }
 
