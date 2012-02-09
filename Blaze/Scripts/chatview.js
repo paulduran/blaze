@@ -16,6 +16,16 @@ ChatView.prototype.init = function (roomsModel) {
         var name = $(this).data('name');
         self.changeRoom(name);
     });
+    $(document).on('click', 'h3.collapsible_title', function () {
+        var $message = $(this).closest('.message'),
+                    nearEnd = self.isNearTheEnd();
+
+        $(this).next().toggle(0, function () {
+            if (nearEnd) {
+                self.scrollToBottom();
+            }
+        });
+    });
 };
 
 ChatView.prototype.addRoom = function(roomModel) {
