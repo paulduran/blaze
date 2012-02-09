@@ -28,6 +28,12 @@ namespace Blaze
             );
 
             routes.MapRoute(
+                "recent_route", // Route name
+                "recent/{account}/{*url}", // URL with parameters
+                new { controller = "Home", action = "Recent" } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults

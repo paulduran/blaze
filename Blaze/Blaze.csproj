@@ -15,6 +15,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\blaze\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +39,13 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.3\lib\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -63,7 +72,40 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentProviders\AudioContentProvider.cs" />
+    <Compile Include="ContentProviders\BashQDBContentProvider.cs" />
+    <Compile Include="ContentProviders\BBCNewsContentProvider.cs" />
+    <Compile Include="ContentProviders\CollegeHumorContentProvider.cs" />
+    <Compile Include="ContentProviders\Core\CollapsibleContentProvider.cs" />
+    <Compile Include="ContentProviders\Core\ContentProviderResultModel.cs" />
+    <Compile Include="ContentProviders\Core\EmbedContentProvider.cs" />
+    <Compile Include="ContentProviders\Core\IContentProvider.cs" />
+    <Compile Include="ContentProviders\Core\IResourceProcessor.cs" />
+    <Compile Include="Util\RegexExtensions.cs" />
+    <Compile Include="ContentProviders\Core\ResourceProcessor.cs" />
+    <Compile Include="ContentProviders\DictionaryContentProvider.cs" />
+    <Compile Include="ContentProviders\GistContentProvider.cs" />
+    <Compile Include="ContentProviders\GitHubIssuesContentProvider.cs" />
+    <Compile Include="ContentProviders\GoogleDocsFormProvider.cs" />
+    <Compile Include="ContentProviders\GoogleDocsPresentationsContentProvider.cs" />
+    <Compile Include="ContentProviders\GoogleMapsContentProvider.cs" />
+    <Compile Include="ContentProviders\ImageContentProvider.cs" />
+    <Compile Include="ContentProviders\ImgurContentProvider.cs" />
+    <Compile Include="ContentProviders\JoinMeContentProvider.cs" />
+    <Compile Include="ContentProviders\MixcloudContentProvider.cs" />
+    <Compile Include="ContentProviders\NerdDinnerContentProvider.cs" />
+    <Compile Include="ContentProviders\NugetNuggetContentProvider.cs" />
+    <Compile Include="ContentProviders\PastieContentProvider.cs" />
+    <Compile Include="ContentProviders\SlideshareContentProvider.cs" />
+    <Compile Include="ContentProviders\SoundCloudContentProvider.cs" />
+    <Compile Include="ContentProviders\TweetContentProvider.cs" />
+    <Compile Include="ContentProviders\TwitPicContentProvider.cs" />
+    <Compile Include="ContentProviders\UserVoiceContentProvider.cs" />
+    <Compile Include="ContentProviders\UStreamContentProvider.cs" />
+    <Compile Include="ContentProviders\VimeoContentProvider.cs" />
+    <Compile Include="ContentProviders\YoutubeContentProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessageProcessor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -729,4 +771,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

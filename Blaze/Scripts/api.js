@@ -38,14 +38,15 @@ Campfire.prototype.getRooms = function (callback) {
 
 Campfire.prototype.getRecentMessages = function (roomId, lastMessageId, callback) {
     var self = this;
-    var data = { };
-    if(lastMessageId !== undefined )
+    var data = {};
+    var base = self.base.replace('/x', '/recent');
+    if (lastMessageId !== undefined)
         data['since_message_id'] = lastMessageId;
     $.ajax({
-        url: self.base + '/room/' + roomId + '/recent.json',
+        url: base + '/room/' + roomId + '/recent.json',
         data: data,
         beforeSend: $.proxy(self.setAuthHeader, self),
-        success: function(data) {
+        success: function (data) {
             callback(data.messages);
         },
         dataType: 'json'

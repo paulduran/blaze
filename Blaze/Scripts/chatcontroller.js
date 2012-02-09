@@ -85,10 +85,10 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
             hasContent = true;
         });
         if (hasContent) {
-            $('#chat-area').linkify(function (links) {
+           /* $('#chat-area').linkify(function (links) {
                 links.addClass('linkified');
                 links.attr('target', '_blank');
-            });
+            });*/
             room.isActive(true);
             if (room.isVisible())
                 self.view.scrollToEnd();
