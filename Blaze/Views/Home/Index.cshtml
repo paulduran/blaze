@@ -94,7 +94,11 @@
                 <form id="users-filter-form" action="#">
                     <input id="users-filter" class="filter" type="text" />
                 </form>
-                <ul id="userlist-lobby" class="users current">
+                <ul id="userlist-lobby" class="users current" data-bind="foreach: rooms">
+                    <li class="room" data-bind="attr: {'data-room':name}">
+                        <span class="name" data-bind="text: name, attr: {title: topic}"></span>
+                        <span class="count" data-bind="text: numUsers"></span>
+                    </li>
                 </ul>
                 <div id="preferences">
                     <a class="sound" title="audible notifications"></a><a class="toast" title="popup notifications">

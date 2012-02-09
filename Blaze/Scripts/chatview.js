@@ -7,13 +7,9 @@ ChatView.prototype.init = function (roomsModel) {
     var self = this;
     self.roomsModel = roomsModel;
     ko.applyBindings(self.roomsModel, document.getElementById('messages-lobby'));
+    ko.applyBindings(self.roomsModel, document.getElementById('userlist-lobby'));
     ko.applyBindings(self.roomsModel, document.getElementById('tabs'));
-
-    $('.tabs').bind('change', function (e) {
-        var domId = $(e.target).attr('href');
-        if (domId === '#lobby') return;
-        self.changeRoom(domId);
-    });
+   
     $('.input-message').live('keydown', function (e) {
         if (e.keyCode === 13 && e.ctrlKey) {
             $(this).insertAtCaret('\n');

@@ -17,6 +17,9 @@
     this.url = ko.computed(function () {
         return '#';
     });
+    this.numUsers = ko.computed(function() {
+        return '('+self.users().length + ')';
+    });
     this.messages = ko.observableArray([]);
     this.refreshRate = ko.observable(30000);
     this.isPaste = ko.observable(false);
