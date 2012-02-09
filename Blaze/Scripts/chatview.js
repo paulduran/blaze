@@ -6,10 +6,8 @@
 ChatView.prototype.init = function (roomsModel) {
     var self = this;
     self.roomsModel = roomsModel;
-    ko.applyBindings(self.roomsModel, document.getElementById('messages-lobby'));
-    ko.applyBindings(self.roomsModel, document.getElementById('userlist-lobby'));
-    ko.applyBindings(self.roomsModel, document.getElementById('tabs'));
-   
+    ko.applyBindings(self.roomsModel, document.getElementById('page'));
+
     $('.input-message').live('keydown', function (e) {
         if (e.keyCode === 13 && e.ctrlKey) {
             $(this).insertAtCaret('\n');
@@ -24,7 +22,7 @@ ChatView.prototype.init = function (roomsModel) {
 ChatView.prototype.addRoom = function(roomModel) {
     var self = this;
     self.roomsModel.rooms.push(roomModel);
-    self.roomsModel.roomsByDomId[roomModel.domId()] = roomModel;
+    self.roomsModel.roomsByDomId[roomModel.roomDomId()] = roomModel;
 };
 
 ChatView.prototype.changeRoom = function (roomId) {
@@ -32,7 +30,7 @@ ChatView.prototype.changeRoom = function (roomId) {
     if (self.visibleRoom != null) self.visibleRoom.isVisible(false);
     $('#chat-area .current').hide();
     $('.current').removeClass('current');
-    var room = self.roomsModel.roomsByDomId['#room-' + roomId];
+    var room = self.roomsModel.roomsByDomId['room-' + roomId];
     if(room) {
         room.isVisible(true);
         self.visibleRoom = room;        
@@ -52,23 +50,7 @@ ChatView.prototype.show = function () {
 
 ChatView.prototype.showRoom = function (room) {
     var self = this;
-    if ($(room.domId()).length == 0) {
-        var roomDom = $('#room-template').clone();
-        roomDom.attr('id', 'messages-' + room.id());
-        $('#room-template').parent().append(roomDom);
-
-        $(roomDom).each(function (i, r) {
-            ko.applyBindings(room, r);
-        });
-        var usersDom = $('#userlist-template').clone();
-        usersDom.attr('id', 'userlist-' + room.id());
-        $('#userlist-template').parent().append(usersDom);
-
-        $(usersDom).each(function (i, r) {
-            ko.applyBindings(room, r);
-        });
-
-
+    if ($(room.roomDomId()).length == 0) {
         self.changeRoom(room.id());
     }
 };

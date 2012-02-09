@@ -113,3 +113,7 @@
     float: right ;
     padding-right: 20px;
 }
+.messages li .right 
+{
+    width: 55px;
+}

@@ -55,6 +55,7 @@
                 <div class="banner">
                     <h1>
                         Blaze</h1>
+                    <div>Campfire Client</div>
                     @*                <img alt="logo" src="Content/images/logo32.png" id="logo" />*@
                     <div class="right">
                         Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a> and <a href="https://github.com/davidfowl/JabbR" target="_blank">JabbR</a></div>
@@ -108,9 +109,10 @@
                     <input type="submit" id="send" value="Send" class="send btn" />
                     <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
                 </form>
-                <ul id="room-template" data-bind="template: {name:'base-message-template', foreach: messages}, css: {current: isVisible}, visible: isVisible" class="messages" style="display: none;">
+                <!-- ko foreach: activeRooms -->
+                <ul data-bind="template: {name:'base-message-template', foreach: messages}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
                 </ul>                
-                <div id="userlist-template" class="users" data-bind="css: {current: isVisible}, visible: isVisible" style="display: none;">
+                <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
                     <h3 class="userlist-header nav-header">Users</h3>
                     <div>
                         <ul data-bind="foreach: users">
@@ -123,6 +125,7 @@
                         </ul>
                     </div>
                 </div>
+                <!-- /ko -->
             </div>
             <audio src="Content/sounds/notification.wav" id="noftificationSound" hidden="hidden" />
         </div>

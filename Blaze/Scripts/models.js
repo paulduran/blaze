@@ -7,8 +7,11 @@
     this.tabId = ko.computed(function () {
         return 'tabs-' + self.id();
     });
-    this.domId = ko.computed(function () {
-        return '#room-' + self.id();
+    this.roomDomId = ko.computed(function () {
+        return 'room-' + self.id();
+    });
+    this.usersDomId = ko.computed(function () {
+        return 'userlist-' + self.id();
     });
     this.name = ko.observable(obj.name);
     this.topic = ko.observable(obj.topic);
@@ -57,9 +60,9 @@ function RoomsModel(chat) {
     this.roomsByDomId = { };
     this.activeRooms = ko.observableArray([]);   
     this.displayRoom = function (room) {
-        chat.showRoom(room);
         if (self.activeRooms.indexOf(room) === -1)
             self.activeRooms.push(room);
+        chat.showRoom(room);
     };
 }
 function UserModel(obj) {
