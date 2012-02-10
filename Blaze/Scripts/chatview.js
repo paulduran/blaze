@@ -5,6 +5,14 @@
 ChatView.prototype.init = function (roomsModel) {
     var self = this;
     self.roomsModel = roomsModel;
+
+    ko.extenders.animateOnChange = function(target, room) {
+        target.subscribe(function(newValue) {
+            if (newValue === true) 
+                self.glowTab(room);
+        });
+    };
+    
     ko.applyBindings(self.roomsModel, document.getElementById('page'));
 
     $('#new-message').live('keydown', function (e) {
@@ -17,13 +25,33 @@ ChatView.prototype.init = function (roomsModel) {
         self.changeRoom(name);
     });
     $(document).on('click', 'h3.collapsible_title', function () {
-        var $message = $(this).closest('.message'),
-                    nearEnd = self.isNearTheEnd();
-
+        var nearEnd = self.isNearTheEnd();
         $(this).next().toggle(0, function () {
             if (nearEnd) {
                 self.scrollToEnd();
             }
+        });
+    });
+};
+
+ChatView.prototype.glowTab = function(room) {
+    // Stop if we're not unread anymore
+    if(!room.isActive()) {
+        return;
+    }
+    var $tab = $(room.tabDomId());
+
+    // Go light
+    $tab.animate({ backgroundColor: '#e5e5e5', color: '#000000' }, 800, function() {
+        // Stop if we're not unread anymore
+        if (!room.isActive()) {
+            return;
+        }
+
+        // Go dark
+        $tab.animate({ backgroundColor: '#164C85', color: '#ffffff' }, 800, function() {
+            // Glow the tab again
+            glowTab(room);
         });
     });
 };

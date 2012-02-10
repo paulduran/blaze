@@ -117,3 +117,14 @@
 {
     width: 55px;
 }
+.emoji
+{
+    width: 24px;
+    height: 24px;
+}
+.message .left {
+    text-align: right;    
+}
+.message .left .name {
+    padding-right: 20px;
+}

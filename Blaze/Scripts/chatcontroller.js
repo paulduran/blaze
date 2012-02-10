@@ -66,9 +66,10 @@ ChatController.prototype.loadUsers = function (room) {
     });
 };
 
-ChatController.prototype.showRoom = function (room) {
+ChatController.prototype.showRoom = function (room, isNewRoom) {
     var self = this;
-    self.loadMessages(room, true);
+    if (isNewRoom)
+        self.loadMessages(room, true);
     self.view.showRoom(room);
 };
 

@@ -23,23 +23,32 @@
     this.numUsers = ko.computed(function() {
         return '('+self.users().length + ')';
     });
-    this.messages = ko.observableArray([]);
-    this.refreshRate = ko.observable(30000);
-    this.isActive = ko.observable(false);
+    this.messages = ko.observableArray([]);    
+    this.isActive = ko.observable(false);//.extend({animateOnChange: self});
     this.isVisible = ko.observable(false);
     this.resetActiveFlag = function() {
         self.isActive(false);
-    };    
+    };
+    this.refreshRate = ko.computed(function () {
+        if (self.isVisible()) {
+            return 5000;
+        }
+        return 20000;
+    });
 }
 function RoomsModel(chat) {
     var self = this;
     this.rooms = ko.observableArray([]);
     this.roomsByDomId = { };
-    this.activeRooms = ko.observableArray([]);   
+    this.activeRooms = ko.observableArray([]);
     this.displayRoom = function (room) {
-        if (self.activeRooms.indexOf(room) === -1)
+        var newRoom = false;
+        if (self.activeRooms.indexOf(room) === -1) {
+            newRoom = true;
             self.activeRooms.push(room);
-        chat.showRoom(room);
+        }
+        room.resetActiveFlag();
+        chat.showRoom(room, newRoom);
     };
     this.leaveRoom = function (room) {
         var idx = self.activeRooms.indexOf(room);
