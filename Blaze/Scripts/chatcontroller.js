@@ -82,7 +82,7 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
             var messageModel = new MessageModel(o, user, room.lastMessage, self.contentProcessor);
             if( messageModel.type() !== 'TimestampMessage')
-                room.messages.push(messageModel);
+                room.addMessage(messageModel);
             room.lastMessage = messageModel;
             hasContent = true;
         });
@@ -91,7 +91,7 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
                 links.addClass('linkified');
                 links.attr('target', '_blank');
             });*/
-            room.isActive(true);
+            //room.isActive(true);
             if (room.isVisible())
                 self.view.scrollToEnd();
         }

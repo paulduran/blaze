@@ -124,10 +124,10 @@
                             <span class="content">Lobby</span></button>
                     </li>
                     <!-- ko foreach: activeRooms -->
-                    <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible}, click: $parent.displayRoom">
+                    <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible, active: isActive}, click: $parent.displayRoom">
                         <span class="lock"></span>
                         <button> 
-                            <span class="content" data-bind="text: name"></span>
+                            <span class="content" data-bind="text: tabText"></span>
                         </button>
                         <div class="close" data-bind="click: $parent.leaveRoom"></div>
                     </li>

@@ -128,3 +128,9 @@
 .message .left .name {
     padding-right: 20px;
 }
+#tabs li.active {
+    background-color: #e3a031;
+}
+#tabs li.active:hover {
+    background-color: #ffffff;
+}
