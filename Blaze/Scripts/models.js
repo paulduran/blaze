@@ -22,17 +22,20 @@
     });
     this.messages = ko.observableArray([]);
     this.unreadMessages = ko.observable(0);
-    this.isActive = ko.computed(function () {
-        return self.unreadMessages() > 0;
-    });
+    this.unreadMessages.extend({ updateTitle: '' });
+    this.isActive = ko.observable(false);
+    this.isActive.extend({ animateOnChange: self });
     this.isVisible = ko.observable(false);
     this.resetActiveFlag = function () {
         self.unreadMessages(0);
+        self.isActive(false);
     };
     this.addMessage = function (message) {
         self.messages.push(message);
-        if(!self.isVisible() && !message.isNotification())
+        if (!self.isVisible() && !message.isNotification()) {
             self.unreadMessages(self.unreadMessages() + 1);
+            self.isActive(true);
+        }
     };
     this.refreshRate = ko.computed(function () {
         if (self.isVisible()) {
@@ -96,14 +99,7 @@ function RoomsModel(chat) {
     this.onPaste = function (data, e) {
         self.isPaste(true);
         return true;
-    };
-    this.totalUnread = ko.computed(function () {
-        var total = 0;
-        $(self.rooms()).each(function(i, room) {
-            total += room.unreadMessages();
-        });
-        return total;
-    });
+    };   
 }
 function UserModel(obj) {
     var self = this;

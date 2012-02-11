@@ -1,4 +1,6 @@
-﻿function ChatView() {
+﻿/// <reference path="models.js"/>
+/// <reference path="knockout-2.0.0.js"/>
+function ChatView() {
     this.roomsModel = null;
 }
 
@@ -10,6 +12,20 @@ ChatView.prototype.init = function (roomsModel) {
         target.subscribe(function (newValue) {
             if (newValue === true)
                 self.glowTab(room);
+        });
+    };
+    ko.extenders.updateTitle = function (target) {
+        target.subscribe(function (newValue) {
+            var total = 0;
+            console.log('got change!');
+            $(self.roomsModel.rooms()).each(function (i, room) {
+                total += room.unreadMessages();
+            });
+            if (total === 0) {
+                document.title = 'Blaze';
+            } else {
+                document.title = '(' + total + ') Blaze';
+            }
         });
     };
 
@@ -40,7 +56,7 @@ ChatView.prototype.init = function (roomsModel) {
                     var room = self.roomsModel.visibleRoom;
                     if (room) {
                         // todo: exclude current username from autocomplete
-                        return room.users().map(function(u) { return u.short_name(); });
+                        return room.users().map(function (u) { return u.short_name(); });
                     }
                 default:
                     return [];
@@ -48,25 +64,31 @@ ChatView.prototype.init = function (roomsModel) {
         }
     });
 };
+/** 
+  * @param {RoomModel} room  room to glow tab for 
+  */
+ChatView.prototype.glowTab = function (room) {
+    var self = this;
+    var $tab = $('#' + room.tabId());
 
-ChatView.prototype.glowTab = function(room) {
     // Stop if we're not unread anymore
-    if(!room.isActive()) {
+    if (!room.isActive()) {
+        $tab.attr({ style: '' });
         return;
     }
-    var $tab = $(room.tabDomId());
 
     // Go light
-    $tab.animate({ backgroundColor: '#e5e5e5', color: '#000000' }, 800, function() {
+    $tab.animate({ backgroundColor: '#e5e5e5', color: '#000000' }, 800, function () {
         // Stop if we're not unread anymore
         if (!room.isActive()) {
+            $tab.attr({ style: '' });
             return;
         }
 
         // Go dark
-        $tab.animate({ backgroundColor: '#164C85', color: '#ffffff' }, 800, function() {
+        $tab.animate({ backgroundColor: '#164C85', color: '#ffffff' }, 800, function () {
             // Glow the tab again
-            glowTab(room);
+            self.glowTab(room);
         });
     });
 };
@@ -79,16 +101,18 @@ ChatView.prototype.addRoom = function(roomModel) {
 
 ChatView.prototype.changeRoom = function (roomId) {
     var self = this;
-    if (self.roomsModel.visibleRoom != null) self.roomsModel.visibleRoom.isVisible(false);
+    if (self.roomsModel.visibleRoom != null) {
+        self.roomsModel.visibleRoom.isVisible(false);
+        self.roomsModel.visibleRoom = null;
+    }
     $('#chat-area .current').hide();
     $('.current').removeClass('current');
     var room = self.roomsModel.roomsByDomId['messages-' + roomId];
-    if(room) {
+    if (room) {
         room.isVisible(true);
-        self.roomsModel.visibleRoom = room;        
+        self.roomsModel.visibleRoom = room;
     } else {
-        // lobby
-        self.roomsModel.visibleRoom = null;
+        // lobby        
         $('#tabs-' + roomId).addClass('current');
         $('#messages-' + roomId).addClass('current').show();
         $('#userlist-' + roomId).addClass('current').show();
