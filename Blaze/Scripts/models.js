@@ -17,9 +17,6 @@
     this.topic = ko.observable(obj.topic);
     this.updated = ko.observable(obj.updated_at);
     this.users = ko.observableArray([]);
-    this.url = ko.computed(function () {
-        return '#';
-    });
     this.numUsers = ko.computed(function() {
         return '('+self.users().length + ')';
     });
@@ -34,7 +31,7 @@
     };
     this.addMessage = function (message) {
         self.messages.push(message);
-        if(!self.isVisible())
+        if(!self.isVisible() && !message.isNotification())
             self.unreadMessages(self.unreadMessages() + 1);
     };
     this.refreshRate = ko.computed(function () {
@@ -79,7 +76,8 @@ function RoomsModel(chat) {
     this.isPaste = ko.observable(false);
     this.sendMessage = function () {
         if (self.visibleRoom) {
-            chat.sendMessage(self.visibleRoom,self.inputMessage(), self.isPaste());
+            var isPaste = self.inputMessage().indexOf('\n') !== -1;
+            chat.sendMessage(self.visibleRoom,self.inputMessage(), isPaste);
         }
         self.inputMessage('');
         self.isPaste(false);
@@ -90,7 +88,7 @@ function RoomsModel(chat) {
                 self.sendMessage();
                 return false;
             } else {
-                self.isPaste(true);
+          //      self.isPaste(true);
             }
         }
         return true;
@@ -99,6 +97,13 @@ function RoomsModel(chat) {
         self.isPaste(true);
         return true;
     };
+    this.totalUnread = ko.computed(function () {
+        var total = 0;
+        $(self.rooms()).each(function(i, room) {
+            total += room.unreadMessages();
+        });
+        return total;
+    });
 }
 function UserModel(obj) {
     var self = this;
@@ -154,7 +159,7 @@ function MessageModel(obj, user, previousMessage, contentProcessor) {
             return false;
         if (previousMessage === undefined)
             return true;
-        if (previousMessage.type() === 'EnterMessage' || previousMessage.type() === 'KickMessage' || previousMessage.type() === 'LeaveMessage')
+        if(previousMessage.isNotification())
             return true;
         return self.user != previousMessage.user;            
     });

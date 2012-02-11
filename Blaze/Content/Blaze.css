@@ -111,7 +111,7 @@
 }
 .banner > div.right {
     float: right ;
-    padding-right: 20px;
+    padding-right: 5px;
 }
 .messages li .right 
 {
@@ -132,5 +132,5 @@
     background-color: #e3a031;
 }
 #tabs li.active:hover {
-    background-color: #ffffff;
+    background-color: #e5e5e5;
 }
