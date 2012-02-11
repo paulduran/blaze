@@ -6,13 +6,13 @@ ChatView.prototype.init = function (roomsModel) {
     var self = this;
     self.roomsModel = roomsModel;
 
-    ko.extenders.animateOnChange = function(target, room) {
-        target.subscribe(function(newValue) {
-            if (newValue === true) 
+    ko.extenders.animateOnChange = function (target, room) {
+        target.subscribe(function (newValue) {
+            if (newValue === true)
                 self.glowTab(room);
         });
     };
-    
+
     ko.applyBindings(self.roomsModel, document.getElementById('page'));
 
     $('#new-message').live('keydown', function (e) {
@@ -31,6 +31,21 @@ ChatView.prototype.init = function (roomsModel) {
                 self.scrollToEnd();
             }
         });
+    });
+    $('#new-message').autoTabComplete({
+        prefixMatch: '[@]',
+        get: function (prefix) {
+            switch (prefix) {
+                case '@':
+                    var room = self.roomsModel.visibleRoom;
+                    if (room) {
+                        // todo: exclude current username from autocomplete
+                        return room.users().map(function(u) { return u.short_name(); });
+                    }
+                default:
+                    return [];
+            }
+        }
     });
 };
 
