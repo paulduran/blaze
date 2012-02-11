@@ -51,6 +51,17 @@
         }
         return self.name();
     });
+    this.collapseNotifications = function (element, i, msg) {
+        var count = 0;
+        while (i > 0 && self.messages()[i].isNotification()) {
+            count++;
+            i--;
+            if (count > 3) {
+                msg.collapse();
+                return;
+            }
+        }
+    };   
 }
 function RoomsModel(chat) {
     var self = this;
@@ -115,8 +126,9 @@ function UserModel(obj) {
     }
     this.avatar_url = ko.observable(obj.avatar_url);
 }
-function MessageModel(obj, user, previousMessage, contentProcessor) {
+function MessageModel(obj, user, prevMsg, contentProcessor) {
     var self = this;
+    this.previousMessage = prevMsg;
     var classes = {
         'EnterMessage':'enter-message',
         'KickMessage': 'exit-message',
@@ -153,11 +165,11 @@ function MessageModel(obj, user, previousMessage, contentProcessor) {
     this.showUser = ko.computed(function () {
         if (self.type() === 'TimestampMessage')
             return false;
-        if (previousMessage === undefined)
+        if (self.previousMessage === undefined)
             return true;
-        if(previousMessage.isNotification())
+        if(self.previousMessage.isNotification())
             return true;
-        return self.user != previousMessage.user;            
+        return self.user != self.previousMessage.user;            
     });
     this.message = ko.computed(function () {
         if (self.type() === 'EnterMessage') {
@@ -177,4 +189,32 @@ function MessageModel(obj, user, previousMessage, contentProcessor) {
             return true;
         } else return false;
     });
+    this.collapseText = ko.observable('');
+    this.isVisible = ko.observable(true);
+    this.toggleCollapse = function () {
+        if (self.collapseText().indexOf('to expand') !== -1) {
+            self.expand();
+        } else {
+            self.collapse();
+        }
+    };
+    this.collapse = function () {
+        var count = 0;
+        var prev = self.previousMessage;
+        while (prev && prev.isNotification()) {
+            prev.collapseText('');
+            prev.isVisible(false);
+            prev = prev.previousMessage;
+            count++;
+        }
+        this.collapseText(' (plus ' + count + ' hidden... click to expand)');
+    };
+    this.expand = function () {
+        this.collapseText(' (click to collapse)');
+        var prev = self.previousMessage;
+        while (!prev.isVisible()) {
+            prev.isVisible(true);
+            prev = prev.previousMessage;
+        }
+    };
 }

@@ -80,22 +80,21 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
         var hasContent = false;
         $.map(messages, function (o) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
-            var messageModel = new MessageModel(o, user, room.lastMessage, self.contentProcessor);
-            if( messageModel.type() !== 'TimestampMessage')
+            if (o.type !== 'TimestampMessage') {
+                var messageModel = new MessageModel(o, user, room.lastMessage, self.contentProcessor);
                 room.addMessage(messageModel);
-            room.lastMessage = messageModel;
-            hasContent = true;
+                room.lastMessage = messageModel;
+                hasContent = true;
+            }
         });
         if (hasContent) {
-           /* $('#chat-area').linkify(function (links) {
-                links.addClass('linkified');
-                links.attr('target', '_blank');
-            });*/
-            //room.isActive(true);
             if (room.isVisible())
                 self.view.scrollToEnd();
         }
         if (autorefresh === true) {
+            if (room.timer) {
+                clearTimeout(room.timer);
+            }
             room.timer = setTimeout(function () {
                 self.loadMessages(room, true);
             }, room.refreshRate());

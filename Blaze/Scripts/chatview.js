@@ -17,7 +17,6 @@ ChatView.prototype.init = function (roomsModel) {
     ko.extenders.updateTitle = function (target) {
         target.subscribe(function (newValue) {
             var total = 0;
-            console.log('got change!');
             $(self.roomsModel.rooms()).each(function (i, room) {
                 total += room.unreadMessages();
             });
@@ -149,7 +148,7 @@ ChatView.prototype.isNearTheEnd = function () {
 
 ChatView.prototype.scrollToEnd = function () {
     if (this.roomsModel.visibleRoom != null) {
-        console.log('scrolling to end for #messages-' + this.roomsModel.visibleRoom.id());
+        console && console.log('scrolling to end for #messages-' + this.roomsModel.visibleRoom.id());
         // $('#messages-' + this.roomsModel.visibleRoom.id()).scrollTo('max');
         var msgs = $('#messages-' + this.roomsModel.visibleRoom.id());
         msgs.scrollTop(msgs[0].scrollHeight);

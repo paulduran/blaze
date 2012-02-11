@@ -46,8 +46,12 @@ Campfire.prototype.getRecentMessages = function (roomId, lastMessageId, callback
         url: base + '/room/' + roomId + '/recent.json',
         data: data,
         beforeSend: $.proxy(self.setAuthHeader, self),
-        success: function (data) {
-            callback(data.messages);
+        success: function (reply) {
+            callback(reply.messages);
+        },
+        error: function (xhr, txt, err) {
+            console && console.log('getRecentMessages failure: ' + txt + ' (' + err + ')');
+            callback([]);
         },
         dataType: 'json'
     });
@@ -81,6 +85,10 @@ Campfire.prototype.getUsers = function (roomId, callback) {
         beforeSend: $.proxy(self.setAuthHeader, self),
         success: function (data) {
             callback(data.room.users);
+        },
+        error: function (xhr, txt, err) {
+            console && console.log('getUsers failure: ' + txt + ' (' + err + ')');
+            callback([]);
         },
         dataType: 'json'
     });

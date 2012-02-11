@@ -94,15 +94,17 @@
         
         </script>
         <script id="new-notification-template" type="text/x-jquery-tmpl">
+            {{if isVisible}}
             <li class="notification" data-timestamp="${date}">
                 <div class="content">
                     {{html message}}
-                    <a class="info" href="#"></a>
+                    <a class="info" href="#" data-bind="click: toggleCollapse">${collapseText}</a>
                 </div>
                 <div class="right">
                     <span class="time" title="${fulldate}">${when}</span>
                 </div>
             </li>
+            {{/if}}
         </script>
 
         <div id="page" style="display: none;">
@@ -165,7 +167,7 @@
                     <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
                 </form>
                 <!-- ko foreach: activeRooms -->
-                <ul data-bind="template: {name:'base-message-template', foreach: messages}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
+                <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
                 </ul>                
                 <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
                     <h3 class="userlist-header nav-header">Users</h3>
