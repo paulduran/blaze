@@ -149,7 +149,10 @@ function MessageModel(obj, user, prevMsg, contentProcessor) {
     this.when = ko.computed(function () {
         var d = new Date(self.created_at());
         var mins = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
-        return d.getHours() + ':' + mins;
+        if (d.getHours() >= 12) {
+            return (d.getHours()-12) + ':' + mins + ' PM';
+        }
+        return d.getHours() + ':' + mins + ' AM';
     });
     this.user = user;
     this.userId = ko.computed(function () {
@@ -170,21 +173,24 @@ function MessageModel(obj, user, prevMsg, contentProcessor) {
             return true;
         return self.user != self.previousMessage.user;            
     });
-    this.message = ko.computed(function () {
-        if (self.type() === 'EnterMessage') {
-            return self.trimmedName() + ' has entered the room';
-        } else if (self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {
-            return self.trimmedName() + ' has left the room';
-        } else if (self.type() === 'TimestampMessage') {
-            return self.when();
-        }
-        var body = contentProcessor.process(self.parsed_body());
-        return body;
+    this.isTimestamp = ko.computed(function () {
+        return self.type() === 'TimestampMessage';
     });
     this.isNotification = ko.computed(function() {
         if (self.type() === 'EnterMessage' || self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {
             return true;
         } else return false;
+    });
+    this.message = ko.computed(function () {
+        if (self.type() === 'EnterMessage') {
+            return self.trimmedName() + ' has entered the room';
+        } else if (self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {
+            return self.trimmedName() + ' has left the room';
+        } else if (self.isTimestamp()) {
+            return new Date(self.created_at()).toLocaleDateString();
+        }
+        var body = contentProcessor.process(self.parsed_body());
+        return body;
     });
     this.collapseText = ko.observable('');
     this.isVisible = ko.observable(true);

@@ -72,12 +72,21 @@
         <script id="base-message-template" type="text/x-jquery-tmpl">
             {{if isNotification}}
             {{tmpl "#new-notification-template"}}
+            {{else isTimestamp}}
+            {{tmpl "#new-separator-template"}}
             {{else}}
             {{tmpl "#new-message-template"}}
             {{/if}}            
         </script>
+        <script id="new-separator-template" type="text/x-jquery-tmpl">
+            <li class="list-header" data-timestamp="${created_at}">
+                <div class="content">
+                    {{html message}}
+                </div>
+            </li>
+        </script>
         <script id="new-message-template" type="text/x-jquery-tmpl">
-            <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${date}">
+            <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${created_at}">
                 <div class="left">
                     {{if showUser}}
                     <img src="${user.avatar_url}" class="gravatar" />

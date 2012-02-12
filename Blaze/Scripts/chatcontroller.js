@@ -80,7 +80,14 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
         var hasContent = false;
         $.map(messages, function (o) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
-            if (o.type !== 'TimestampMessage') {
+            var isSeparator = false;
+            if (o.type === 'TimestampMessage' && room.lastMessage) {
+                var oldDate = new Date(room.lastMessage.created_at()).toDate();
+                var newDate = new Date(o.created_at).toDate();
+                if (oldDate.diffDays(newDate)) 
+                    isSeparator = true;
+            }
+            if (o.type !== 'TimestampMessage' || isSeparator) {
                 var messageModel = new MessageModel(o, user, room.lastMessage, self.contentProcessor);
                 room.addMessage(messageModel);
                 room.lastMessage = messageModel;
@@ -88,9 +95,9 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
                 if (messageModel.type() === 'UploadMessage') {
                     self.campfire.getUploadedMessage(room.id(), o.id, function (up) {
                         var url = self.campfire.getAuthorisedUrl(up.full_url);
-                        var body = '<a href="' + url + '" target="_blank" rel="nofollow external">' + up.name + '</a>';
+                        var body = '<a href="' + url + '" target="_blank" rel="nofollow external" class="file-upload">' + up.name + '</a>';
                         if (up.content_type === 'image/jpeg' || up.content_type === 'image/jpg' || up.content_type === 'image/png' || up.content_type === 'image/gif' || up.content_type === 'image/bmp') {
-                            body += '<div class="collapsible_content"><h3 class="collapsible_title">' + up.name + ' (click to show/hide)</h3><div class="collapsible_box"><img src="' + url + '" class="uploadImage"/></div></div>';
+                            body = '<div class="collapsible_content"><h3 class="collapsible_title">' + up.name + ' (click to show/hide)</h3><div class="collapsible_box"><img src="' + url + '" class="uploadImage"/></div></div>';
                         }
                         messageModel.parsed_body(body);
                     });
