@@ -85,6 +85,16 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
                 room.addMessage(messageModel);
                 room.lastMessage = messageModel;
                 hasContent = true;
+                if (messageModel.type() === 'UploadMessage') {
+                    self.campfire.getUploadedMessage(room.id(), o.id, function (up) {
+                        var url = self.campfire.getAuthorisedUrl(up.full_url);
+                        var body = '<a href="' + url + '" target="_blank" rel="nofollow external">' + up.name + '</a>';
+                        if (up.content_type === 'image/jpeg' || up.content_type === 'image/jpg' || up.content_type === 'image/png' || up.content_type === 'image/gif' || up.content_type === 'image/bmp') {
+                            body += '<div class="collapsible_content"><h3 class="collapsible_title">' + up.name + ' (click to show/hide)</h3><div class="collapsible_box"><img src="' + url + '" class="uploadImage"/></div></div>';
+                        }
+                        messageModel.parsed_body(body);
+                    });
+                }
             }
         });
         if (hasContent) {

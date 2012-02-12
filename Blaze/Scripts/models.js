@@ -137,7 +137,6 @@ function MessageModel(obj, user, prevMsg, contentProcessor) {
         'PasteMessage':'message paste'
     };
     this.id = ko.observable(obj.id);
-    this.body = ko.observable(obj.body);
     this.parsed_body = ko.observable(obj.parsed_body);
     this.type = ko.observable(obj.type);
     this.css_class = ko.computed(function () {
@@ -180,9 +179,7 @@ function MessageModel(obj, user, prevMsg, contentProcessor) {
             return self.when();
         }
         var body = contentProcessor.process(self.parsed_body());
-        /*if (self.type() === 'PasteMessage') {
-            return '<pre>' + body + '</pre>';
-        } else*/ return body;
+        return body;
     });
     this.isNotification = ko.computed(function() {
         if (self.type() === 'EnterMessage' || self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {

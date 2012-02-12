@@ -57,6 +57,22 @@ Campfire.prototype.getRecentMessages = function (roomId, lastMessageId, callback
     });
 };
 
+Campfire.prototype.getUploadedMessage = function(roomId, messageId, callback) {
+    var self = this;
+    $.ajax({
+        url: self.base + '/room/' + roomId + '/messages/' + messageId + '/upload.json',
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function (reply) {
+            callback(reply.upload);
+        },
+        dataType: 'json'
+    });
+};
+
+Campfire.prototype.uploadFile = function(roomId, data, callback) {
+    // not completed yet!
+};
+
 Campfire.prototype.sendMessage = function (roomId, message, isPaste, callback) {
     var self = this;
     if(message === '') {
@@ -108,4 +124,11 @@ Campfire.prototype.getUser = function (userId, callback) {
 
 Campfire.prototype.setAuthHeader = function (xhr) {
     xhr.setRequestHeader("Authorization", "Basic  " + encodeBase64(this.authToken + ":x"));
+};
+
+Campfire.prototype.getAuthorisedUrl = function (url) {
+    var self = this;
+    return url.replace(/https?\:\/\//, function (h) {
+        return h + self.authToken + ':x@';
+    });
 };
