@@ -145,12 +145,14 @@ Campfire.prototype.enterRoom = function(roomId, callback) {
     $.ajax({
         url: self.base + '/room/' + roomId + '/join.xml',
         type: 'POST',
+        data: '',
         beforeSend: $.proxy(self.setAuthHeader, self),
         success: function () {
             callback();
         },
-        contentType: 'application/xml',
-        dataType: 'xml'
+        error: function (xhr, txt, err) {
+            callback();
+        }
     });
 };
 
@@ -163,11 +165,13 @@ Campfire.prototype.leaveRoom = function (roomId, callback) {
     $.ajax({
         url: self.base + '/room/' + roomId + '/leave.xml',
         type: 'POST',
+        data: '',
         beforeSend: $.proxy(self.setAuthHeader, self),
         success: function () {
             callback();
-        },
-        contentType: 'application/xml',
-        dataType: 'xml'
+        }, 
+        error: function () {
+            callback();
+        }
     });
 };

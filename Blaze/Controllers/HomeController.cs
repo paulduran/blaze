@@ -49,7 +49,8 @@ namespace Blaze.Controllers
 
         public ActionResult Proxy(string account, string url)
         {
-            var request = (HttpWebRequest) WebRequest.Create(string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]));
+            string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);
+            var request = (HttpWebRequest) WebRequest.Create(fullUrl);
             request.Method = Request.HttpMethod;
             request.ContentType = Request.ContentType;
             request.ContentLength = Request.ContentLength;
@@ -70,7 +71,8 @@ namespace Blaze.Controllers
 
         public ActionResult Recent(string account, string url)
         {
-            var request = (HttpWebRequest)WebRequest.Create(string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]));
+            string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);
+            var request = (HttpWebRequest)WebRequest.Create(fullUrl);
             request.Method = "GET";
             request.ContentType = "application/json";
             request.Headers["Authorization"] = Request.Headers["Authorization"];
@@ -89,7 +91,8 @@ namespace Blaze.Controllers
 
         public ActionResult GetFile(string account, string auth, string url)
         {
-            var request = (HttpWebRequest)WebRequest.Create(string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]));
+            string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);
+            var request = (HttpWebRequest)WebRequest.Create(fullUrl);
             request.Method = "GET";
             request.Headers["Authorization"] = "Basic  " + auth;
             var response = request.GetResponse();
