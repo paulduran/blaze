@@ -2,9 +2,11 @@
     this.origbase = '/x';
     this.base = this.origbase;
     this.authToken = '';
+    this.account = '';
 }
 
 Campfire.prototype.setAccount = function(account) {
+    this.account = account;
     this.base = this.origbase + '/' + account;
 };
 
@@ -127,8 +129,9 @@ Campfire.prototype.setAuthHeader = function (xhr) {
 };
 
 Campfire.prototype.getAuthorisedUrl = function (url) {
+    // /room/185541/uploads/2810114/Screen+shot+2012-02-11+at+9.09.17+PM.png
     var self = this;
-    return url.replace(/https?\:\/\//, function (h) {
-        return h + self.authToken + ':x@';
+    return url.replace(/.*campfirenow.com/, function (h) {
+        return '/uploads/' + encodeBase64(self.authToken + ":x") + '/' + self.account;
     });
 };

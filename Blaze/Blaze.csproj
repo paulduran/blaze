@@ -81,6 +81,7 @@
     <Compile Include="ContentProviders\Core\EmbedContentProvider.cs" />
     <Compile Include="ContentProviders\Core\IContentProvider.cs" />
     <Compile Include="ContentProviders\Core\IResourceProcessor.cs" />
+    <Compile Include="Controllers\RequireHttpsAttribute.cs" />
     <Compile Include="Util\RegexExtensions.cs" />
     <Compile Include="ContentProviders\Core\ResourceProcessor.cs" />
     <Compile Include="ContentProviders\DictionaryContentProvider.cs" />

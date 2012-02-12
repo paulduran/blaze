@@ -15,17 +15,7 @@ ChatView.prototype.init = function (roomsModel) {
         });
     };
     ko.extenders.updateTitle = function (target) {
-        target.subscribe(function (newValue) {
-            var total = 0;
-            $(self.roomsModel.rooms()).each(function (i, room) {
-                total += room.unreadMessages();
-            });
-            if (total === 0) {
-                document.title = 'Blaze';
-            } else {
-                document.title = '(' + total + ') Blaze';
-            }
-        });
+        target.subscribe($.proxy(self.updateTitle, self));
     };
 
     ko.applyBindings(self.roomsModel, document.getElementById('page'));
@@ -62,7 +52,28 @@ ChatView.prototype.init = function (roomsModel) {
             }
         }
     });
+    $(window).blur(function () {
+        self.roomsModel.isVisible(false);
+    });
+    $(window).focus(function () {
+        self.roomsModel.isVisible(true);
+        self.updateTitle();
+    });
 };
+
+ChatView.prototype.updateTitle = function () {
+    var self = this;
+    var total = 0;    
+    $(self.roomsModel.rooms()).each(function (i, room) {
+        total += room.unreadMessages();
+    });
+    if (total === 0) {
+        document.title = 'Blaze';
+    } else {
+        document.title = '(' + total + ') Blaze';
+    }
+};
+
 /** 
   * @param {RoomModel} room  room to glow tab for 
   */

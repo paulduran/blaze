@@ -9,6 +9,7 @@ using Blaze.Models;
 
 namespace Blaze.Controllers
 {
+    [RequireHttpsAttribute]
     public class HomeController : Controller
     {
         //
@@ -81,6 +82,15 @@ namespace Blaze.Controllers
             }
             string result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
             return Content(result, "application/json");
+        }
+
+        public ActionResult GetFile(string account, string auth, string url)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]));
+            request.Method = "GET";
+            request.Headers["Authorization"] = "Basic  " + auth;
+            var response = request.GetResponse();
+            return new FileStreamResult(response.GetResponseStream(), response.ContentType);
         }
     }
 }

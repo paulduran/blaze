@@ -34,6 +34,12 @@ namespace Blaze
             );
 
             routes.MapRoute(
+                "get_upload_route", // Route name
+                "uploads/{auth}/{account}/{*url}", // URL with parameters
+                new { controller = "Home", action = "GetFile" } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults

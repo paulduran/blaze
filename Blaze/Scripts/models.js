@@ -26,13 +26,14 @@
     this.isActive = ko.observable(false);
     //this.isActive.extend({ animateOnChange: self });
     this.isVisible = ko.observable(false);
+    this.countOffline = ko.observable(false);
     this.resetActiveFlag = function () {
         self.unreadMessages(0);
         self.isActive(false);
     };
     this.addMessage = function (message) {
         self.messages.push(message);
-        if (!self.isVisible() && !message.isNotification()) {
+        if ((!self.isVisible() || self.countOffline()) && !message.isNotification()) {
             self.unreadMessages(self.unreadMessages() + 1);
             self.isActive(true);
         }
@@ -65,6 +66,7 @@
 }
 function RoomsModel(chat) {
     var self = this;
+    this.visibleRoom = null;
     this.rooms = ko.observableArray([]);
     this.roomsByDomId = { };
     this.activeRooms = ko.observableArray([]);
@@ -110,7 +112,16 @@ function RoomsModel(chat) {
     this.onPaste = function (data, e) {
         self.isPaste(true);
         return true;
-    };   
+    };
+    this.isVisible = function (v) {
+        if (self.visibleRoom === null) return;
+        if (v) {
+            self.visibleRoom.countOffline(false);
+            self.visibleRoom.resetActiveFlag();
+        } else {
+            self.visibleRoom.countOffline(true);            
+        }
+    };
 }
 function UserModel(obj) {
     var self = this;
