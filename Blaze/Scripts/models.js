@@ -82,6 +82,7 @@ function RoomsModel(chat) {
     this.leaveRoom = function (room) {
         var idx = self.activeRooms.indexOf(room);
         if (idx !== -1) {
+            chat.leaveRoom(room);
             self.activeRooms.remove(room);
             if (idx > 0) {
                 chat.showRoom(self.activeRooms[idx - 1]);

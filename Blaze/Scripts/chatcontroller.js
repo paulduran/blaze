@@ -4,6 +4,7 @@
     this.campfire = campfire;
     this.view = view;
     this.loginView = loginView;
+    this.currentUser = null;
 }
 
 ChatController.prototype.init = function (accountName) {
@@ -39,6 +40,7 @@ ChatController.prototype.login = function (account, username, password) {
 ChatController.prototype.showLobby = function (user) {
     var self = this;
     var currentUserModel = new UserModel(user);
+    self.currentUser = currentUserModel;
     self.userCache[currentUserModel.id()] = currentUserModel;
     self.view.show();
     self.campfire.getRooms(function (rooms) {
@@ -68,8 +70,11 @@ ChatController.prototype.loadUsers = function (room) {
 
 ChatController.prototype.showRoom = function (room, isNewRoom) {
     var self = this;
-    if (isNewRoom)
-        self.loadMessages(room, true);
+    if (isNewRoom) {
+        self.campfire.enterRoom(room.id(), function () {
+            self.loadMessages(room, true);
+        });
+    }
     self.view.showRoom(room);
 };
 
@@ -137,6 +142,12 @@ ChatController.prototype.sendMessage = function(room, message, isPaste) {
     var self = this;
     self.campfire.sendMessage(room.id(), message, isPaste, function() {
         self.loadMessages(room);
+    });
+};
+
+ChatController.prototype.leaveRoom = function (room) {
+    var self = this;
+    self.campfire.leaveRoom(room.id(), function () {
     });
 };
 

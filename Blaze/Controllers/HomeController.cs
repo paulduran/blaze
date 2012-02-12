@@ -18,6 +18,9 @@ namespace Blaze.Controllers
         public ActionResult Index(string accountName)
         {
             ViewBag.AccountName = accountName;
+            ViewBag.Stealth = Convert.ToBoolean(ConfigurationManager.AppSettings["Stealth"] ?? "true")
+                                  ? "true"
+                                  : "false";
             var emojis = ConfigurationManager.GetSection("emojis") as NameValueCollection;
             var model = new HomeModel
                             {

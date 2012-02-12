@@ -1,8 +1,9 @@
-﻿function Campfire() {
+﻿function Campfire(stealth) {
     this.origbase = '/x';
     this.base = this.origbase;
     this.authToken = '';
     this.account = '';
+    this.stealth = stealth;
 }
 
 Campfire.prototype.setAccount = function(account) {
@@ -133,5 +134,41 @@ Campfire.prototype.getAuthorisedUrl = function (url) {
     var self = this;
     return url.replace(/.*campfirenow.com/, function (h) {
         return '/uploads/' + encodeBase64(self.authToken + ":x") + '/' + self.account;
+    });
+};
+
+Campfire.prototype.enterRoom = function(roomId, callback) {
+    var self = this;
+    if (self.stealth) {
+        callback();
+        return;
+    }
+    $.ajax({
+        url: self.base + '/room/' + roomId + '/join.xml',
+        type: 'POST',
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function () {
+            callback();
+        },
+        contentType: 'application/xml',
+        dataType: 'xml'
+    });
+};
+
+Campfire.prototype.leaveRoom = function (roomId, callback) {
+    var self = this;
+    if (self.stealth) {
+        callback();
+        return;
+    }
+    $.ajax({
+        url: self.base + '/room/' + roomId + '/leave.xml',
+        type: 'POST',
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function () {
+            callback();
+        },
+        contentType: 'application/xml',
+        dataType: 'xml'
     });
 };

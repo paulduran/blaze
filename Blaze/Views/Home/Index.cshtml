@@ -229,7 +229,7 @@
 
     $(function () {
         var contentProcessor = new ContentProcessor(emojis);
-        var campfire = new Campfire();
+        var campfire = new Campfire(@ViewBag.Stealth);
         var chatView = new ChatView();
         var loginView = new LoginView();
         var controller = new ChatController(campfire, contentProcessor, chatView, loginView);
