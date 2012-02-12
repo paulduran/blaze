@@ -79,7 +79,7 @@ Campfire.prototype.sendMessage = function (roomId, message, isPaste, callback) {
         callback();
         return;
     }
-    var type = isPaste ? 'PasteMessage' : 'TextMessage';
+    var type = '';
     var payload = '<message><type>' + type + '</type><body><![CDATA[' + message + ']]></body></message>';
     $.ajax({
         url: self.base + '/room/' + roomId + '/speak.xml',

@@ -134,3 +134,7 @@
 #tabs li.active:hover {
     background-color: #e5e5e5;
 }
+.tweet .user img {
+    max-height: 140px;
+    max-width: 140px;
+}

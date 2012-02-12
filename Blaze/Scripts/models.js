@@ -129,21 +129,9 @@ function UserModel(obj) {
 function MessageModel(obj, user, prevMsg, contentProcessor) {
     var self = this;
     this.previousMessage = prevMsg;
-    var classes = {
-        'EnterMessage':'enter-message',
-        'KickMessage': 'exit-message',
-        'LeaveMessage': 'exit-message',
-        'TimestampMessage':'timestamp-message',
-        'PasteMessage':'message paste'
-    };
     this.id = ko.observable(obj.id);
     this.parsed_body = ko.observable(obj.parsed_body);
     this.type = ko.observable(obj.type);
-    this.css_class = ko.computed(function () {
-        var cls = classes[self.type()];
-        if (cls) return cls;
-        return 'message ' + self.type();
-    });
     this.starred = ko.observable(obj.starred);
     this.created_at = ko.observable(obj.created_at);
     this.when = ko.computed(function () {
@@ -164,22 +152,22 @@ function MessageModel(obj, user, prevMsg, contentProcessor) {
     this.username = ko.computed(function () {
         return self.user.name();
     });
+    this.isTimestamp = ko.computed(function () {
+        return self.type() === 'TimestampMessage';
+    });
+    this.isNotification = ko.computed(function () {
+        if (self.type() === 'EnterMessage' || self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {
+            return true;
+        } else return false;
+    });
     this.showUser = ko.computed(function () {
-        if (self.type() === 'TimestampMessage')
+        if (self.isTimestamp())
             return false;
         if (self.previousMessage === undefined)
             return true;
         if(self.previousMessage.isNotification())
             return true;
         return self.user != self.previousMessage.user;            
-    });
-    this.isTimestamp = ko.computed(function () {
-        return self.type() === 'TimestampMessage';
-    });
-    this.isNotification = ko.computed(function() {
-        if (self.type() === 'EnterMessage' || self.type() === 'KickMessage' || self.type() === 'LeaveMessage') {
-            return true;
-        } else return false;
     });
     this.message = ko.computed(function () {
         if (self.type() === 'EnterMessage') {
@@ -188,6 +176,8 @@ function MessageModel(obj, user, prevMsg, contentProcessor) {
             return self.trimmedName() + ' has left the room';
         } else if (self.isTimestamp()) {
             return new Date(self.created_at()).toLocaleDateString();
+        } else if (self.type() === 'TweetMessage' && self.parsed_body().indexOf('<a ') != -1) {
+            return self.parsed_body().substring(self.parsed_body().indexOf('<a '));
         }
         var body = contentProcessor.process(self.parsed_body());
         return body;
