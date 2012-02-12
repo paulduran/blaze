@@ -130,10 +130,9 @@ Campfire.prototype.setAuthHeader = function (xhr) {
 };
 
 Campfire.prototype.getAuthorisedUrl = function (url) {
-    // /room/185541/uploads/2810114/Screen+shot+2012-02-11+at+9.09.17+PM.png
     var self = this;
-    return url.replace(/.*campfirenow.com/, function (h) {
-        return '/uploads/' + encodeBase64(self.authToken + ":x") + '/' + self.account;
+    return url.replace(/.*campfirenow.com\//, function (h) {
+        return '/home/getfile?auth=' + encodeBase64(self.authToken + ":x") + '&account=' + self.account + '&url=';
     });
 };
 
