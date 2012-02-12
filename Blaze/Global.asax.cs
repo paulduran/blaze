@@ -20,6 +20,12 @@ namespace Blaze
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            
+            routes.MapRoute(
+                "get_upload_route", // Route name
+                "uploads/{auth}/{account}/{*url}", // URL with parameters
+                new { controller = "Home", action = "GetFile" } // Parameter defaults
+            );
 
             routes.MapRoute(
                 "proxy_route", // Route name
@@ -31,12 +37,6 @@ namespace Blaze
                 "recent_route", // Route name
                 "recent/{account}/{*url}", // URL with parameters
                 new { controller = "Home", action = "Recent" } // Parameter defaults
-            );
-
-            routes.MapRoute(
-                "get_upload_route", // Route name
-                "uploads/{auth}/{account}/{*url}", // URL with parameters
-                new { controller = "Home", action = "GetFile" } // Parameter defaults
             );
 
             routes.MapRoute(

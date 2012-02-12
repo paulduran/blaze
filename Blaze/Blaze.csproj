@@ -78,6 +78,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ElmahController.cs" />
     <Compile Include="ContentProviders\AudioContentProvider.cs" />
     <Compile Include="ContentProviders\BashQDBContentProvider.cs" />
     <Compile Include="ContentProviders\BBCNewsContentProvider.cs" />
