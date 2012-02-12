@@ -13,7 +13,7 @@ I decided to build it because the existing campfire web client was rather clunky
 
 Please report any bugs or feature requests via the github issues board.
 
-Paul Duran
+Paul Duran   
 Twitter: @fatal_2
 
 
