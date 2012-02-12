@@ -2,14 +2,20 @@ Blaze - Campfire web client
 ===========================
 Links
 ------
-* Live Site : http://blaze.apphb.com
-* Trello board*: https://trello.com/board/blaze/4f344de5199056394208474f
+* Live Site : https://blaze.apphb.com
+* Trello board: https://trello.com/board/blaze/4f344de5199056394208474f
 
-
+Info
+----
 Blaze is an alternative to the standard campfire web client.
 
-I decided to build it because the existing campfire web client was rather clunky and outdated. It does full-page refreshes when changing tabs, logs you out if you sit in the lobby tab for too long and doesnt support 
-desktop notifications
+I decided to build it because the existing campfire web client was rather clunky and outdated. It does full-page refreshes when changing tabs, logs you out if you sit in the lobby tab for too long and doesnt support desktop notifications.
+
+Please report any bugs or feature requests via the github issues board.
+
+Paul Duran
+Twitter: @fatal_2
+
 
 Implemented Features
 --------------------
