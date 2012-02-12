@@ -24,7 +24,7 @@
     this.unreadMessages = ko.observable(0);
     this.unreadMessages.extend({ updateTitle: '' });
     this.isActive = ko.observable(false);
-    this.isActive.extend({ animateOnChange: self });
+    //this.isActive.extend({ animateOnChange: self });
     this.isVisible = ko.observable(false);
     this.resetActiveFlag = function () {
         self.unreadMessages(0);
