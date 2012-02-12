@@ -63,15 +63,20 @@ ChatView.prototype.init = function (roomsModel) {
 
 ChatView.prototype.updateTitle = function () {
     var self = this;
-    var total = 0;    
+    var total = 0;
     $(self.roomsModel.rooms()).each(function (i, room) {
         total += room.unreadMessages();
     });
-    if (total === 0) {
-        document.title = 'Blaze';
-    } else {
-        document.title = '(' + total + ') Blaze';
+    var title = 'Blaze';
+    if (total > 0) {
+        title = '(' + total + ') Blaze';
     }
+    if (self.titleTimeout) {
+        clearTimeout(self.titleTimeout);
+    }
+    self.titleTimeout = setTimeout(function() {
+        document.title = title;
+    }, 500);
 };
 
 /** 
