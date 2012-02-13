@@ -179,6 +179,7 @@
                 <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
                 </ul>                
                 <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
+                    <small class="topic" data-bind="text: topic"></small>
                     <h3 class="userlist-header nav-header">Users</h3>
                     <div>
                         <ul data-bind="foreach: users">
