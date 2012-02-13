@@ -71,9 +71,7 @@ namespace Blaze.Controllers
                 return new FileStreamResult(response.GetResponseStream(), response.ContentType);
             } catch (WebException ex)
             {
-                var response = ((HttpWebResponse)ex.Response);
-                Response.StatusCode = (int) response.StatusCode;
-                return new FileStreamResult(response.GetResponseStream(), response.ContentType);
+                return HandleWebException(ex);
             }
         }
 
@@ -84,17 +82,36 @@ namespace Blaze.Controllers
             request.Method = "GET";
             request.ContentType = "application/json";
             request.Headers["Authorization"] = Request.Headers["Authorization"];
-            var response = (HttpWebResponse)request.GetResponse();
-            var reader = new StreamReader(response.GetResponseStream());
-            var data = reader.ReadToEnd();
-            dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject(data);
-            var processor = new MessageProcessor();
-            foreach(var msg in obj.messages)
+            try
             {
-                msg.parsed_body = processor.ProcessMessage(Convert.ToString(msg.body));
+                var response = (HttpWebResponse) request.GetResponse();
+                var reader = new StreamReader(response.GetResponseStream());
+                var data = reader.ReadToEnd();
+                dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject(data);
+                var processor = new MessageProcessor();
+                foreach (var msg in obj.messages)
+                {
+                    msg.parsed_body = processor.ProcessMessage(Convert.ToString(msg.body));
+                }
+                string result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+                return Content(result, "application/json");
             }
-            string result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
-            return Content(result, "application/json");
+            catch (WebException ex)
+            {
+                return HandleWebException(ex);
+            }
+        }
+
+        private ActionResult HandleWebException(WebException ex)
+        {
+            if (ex.Response == null)
+            {
+                Response.StatusCode = 503;
+                return null;
+            }
+            var response = ((HttpWebResponse) ex.Response);
+            Response.StatusCode = (int) response.StatusCode;
+            return new FileStreamResult(response.GetResponseStream(), response.ContentType);
         }
 
         public ActionResult GetFile(string account, string auth, string url)
@@ -103,8 +120,14 @@ namespace Blaze.Controllers
             var request = (HttpWebRequest)WebRequest.Create(fullUrl);
             request.Method = "GET";
             request.Headers["Authorization"] = "Basic  " + auth;
-            var response = request.GetResponse();
-            return new FileStreamResult(response.GetResponseStream(), response.ContentType);
+            try
+            {
+                var response = request.GetResponse();
+                return new FileStreamResult(response.GetResponseStream(), response.ContentType);
+            } catch (WebException ex)
+            {
+                return HandleWebException(ex);
+            }
         }
     }
 }
