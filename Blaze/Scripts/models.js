@@ -134,8 +134,9 @@ function UserModel(obj) {
         });
     });
     if (!obj.avatar_url) {
-        obj.avatar_url = 'http://asset0.37img.com/global/missing/avatar.gif?r=3'; 
+        obj.avatar_url = 'http://asset0.37img.com/global/missing/avatar.gif?r=3';
     }
+    obj.avatar_url = obj.avatar_url.replace("http:", window.location.protocol);
     this.avatar_url = ko.observable(obj.avatar_url);
 }
 function MessageModel(obj, user, prevMsg, contentProcessor) {

@@ -11,7 +11,7 @@ Campfire.prototype.setAccount = function(account) {
     this.base = this.origbase + '/' + account;
 };
 
-Campfire.prototype.login = function (account, username, password, callback) {
+Campfire.prototype.login = function (account, username, password, callback, errorCallback) {
     var self = this;
     self.setAccount(account);
     $.ajax({
@@ -22,6 +22,9 @@ Campfire.prototype.login = function (account, username, password, callback) {
         success: function (data) {
             self.authToken = data.user.api_auth_token;
             callback(data.user);
+        },
+        error: function () {
+            errorCallback();
         },
         dataType: 'json'
     });

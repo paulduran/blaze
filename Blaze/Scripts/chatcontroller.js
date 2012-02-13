@@ -17,7 +17,8 @@ ChatController.prototype.init = function (accountName) {
         authToken = $.cookie(account + '_authtoken');
     }
     if (!authToken || !account) {
-        self.loginView.show(account, $.proxy(self.login, self));
+        self.loginView.init(account);
+        self.loginView.show(false, $.proxy(self.login, self));
     } else {
         self.campfire.authToken = authToken;
         self.campfire.setAccount(account);
@@ -34,6 +35,8 @@ ChatController.prototype.login = function (account, username, password) {
         $.cookie(account + '_authtoken', user.api_auth_token, { expires: 1 });
         self.loginView.hide();
         self.showLobby(user);
+    }, function () {
+        self.loginView.show(true, $.proxy(self.login, self));
     });
 };
 

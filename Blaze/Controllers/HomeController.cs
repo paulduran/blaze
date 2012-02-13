@@ -64,9 +64,17 @@ namespace Blaze.Controllers
                 inStream.CopyTo(outStream);
                 outStream.Close();
             }
-            var response = (HttpWebResponse) request.GetResponse();
-            Response.StatusCode = (int) response.StatusCode;
-            return new FileStreamResult(response.GetResponseStream(), response.ContentType);
+            try
+            {
+                var response = (HttpWebResponse) request.GetResponse();
+                Response.StatusCode = (int) response.StatusCode;
+                return new FileStreamResult(response.GetResponseStream(), response.ContentType);
+            } catch (WebException ex)
+            {
+                var response = ((HttpWebResponse)ex.Response);
+                Response.StatusCode = (int) response.StatusCode;
+                return new FileStreamResult(response.GetResponseStream(), response.ContentType);
+            }
         }
 
         public ActionResult Recent(string account, string url)
