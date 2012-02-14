@@ -51,7 +51,7 @@ namespace Blaze.Controllers
         <pre class=""multiline"">{0}</pre>
     </div>
 </div>
-", HttpContext.Current.Server.HtmlEncode(message));
+", HttpUtility.HtmlDecode(message));
             }
 
             return message;
