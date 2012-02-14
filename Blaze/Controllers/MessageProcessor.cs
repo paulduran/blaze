@@ -54,7 +54,7 @@ namespace Blaze.Controllers
 ", message);
             }
 
-            return message;
+            return HttpContext.Current.Server.HtmlEncode(message);
         }
 
         public static string TransformAndExtractUrls(string message, out HashSet<string> extractedUrls)
