@@ -27,14 +27,19 @@
     //this.isActive.extend({ animateOnChange: self });
     this.isVisible = ko.observable(false);
     this.countOffline = ko.observable(false);
+    this.hasUnreadPersonalMessages = ko.observable(false);
     this.resetActiveFlag = function () {
         self.unreadMessages(0);
+        self.hasUnreadPersonalMessages(false);
         self.isActive(false);
     };
     this.addMessage = function (message) {
         self.messages.push(message);
         if ((!self.isVisible() || self.countOffline()) && !message.isNotification()) {
             self.unreadMessages(self.unreadMessages() + 1);
+            if (message.isToCurrentUser()) {
+                self.hasUnreadPersonalMessages(true);
+            }
             self.isActive(true);
         }
     };
@@ -139,7 +144,7 @@ function UserModel(obj) {
     obj.avatar_url = obj.avatar_url.replace("http:", window.location.protocol);
     this.avatar_url = ko.observable(obj.avatar_url);
 }
-function MessageModel(obj, user, prevMsg, contentProcessor) {
+function MessageModel(obj, user, currentUser, prevMsg, contentProcessor) {
     var self = this;
     this.previousMessage = prevMsg;
     this.id = ko.observable(obj.id);
@@ -196,6 +201,15 @@ function MessageModel(obj, user, prevMsg, contentProcessor) {
         }
         var body = contentProcessor.process(self.parsed_body());
         return body;
+    });
+    this.isToCurrentUser = ko.computed(function () {
+        return (self.message().indexOf('@' + currentUser.name()) != -1) || (self.message().indexOf('@' + currentUser.short_name()) != -1);
+    });
+    this.isFromCurrentUser = ko.observable(user.id() == currentUser.id());
+    this.highlight = ko.computed(function () {
+        if (self.isFromCurrentUser()) return 'from_me';
+        if (self.isToCurrentUser()) return 'to_me';
+        return '';
     });
     this.collapseText = ko.observable('');
     this.isVisible = ko.observable(true);

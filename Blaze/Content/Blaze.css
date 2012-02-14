@@ -138,3 +138,9 @@
     max-height: 140px;
     max-width: 140px;
 }
+.from_me {
+    background-color: lemonchiffon;
+}
+.to_me {
+    background-color: #fdf5d9;
+}

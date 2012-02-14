@@ -96,7 +96,7 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
                     isSeparator = true;
             }
             if (o.type !== 'TimestampMessage' || isSeparator) {
-                var messageModel = new MessageModel(o, user, room.lastMessage, self.contentProcessor);
+                var messageModel = new MessageModel(o, user, self.currentUser, room.lastMessage, self.contentProcessor);
                 if (room.lastMessage && room.lastMessage.id() == messageModel.id())
                     return; // fix for case when occasionally we get the same message twice
                 room.addMessage(messageModel);
