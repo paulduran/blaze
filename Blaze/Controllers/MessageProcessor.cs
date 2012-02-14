@@ -51,10 +51,10 @@ namespace Blaze.Controllers
         <pre class=""multiline"">{0}</pre>
     </div>
 </div>
-", message);
+", HttpContext.Current.Server.HtmlEncode(message));
             }
 
-            return HttpContext.Current.Server.HtmlEncode(message);
+            return message;
         }
 
         public static string TransformAndExtractUrls(string message, out HashSet<string> extractedUrls)
