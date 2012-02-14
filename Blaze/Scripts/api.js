@@ -30,6 +30,18 @@ Campfire.prototype.login = function (account, username, password, callback, erro
     });
 };
 
+Campfire.prototype.getPresence = function(callback) {
+    var self = this;
+    $.ajax({
+        url: self.base + '/presence.json',
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function (data) {
+            callback(data.rooms);
+        },
+        dataType: 'json'
+    });
+};
+
 Campfire.prototype.getRooms = function (callback) {
     var self = this;
     $.ajax({

@@ -5,6 +5,7 @@
     this.view = view;
     this.loginView = loginView;
     this.currentUser = null;
+    this.roomsModel = null;
 }
 
 ChatController.prototype.init = function (accountName) {
@@ -12,7 +13,8 @@ ChatController.prototype.init = function (accountName) {
         account = accountName ? accountName : $.cookie('account'),
         authToken;
 
-    self.view.init(new RoomsModel(this));
+    this.roomsModel = new RoomsModel(this);
+    self.view.init(this.roomsModel);
     if (account) {
         authToken = $.cookie(account + '_authtoken');
     }
@@ -51,6 +53,13 @@ ChatController.prototype.showLobby = function (user) {
             var roomModel = new RoomModel(o, currentUserModel, self);
             self.view.addRoom(roomModel);
             self.loadUsers(roomModel);
+        });
+        self.campfire.getPresence(function (myRooms) {
+            $.each(myRooms, function (i, myRoom) {
+                var id = 'messages-' + myRoom.id;
+                var roomToJoin = self.roomsModel.roomsByDomId[id];
+                self.roomsModel.displayRoom(roomToJoin);
+            });
         });
     });
 };
