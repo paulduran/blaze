@@ -53,7 +53,7 @@
         if (self.isVisible())
             return self.name();
         if (self.isActive()) {
-            return '(' + self.unreadMessages() + ') ' + self.name();
+            return '(' + (self.hasUnreadPersonalMessages() ? '*' : '') + self.unreadMessages() + ') ' + self.name();
         }
         return self.name();
     });

@@ -143,9 +143,7 @@ ChatView.prototype.show = function () {
 
 ChatView.prototype.showRoom = function (room) {
     var self = this;
-    if ($(room.roomDomId()).length == 0) {
-        self.changeRoom(room.id());
-    }
+    self.changeRoom(room.id());
 };
 
 ChatView.prototype.sortRooms = function() {
