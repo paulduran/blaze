@@ -123,7 +123,7 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
                 }
             }
         });
-        if (hasContent && room.isVisible() && self.view.isNearTheEnd()) {
+        if (hasContent && room.isVisible()) {
             self.view.scrollToEnd();
         }
         if (autorefresh === true) {
