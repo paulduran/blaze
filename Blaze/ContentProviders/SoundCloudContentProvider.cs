@@ -13,8 +13,9 @@ namespace JabbR.ContentProviders
         private static readonly Regex _titleRegex = new Regex("<meta.*content=\"(.*)\".*property=\"og:title\".*/>");
         private static readonly Regex _trackIDExtractRegex = new Regex("<meta.*content=\"http://player\\.soundcloud\\.com/player\\.swf.*tracks%2F(.*?)&amp;.*property=\"og:video\"\\s*/>");
 
-        protected override ContentProviderResultModel GetCollapsibleContent(HttpWebResponse response)
+        protected override ContentProviderResultModel GetCollapsibleContent(Uri uri)
         {
+            var response = MakeRequest(uri);
             using (var sr = new StreamReader(response.GetResponseStream()))
             {
                 var pageContent = sr.ReadToEnd();
@@ -39,9 +40,9 @@ namespace JabbR.ContentProviders
             }
         }
 
-        protected override bool IsValidContent(HttpWebResponse response)
+        protected override bool IsValidContent(Uri uri)
         {
-            return response.ResponseUri.Host.IndexOf("soundcloud.com", StringComparison.OrdinalIgnoreCase) >= 0;
+            return uri.Host.IndexOf("soundcloud.com", StringComparison.OrdinalIgnoreCase) >= 0;
         }
     }
 }
