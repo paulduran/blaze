@@ -14,7 +14,7 @@ ChatController.prototype.init = function (accountName) {
         authToken;
 
     this.roomsModel = new RoomsModel(this);
-    self.view.init(this.roomsModel);
+    self.view.init(this.roomsModel, this.campfire);
     if (account) {
         authToken = $.cookie(account + '_authtoken');
     }
@@ -123,9 +123,8 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
                 }
             }
         });
-        if (hasContent) {
-            if (room.isVisible())
-                self.view.scrollToEnd();
+        if (hasContent && room.isVisible() && self.view.isNearTheEnd()) {
+            self.view.scrollToEnd();
         }
         if (autorefresh === true) {
             if (room.timer) {

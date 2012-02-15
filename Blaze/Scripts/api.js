@@ -190,3 +190,10 @@ Campfire.prototype.leaveRoom = function (roomId, callback) {
         }
     });
 };
+
+Campfire.prototype.getUploadUrl = function (roomId) {
+    var self = this;
+    var url = '/y/' + self.account + '/' + encodeBase64(self.authToken + ":x") + '/room/' + roomId + '/uploads.xml';
+    //'/home/upload?auth=' + encodeBase64(self.authToken + ":x") + '&account=' + self.account + '&roomid=' + roomId;
+    return url;
+};

@@ -175,6 +175,17 @@
                     <input type="submit" id="send" value="Send" class="send btn" data-bind="click: sendMessage" />
                     <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
                 </form>
+                <form id="file-upload" method="POST" enctype="multipart/form-data" style="display: none;">
+                    <input type="file" class="file-input" name="upload"/>
+                </form>
+                <div id="file-upload-progress" style="display: none;">
+                    <button class="btn btn-warning confirm" type="button">Confirm upload?</button>
+                    <button class="btn btn-danger cancel" type="button">Cancel</button>
+                    <div class="progress progress-info progress-striped active">
+                        <div class="bar" style="width: 0%;"></div>
+                    </div>
+                    <div class="status-msg"></div>
+                </div>
                 <!-- ko foreach: activeRooms -->
                 <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
                 </ul>                
@@ -194,7 +205,7 @@
                 </div>
                 <!-- /ko -->
             </div>
-            <audio src="Content/sounds/notification.wav" id="noftificationSound" hidden="hidden" />
+            <audio src="Content/sounds/notification.wav" id="notificationSound" hidden="hidden" />
         </div>
     </body>
 </html>
@@ -226,6 +237,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/Chat.githubissues.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/Chat.twitter.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/Markdown.Converter.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.fileupload.js")"></script>
 <script type="text/javascript"> 
 
     $(function () {

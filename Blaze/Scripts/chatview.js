@@ -4,9 +4,10 @@ function ChatView() {
     this.roomsModel = null;
 }
 
-ChatView.prototype.init = function (roomsModel) {
+ChatView.prototype.init = function (roomsModel, campfire) {
     var self = this;
     self.roomsModel = roomsModel;
+    self.campfire = campfire;
 
     ko.extenders.animateOnChange = function (target, room) {
         target.subscribe(function (newValue) {
@@ -58,7 +59,7 @@ ChatView.prototype.init = function (roomsModel) {
     $(window).focus(function () {
         self.roomsModel.isVisible(true);
         self.updateTitle();
-    });
+    });    
 };
 
 ChatView.prototype.updateTitle = function () {
@@ -124,16 +125,58 @@ ChatView.prototype.changeRoom = function (roomId) {
     }
     $('#chat-area .current').hide();
     $('.current').removeClass('current');
+    $('#file-upload').fileupload('destroy');
     var room = self.roomsModel.roomsByDomId['messages-' + roomId];
     if (room) {
         room.isVisible(true);
         self.roomsModel.visibleRoom = room;
+        $('#file-upload').attr('action', self.campfire.getUploadUrl(room.id()));
+        $("#file-upload").fileupload({
+            maxNumberOfFiles: 1,
+            paramName: 'upload',
+            add: function (e, data) {
+                $('#file-upload-progress').fadeIn();
+                $('#file-upload-progress .progress').hide();
+                $('#file-upload-progress .confirm').show().click(function () {
+                    data.submit();
+                });
+                $('#file-upload-progress .cancel').show().click(function () {
+                    $('#file-upload-progress .confirm').unbind('click');
+                    $('#reset-file-upload').click();
+                    $('#file-upload-progress').hide();
+                });
+                $('#file-upload-progress .status-msg').text('Uploading ' + data.files[0].name);
+            },
+            send: function (e, data) {
+                $('#file-upload-progress .confirm').hide();
+                $('#file-upload-progress .cancel').hide();
+                $('#file-upload-progress .progress').show();
+                $('#file-upload-progress .bar').css({ width: '0%' });
+                $('#file-upload-progress .status-msg').text('Uploading ' + data.files[0].name);
+            },
+            always: function () {
+                $('#file-upload-progress .status-msg').text('Done!');
+                setTimeout(function () {
+                    $('#file-upload-progress').fadeOut(2000);
+                }, 2000);
+                $('#file-upload-progress .confirm').unbind('click');
+                $('#file-upload-progress .cancel').unbind('click');
+                $('#reset-file-upload').click();
+            },
+            progress: function (e, data) {
+                if (data.lengthComputable) {
+                    var pct = (data.loaded * 1.0 / data.total) * 100;
+                    $('#file-upload-progress .bar').css({ width: pct + '%' });
+                }
+            }
+        });
     } else {
         // lobby        
-        $('#tabs-' + roomId).addClass('current');
+        $('#tabs-' + roomId).addClass('current');        
         $('#messages-' + roomId).addClass('current').show();
         $('#userlist-' + roomId).addClass('current').show();
     }
+
     self.scrollToEnd();
 };
 

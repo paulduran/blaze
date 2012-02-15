@@ -34,6 +34,12 @@ namespace Blaze
             );
 
             routes.MapRoute(
+                "proxy2_route", // Route name
+                "y/{account}/{auth}/{*url}", // URL with parameters
+                new { controller = "Home", action = "Proxy" } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "recent_route", // Route name
                 "recent/{account}/{*url}", // URL with parameters
                 new { controller = "Home", action = "Recent" } // Parameter defaults
