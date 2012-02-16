@@ -22,7 +22,7 @@ namespace Blaze.Controllers
         public string ProcessMessage(string message)
         {
             HashSet<string> links;
-            var result = ParseChatMessageText(message, out links);
+            var result = ParseChatMessageText(HttpUtility.HtmlEncode(message), out links);
             if(links.Any())
                 return ProcessUrls(links, result);
             return result;
@@ -51,7 +51,7 @@ namespace Blaze.Controllers
         <pre class=""multiline"">{0}</pre>
     </div>
 </div>
-", HttpUtility.HtmlEncode(message));
+", message);
             }
 
             return message;
