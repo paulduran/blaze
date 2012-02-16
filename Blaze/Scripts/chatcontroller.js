@@ -84,7 +84,7 @@ ChatController.prototype.showRoom = function (room, isNewRoom) {
     var self = this;
     if (isNewRoom) {
         self.campfire.enterRoom(room.id(), function () {
-            self.loadMessages(room, true);
+            self.loadMessages(room);
         });
     }
     self.view.showRoom(room);
@@ -93,7 +93,10 @@ ChatController.prototype.showRoom = function (room, isNewRoom) {
 ChatController.prototype.loadMessages = function (room, autorefresh) {
     var self = this;
     var lastMsgId = room.lastMessage ? room.lastMessage.id() : undefined;
+    if (room.isLoadingMessages) return;
+    room.isLoadingMessages = true;
     self.campfire.getRecentMessages(room.id(), lastMsgId, function (messages) {
+        room.isLoadingMessages = false;
         var hasContent = false;
         $.map(messages, function (o) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
@@ -101,7 +104,7 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
             if (o.type === 'TimestampMessage' && room.lastMessage) {
                 var oldDate = new Date(room.lastMessage.created_at()).toDate();
                 var newDate = new Date(o.created_at).toDate();
-                if (oldDate.diffDays(newDate)) 
+                if (oldDate.diffDays(newDate))
                     isSeparator = true;
             }
             if (o.type !== 'TimestampMessage' || isSeparator) {
@@ -126,14 +129,13 @@ ChatController.prototype.loadMessages = function (room, autorefresh) {
         if (hasContent && room.isVisible()) {
             self.view.scrollToEnd();
         }
-        if (autorefresh === true) {
-            if (room.timer) {
-                clearTimeout(room.timer);
-            }
-            room.timer = setTimeout(function () {
-                self.loadMessages(room, true);
-            }, room.refreshRate());
+        
+        if (room.timer) {
+            clearTimeout(room.timer);
         }
+        room.timer = setTimeout(function () {
+            self.loadMessages(room);
+        }, room.refreshRate());
     });
 };
 
