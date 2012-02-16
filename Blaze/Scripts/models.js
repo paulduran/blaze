@@ -24,6 +24,7 @@
     this.unreadMessages = ko.observable(0);
     this.unreadMessages.extend({ updateTitle: '' });
     this.isActive = ko.observable(false);
+    this.isOpen = ko.observable(false);
     //this.isActive.extend({ animateOnChange: self });
     this.isVisible = ko.observable(false);
     this.countOffline = ko.observable(false);
@@ -42,6 +43,10 @@
             }
             self.isActive(true);
         }
+    };
+    this.close = function () {
+        self.resetActiveFlag();
+        self.isOpen(false);
     };
     this.refreshRate = ko.computed(function () {
         if (self.isVisible()) {
@@ -80,6 +85,7 @@ function RoomsModel(chat) {
         if (self.activeRooms.indexOf(room) === -1) {
             newRoom = true;
             self.activeRooms.push(room);
+            room.isOpen(true);
         }
         room.resetActiveFlag();
         chat.showRoom(room, newRoom);
@@ -87,6 +93,7 @@ function RoomsModel(chat) {
     this.leaveRoom = function (room) {
         var idx = self.activeRooms.indexOf(room);
         if (idx !== -1) {
+            room.close();
             chat.leaveRoom(room);
             self.activeRooms.remove(room);
             if (idx > 0) {

@@ -90,10 +90,10 @@ ChatController.prototype.showRoom = function (room, isNewRoom) {
     self.view.showRoom(room);
 };
 
-ChatController.prototype.loadMessages = function (room, autorefresh) {
+ChatController.prototype.loadMessages = function (room) {
     var self = this;
     var lastMsgId = room.lastMessage ? room.lastMessage.id() : undefined;
-    if (room.isLoadingMessages) return;
+    if (room.isLoadingMessages || !room.isOpen()) return;    
     room.isLoadingMessages = true;
     self.campfire.getRecentMessages(room.id(), lastMsgId, function (messages) {
         room.isLoadingMessages = false;
