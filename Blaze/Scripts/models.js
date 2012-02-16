@@ -91,13 +91,13 @@ function RoomsModel(chat) {
         chat.showRoom(room, newRoom);
     };
     this.leaveRoom = function (room) {
-        var idx = self.activeRooms.indexOf(room);
+        var idx = self.activeRooms.indexOf(room);        
         if (idx !== -1) {
             room.close();
             chat.leaveRoom(room);
             self.activeRooms.remove(room);
-            if (idx > 0) {
-                chat.showRoom(self.activeRooms[idx - 1]);
+            if (room.isVisible() && idx > 0) {
+                chat.showRoom(self.activeRooms()[idx - 1]);
             }
         }
     };
