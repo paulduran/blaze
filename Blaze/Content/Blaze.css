@@ -190,7 +190,10 @@
     background-color: lemonchiffon;
 }
 .to_me {
-    background-color: #C0FFC0;
+    background-color: #D0FFD0;
+}
+.collapsible_box {
+    background-color: #FFFFFF;    
 }
 
 #file-upload-progress {    
