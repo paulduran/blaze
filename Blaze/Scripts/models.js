@@ -163,8 +163,7 @@ function MessageModel(obj, user, currentUser, prevMsg, contentProcessor) {
         var d = new Date(self.created_at());
         var mins = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
         if (d.getHours() >= 12) {
-            var hours = d.getHours() - 12; 
-            if( hours == 0 ) hours = 12;
+            var hours = d.getHours() === 12 ? 12 : (d.getHours() - 12); 
             return hours + ':' + mins + ' PM';
         }
         return d.getHours() + ':' + mins + ' AM';
