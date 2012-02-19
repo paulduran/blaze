@@ -4,6 +4,9 @@ function ChatView() {
     this.roomsModel = null;
 }
 
+/**
+* @param RoomsModel roomsModel
+*/
 ChatView.prototype.init = function (roomsModel, campfire) {
     var self = this;
     self.roomsModel = roomsModel;
@@ -59,7 +62,7 @@ ChatView.prototype.init = function (roomsModel, campfire) {
     $(window).focus(function () {
         self.roomsModel.isVisible(true);
         self.updateTitle();
-    });    
+    });   
 };
 
 ChatView.prototype.updateTitle = function () {

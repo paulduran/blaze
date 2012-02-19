@@ -28,6 +28,18 @@ ChatController.prototype.init = function (accountName) {
             self.showLobby(user);
         });
     }
+    $.history.init(function (hash) {
+        if (hash.length && hash[0] == '/') {
+            hash = hash.substr(1);
+        }
+
+        var parts = hash.split('/');
+        if (parts[0] === 'rooms') {
+            var roomName = parts[1];
+            var room = self.roomsModel.roomsByDomId['messages-' + roomName];
+            room && self.view.showRoom(room);
+        }
+    }, { unescape: ',/' });
 };
 
 ChatController.prototype.login = function (account, username, password) {
@@ -87,7 +99,7 @@ ChatController.prototype.showRoom = function (room, isNewRoom) {
             self.loadMessages(room);
         });
     }
-    self.view.showRoom(room);
+    $.history.load('/rooms/' + room.id());
 };
 
 ChatController.prototype.loadMessages = function (room) {
