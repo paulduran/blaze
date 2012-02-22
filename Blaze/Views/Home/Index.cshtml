@@ -13,6 +13,8 @@
         <link href="@Url.Content("~/Content/Login.css")" rel="Stylesheet" />
         <link href="@Url.Content("~/Content/Chat.githubissues.css")" rel="Stylesheet" />
         <link href="@Url.Content("~/Content/Chat.bbcnews.css")" rel="Stylesheet" />
+        <link rel="icon" href="@Url.Content("~/Content/images/blaze_logo_small_x.png")" type="image/x-icon">
+        <link rel="shortcut icon" href="@Url.Content("~/Content/images/blaze_logo_small_x.png")" type="image/x-icon">
     </head>
     <body>
         @Html.Partial("_Login")
@@ -118,9 +120,11 @@
 
         <div id="page" style="display: none;">
             <div id="heading">
-                <div class="banner">
+                <div class="banner"><img src="@Url.Content("~/Content/images/blaze_logo_medium_x.png")" width="48" height="48" style="padding-top: 5px;"/>
                     <h1>
-                        Blaze</h1>
+                        
+                        Blaze
+                    </h1>
                     <div>Campfire Client</div>
                     @*                <img alt="logo" src="Content/images/logo32.png" id="logo" />*@
                     <div class="right">
