@@ -167,11 +167,7 @@
                             <span class="count" data-bind="text: numUsers"></span>
                         </li>
                     </ul>
-                </div>
-                <div id="preferences">
-                    <a class="sound" title="audible notifications"></a><a class="toast" title="popup notifications">
-                                                                       </a>
-                </div>
+                </div>               
                 <form id="send-message" action="#">
                     <div id="message-box">
                         <textarea id="new-message" autocomplete="off" accesskey="m" data-bind="value: inputMessage, valueUpdate: 'afterkeydown', event: {keydown: onKeyDown, paste: onPaste}"></textarea>
@@ -192,7 +188,10 @@
                 </div>
                 <!-- ko foreach: activeRooms -->
                 <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
-                </ul>                
+                </ul>
+                <div class="preferences"  data-bind="visible: isVisible">
+                    <a class="sound" title="audible notifications" data-bind="css: {off:!prefs.sound()}, click: toggleSound"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop"></a>
+                </div>
                 <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span data-bind="text: topic"></span></div>
                 <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
                     <h3 class="userlist-header nav-header">Users</h3>
@@ -233,6 +232,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatview.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/chat.notification.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/loginview.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
@@ -243,6 +243,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/Markdown.Converter.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.fileupload.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.history.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jstorage.js")"></script>
 <script type="text/javascript"> 
 
     $(function () {
@@ -250,7 +251,9 @@
         var campfire = new Campfire(@ViewBag.Stealth);
         var chatView = new ChatView();
         var loginView = new LoginView();
-        var controller = new ChatController(campfire, contentProcessor, chatView, loginView);
+        var prefs = new PreferencesModel();
+        var notifications = new ChatNotifications(prefs);        
+        var controller = new ChatController(campfire, contentProcessor, chatView, loginView, notifications, prefs);
         controller.init('@ViewBag.AccountName');
         chat.ui.isNearTheEnd = $.proxy(chatView.isNearTheEnd, chatView);
         chat.ui.scrollToEnd = $.proxy(chatView.scrollToEnd, chatView);

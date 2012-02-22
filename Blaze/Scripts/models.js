@@ -1,5 +1,9 @@
-﻿function RoomModel(obj, user, chat) {
+﻿/// <reference path="~/Scripts/chatcontroller.js"/>
+/// <reference path="~/Scripts/knockout-2.0.0.js"/>
+
+function RoomModel(obj, user, prefs) {
     var self = this;
+    this.prefs = prefs;
     this.currentUserId = ko.computed(function () {
         return user.id();
     });
@@ -72,8 +76,56 @@
                 return;
             }
         }
-    };   
+    };
+    this.toggleSound = function () {
+        prefs.sound(!prefs.sound());
+        prefs.save();
+    };
+    this.toggleDesktop = function () {
+        prefs.desktop(!prefs.desktop());
+        prefs.save();
+    };
 }
+
+function RoomPreferencesModel(parent,pref) {
+    this.id = ko.observable(pref.id);
+    this.sound = ko.observable(pref.sound);
+    this.desktop = ko.observable(pref.desktop);
+    this.save = function () {
+        parent.save();
+    };
+}
+
+function PreferencesModel() {
+    var self = this;
+    var prefs = $.jStorage.get('chat.preferences');
+    if (!prefs) prefs = { };
+    this.leftAlignNames = ko.observable(prefs.leftAlignNames);
+    this.showAvatars = ko.observable(prefs.showAvatars);
+    
+    if (prefs.roomPrefs)
+        this.roomPrefs = ko.observableArray($.map(prefs.roomPrefs, function (p) { return new RoomPreferencesModel(self, p); })); 
+    else
+        this.roomPrefs = ko.observableArray([]);
+}
+
+PreferencesModel.prototype.getRoomPreferences = function (id) {
+    var prefs;
+    $.each(this.roomPrefs(), function (i, p) {
+        if (p.id() === id) prefs = p;
+    });
+    if (!prefs) {
+        prefs = new RoomPreferencesModel(this, { id: id, sound: false, desktop: false });
+        this.roomPrefs.push(prefs);
+    }
+    return prefs;
+};
+
+PreferencesModel.prototype.save = function() {
+    var self = this;
+    $.jStorage.set('chat.preferences', ko.toJS(self));
+};
+
 function RoomsModel(chat) {
     var self = this;
     this.visibleRoom = null;

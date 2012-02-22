@@ -93,16 +93,45 @@
 .user .gravatar {
     width: 24px;
 }
-#preferences .sound {
-    background: url('images/sound-on.png') no-repeat;
+
+.preferences {
+    margin-left: 0px;
+    padding-left: 0px;
+    font-size: small;
+    position: absolute;
+    top: 24px;
+    left: 71%;
+    width: 25%;
+    bottom: 70px;
+    margin-left: 2px;
+    height: 18px;
 }
-#preferences .sound.off {
+
+.preferences a {
+    cursor: pointer;
+}
+
+.preferences .sound {
+    background: url('images/sound-on.png') no-repeat;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    margin-top: 4px;
+}
+
+.preferences .sound.off {
     background: url('images/sound-off.png') no-repeat;
 }
-#preferences .toast {
+
+.preferences .toast {
     background: url('images/toast-on.png') no-repeat;
+    width: 16px;
+    height: 20px;
+    left: 26px;
+    position: absolute;
 }
-#preferences .toast.off {
+
+.preferences .toast.off {
     background: url('images/toast-off.png') no-repeat;
 }
 .users li.typing {

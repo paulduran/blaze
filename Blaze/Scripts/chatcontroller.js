@@ -1,9 +1,16 @@
-﻿function ChatController(campfire, contentProcessor, view, loginView) {
+﻿/// <reference path="chat.notification.js"/>
+/// <reference path="~/Scripts/models.js"/>
+/**
+ * @param {ChatNotifications} notifications
+ */
+function ChatController(campfire, contentProcessor, view, loginView, notifications, prefs) {
     this.userCache = {};
     this.contentProcessor = contentProcessor;
     this.campfire = campfire;
     this.view = view;
     this.loginView = loginView;
+    this.notifications = notifications;
+    this.prefs = prefs;
     this.currentUser = null;
     this.roomsModel = null;
 }
@@ -14,7 +21,7 @@ ChatController.prototype.init = function (accountName) {
         authToken;
 
     this.roomsModel = new RoomsModel(this);
-    self.view.init(this.roomsModel, this.campfire);
+    self.view.init(this.roomsModel, this.campfire);   
     if (account) {
         authToken = $.cookie(account + '_authtoken');
     }
@@ -62,7 +69,7 @@ ChatController.prototype.showLobby = function (user) {
     self.view.show();
     self.campfire.getRooms(function (rooms) {
         $.map(rooms, function (o) {
-            var roomModel = new RoomModel(o, currentUserModel, self);
+            var roomModel = new RoomModel(o, currentUserModel, self.prefs.getRoomPreferences(o.id));
             self.view.addRoom(roomModel);
             self.loadUsers(roomModel);
         });
@@ -114,17 +121,20 @@ ChatController.prototype.loadMessages = function (room) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
             var isSeparator = self.checkForSeparator(o, room.lastMessage);
             if (o.type !== 'TimestampMessage' || isSeparator) {
-                var messageModel = new MessageModel(o, user, self.currentUser, room.lastMessage, self.contentProcessor);                
+                var messageModel = new MessageModel(o, user, self.currentUser, room.lastMessage, self.contentProcessor);
                 room.addMessage(messageModel);
                 room.lastMessage = messageModel;
                 hasContent = true;
                 if (messageModel.type() === 'UploadMessage') {
-                    self.campfire.getUploadedMessage(room.id(), o.id, function (up) {                        
+                    self.campfire.getUploadedMessage(room.id(), o.id, function (up) {
                         messageModel.parsed_body(self.getBodyForUploadedMessage(up));
                     });
                 }
             }
         });
+        if (hasContent) {
+            self.notifications.notify(room);
+        }
         if (hasContent && room.isVisible()) {
             self.view.scrollToEnd();
         }
@@ -138,7 +148,8 @@ ChatController.prototype.loadMessages = function (room) {
     });
 };
 
-ChatController.prototype.getBodyForUploadedMessage = function(up) {
+ChatController.prototype.getBodyForUploadedMessage = function (up) {
+    var self = this;
     var url = self.campfire.getAuthorisedUrl(up.full_url);
     if (up.content_type === 'image/jpeg' || up.content_type === 'image/jpg' || up.content_type === 'image/png' || up.content_type === 'image/gif' || up.content_type === 'image/bmp') {
         return '<div class="collapsible_content"><h3 class="collapsible_title">' + up.name + ' (click to show/hide)</h3><div class="collapsible_box"><img src="' + url + '" class="uploadImage"/></div></div>';

@@ -626,6 +626,11 @@
     <Content Include="Content\images\emojis\yellow_heart.png" />
     <Content Include="Content\images\emojis\zap.png" />
     <Content Include="Content\images\emojis\zzz.png" />
+    <Content Include="Content\images\sound-off.png" />
+    <Content Include="Content\images\sound-on.png" />
+    <Content Include="Content\images\toast-off.png" />
+    <Content Include="Content\images\toast-on.png" />
+    <Content Include="Content\sounds\notification.wav" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -692,6 +697,7 @@
     <Content Include="Content\Chat.bbcnews.css" />
     <Content Include="Content\Chat.githubissues.css" />
     <Content Include="Scripts\Chat.githubissues.js" />
+    <Content Include="Scripts\chat.notification.js" />
     <Content Include="Scripts\Chat.twitter.js" />
     <Content Include="Scripts\Chat.utility.js" />
     <Content Include="Scripts\chatcontroller.js" />
@@ -705,6 +711,7 @@
     <Content Include="Scripts\jquery.scrollto.js" />
     <Content Include="Scripts\jquery.timeago.0.10.js" />
     <Content Include="Scripts\jQuery.tmpl.min.js" />
+    <Content Include="Scripts\jstorage.js" />
     <Content Include="Scripts\loginview.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
