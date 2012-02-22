@@ -129,6 +129,7 @@
     <Content Include="Content\images\blaze_logo_small_x.png" />
     <Content Include="Content\images\close-icon-hover.png" />
     <Content Include="Content\images\close-icon.png" />
+    <Content Include="Content\images\logo32.png" />
     <Content Include="Content\images\emojis\-1.png" />
     <Content Include="Content\images\emojis\0.png" />
     <Content Include="Content\images\emojis\1.png" />
@@ -698,6 +699,7 @@
     <Content Include="Content\Chat.githubissues.css" />
     <Content Include="Scripts\Chat.githubissues.js" />
     <Content Include="Scripts\chat.notification.js" />
+    <Content Include="Scripts\Chat.toast.js" />
     <Content Include="Scripts\Chat.twitter.js" />
     <Content Include="Scripts\Chat.utility.js" />
     <Content Include="Scripts\chatcontroller.js" />

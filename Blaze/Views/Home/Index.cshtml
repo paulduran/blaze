@@ -190,7 +190,7 @@
                 <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
                 </ul>
                 <div class="preferences"  data-bind="visible: isVisible">
-                    <a class="sound" title="audible notifications" data-bind="css: {off:!prefs.sound()}, click: toggleSound"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop"></a>
+                    <a class="sound" title="audible notifications" data-bind="css: {off:!prefs.sound()}, click: toggleSound"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop, visible: canToast()"></a>
                 </div>
                 <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span data-bind="text: topic"></span></div>
                 <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
@@ -231,6 +231,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.toast.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatview.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chat.notification.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/loginview.js")"></script>

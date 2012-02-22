@@ -1,5 +1,6 @@
 ﻿/// <reference path="~/Scripts/chatcontroller.js"/>
 /// <reference path="~/Scripts/knockout-2.0.0.js"/>
+/// <reference path="~/Scripts/Chat.toast.js"/>
 
 function RoomModel(obj, user, prefs) {
     var self = this;
@@ -82,9 +83,15 @@ function RoomModel(obj, user, prefs) {
         prefs.save();
     };
     this.toggleDesktop = function () {
+        if(!prefs.desktop()) {
+            chat.toast.enableToast();
+        }
         prefs.desktop(!prefs.desktop());
         prefs.save();
     };
+    this.canToast = ko.computed(function () {
+        return chat.toast.canToast();
+    });
 }
 
 function RoomPreferencesModel(parent,pref) {

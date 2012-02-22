@@ -1,5 +1,6 @@
 ﻿/// <reference path="chat.notification.js"/>
 /// <reference path="~/Scripts/models.js"/>
+/// <reference path="~/Scripts/knockout-2.0.0.js"/>
 /**
  * @param {ChatNotifications} notifications
  */
@@ -116,7 +117,7 @@ ChatController.prototype.loadMessages = function (room) {
     room.isLoadingMessages = true;
     self.campfire.getRecentMessages(room.id(), lastMsgId, function (messages) {
         room.isLoadingMessages = false;
-        var hasContent = false;
+        var numNewMessages = 0;
         $.each(messages, function (i, o) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
             var isSeparator = self.checkForSeparator(o, room.lastMessage);
@@ -124,7 +125,9 @@ ChatController.prototype.loadMessages = function (room) {
                 var messageModel = new MessageModel(o, user, self.currentUser, room.lastMessage, self.contentProcessor);
                 room.addMessage(messageModel);
                 room.lastMessage = messageModel;
-                hasContent = true;
+                if (!isSeparator) {
+                    numNewMessages++;
+                }
                 if (messageModel.type() === 'UploadMessage') {
                     self.campfire.getUploadedMessage(room.id(), o.id, function (up) {
                         messageModel.parsed_body(self.getBodyForUploadedMessage(up));
@@ -132,13 +135,12 @@ ChatController.prototype.loadMessages = function (room) {
                 }
             }
         });
-        if (hasContent) {
-            self.notifications.notify(room);
+        if (numNewMessages > 0) {
+            self.notifications.notify(room, ko.toJS(room.lastMessage));
+            if (room.isVisible()) {
+                self.view.scrollToEnd();
+            }
         }
-        if (hasContent && room.isVisible()) {
-            self.view.scrollToEnd();
-        }
-
         if (room.timer) {
             clearTimeout(room.timer);
         }

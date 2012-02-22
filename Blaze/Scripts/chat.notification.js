@@ -7,7 +7,7 @@ ChatNotifications.prototype.notify = function (room, message) {
     if (prefs.sound()) {
         $('#notificationSound')[0].play();
     }
-    if (prefs.desktop) {
-
+    if (prefs.desktop()) {
+        chat.toast.toastMessage(message, room.name());
     }
 };
