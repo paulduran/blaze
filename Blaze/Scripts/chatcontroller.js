@@ -105,35 +105,22 @@ ChatController.prototype.showRoom = function (room, isNewRoom) {
 ChatController.prototype.loadMessages = function (room) {
     var self = this;
     var lastMsgId = room.lastMessage ? room.lastMessage.id() : undefined;
-    if (room.isLoadingMessages || !room.isOpen()) return;    
+    if (room.isLoadingMessages || !room.isOpen()) return;
     room.isLoadingMessages = true;
     self.campfire.getRecentMessages(room.id(), lastMsgId, function (messages) {
         room.isLoadingMessages = false;
         var hasContent = false;
-        $.map(messages, function (o) {
+        $.each(messages, function (i, o) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
-            var isSeparator = false;
-            if (o.type === 'TimestampMessage' && room.lastMessage) {
-                var oldDate = new Date(room.lastMessage.created_at()).toDate();
-                var newDate = new Date(o.created_at).toDate();
-                if (oldDate.diffDays(newDate))
-                    isSeparator = true;
-            }
+            var isSeparator = self.checkForSeparator(o, room.lastMessage);
             if (o.type !== 'TimestampMessage' || isSeparator) {
-                var messageModel = new MessageModel(o, user, self.currentUser, room.lastMessage, self.contentProcessor);
-                if (room.lastMessage && room.lastMessage.id() == messageModel.id())
-                    return; // fix for case when occasionally we get the same message twice
+                var messageModel = new MessageModel(o, user, self.currentUser, room.lastMessage, self.contentProcessor);                
                 room.addMessage(messageModel);
                 room.lastMessage = messageModel;
                 hasContent = true;
                 if (messageModel.type() === 'UploadMessage') {
-                    self.campfire.getUploadedMessage(room.id(), o.id, function (up) {
-                        var url = self.campfire.getAuthorisedUrl(up.full_url);
-                        var body = '<a href="' + url + '" target="_blank" rel="nofollow external" class="file-upload">' + up.name + '</a>';
-                        if (up.content_type === 'image/jpeg' || up.content_type === 'image/jpg' || up.content_type === 'image/png' || up.content_type === 'image/gif' || up.content_type === 'image/bmp') {
-                            body = '<div class="collapsible_content"><h3 class="collapsible_title">' + up.name + ' (click to show/hide)</h3><div class="collapsible_box"><img src="' + url + '" class="uploadImage"/></div></div>';
-                        }
-                        messageModel.parsed_body(body);
+                    self.campfire.getUploadedMessage(room.id(), o.id, function (up) {                        
+                        messageModel.parsed_body(self.getBodyForUploadedMessage(up));
                     });
                 }
             }
@@ -141,7 +128,7 @@ ChatController.prototype.loadMessages = function (room) {
         if (hasContent && room.isVisible()) {
             self.view.scrollToEnd();
         }
-        
+
         if (room.timer) {
             clearTimeout(room.timer);
         }
@@ -149,6 +136,24 @@ ChatController.prototype.loadMessages = function (room) {
             self.loadMessages(room);
         }, room.refreshRate());
     });
+};
+
+ChatController.prototype.getBodyForUploadedMessage = function(up) {
+    var url = self.campfire.getAuthorisedUrl(up.full_url);
+    if (up.content_type === 'image/jpeg' || up.content_type === 'image/jpg' || up.content_type === 'image/png' || up.content_type === 'image/gif' || up.content_type === 'image/bmp') {
+        return '<div class="collapsible_content"><h3 class="collapsible_title">' + up.name + ' (click to show/hide)</h3><div class="collapsible_box"><img src="' + url + '" class="uploadImage"/></div></div>';
+    }
+    return '<a href="' + url + '" target="_blank" rel="nofollow external" class="file-upload">' + up.name + '</a>';
+};
+
+ChatController.prototype.checkForSeparator = function (newMsg, oldMsg) {
+    if (newMsg.type === 'TimestampMessage' && oldMsg) {
+        var oldDate = new Date(oldMsg.created_at()).toDate();
+        var newDate = new Date(newMsg.created_at).toDate();
+        if (oldDate.diffDays(newDate))
+            return true;
+    }
+    return false;
 };
 
 ChatController.prototype.getUser = function(id) {
