@@ -730,6 +730,7 @@
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\base64.js" />
     <Content Include="Scripts\Markdown.Converter.js" />
+    <Content Include="Scripts\md5.js" />
     <Content Include="Scripts\models.js" />
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Views\bootstrap.js" />

@@ -91,7 +91,7 @@
             <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${created_at}">
                 <div class="left">
                     {{if showUser}}
-                    <img src="${user.avatar_url}" class="gravatar" />
+                    <img src="${user.avatar}" class="gravatar" />
                     <span class="name">${trimmedName}</span>
                     {{/if}}
                 </div>
@@ -198,7 +198,7 @@
                     <div>
                         <ul data-bind="foreach: users">
                             <li class="user" data-bind="attr: {'data-name':name}">
-                                <img class="gravatar" data-bind="attr: {src: avatar_url}"/>
+                                <img class="gravatar" data-bind="attr: {src: avatar}"/>
                                 <div class="details">
                                     <span class="name" data-bind="text: name"></span>                               
                                 </div>
@@ -228,7 +228,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.autotabcomplete.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-2.0.0.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-transition.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/Chat.toast.js")"></script>
@@ -245,6 +245,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.fileupload.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.history.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jstorage.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/md5.js")"></script>
 <script type="text/javascript"> 
 
     $(function () {

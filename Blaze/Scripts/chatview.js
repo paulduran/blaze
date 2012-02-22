@@ -63,7 +63,7 @@ ChatView.prototype.init = function (roomsModel, campfire) {
     $(window).focus(function () {
         self.roomsModel.isVisible(true);
         self.updateTitle();
-    });   
+    });
 };
 
 ChatView.prototype.updateTitle = function () {

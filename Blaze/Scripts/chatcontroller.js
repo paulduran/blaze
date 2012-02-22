@@ -169,15 +169,17 @@ ChatController.prototype.checkForSeparator = function (newMsg, oldMsg) {
     return false;
 };
 
-ChatController.prototype.getUser = function(id) {
+ChatController.prototype.getUser = function (id) {
     var self = this;
     if (self.userCache[id] !== undefined) {
         return (self.userCache[id]);
     } else {
         var model = new UserModel({ id: id, name: '' });
         self.userCache[id] = model;
-        self.campfire.getUser(id, function(user) {
+        self.campfire.getUser(id, function (user) {
             model.name(user.name);
+            model.email_address(user.email_address);
+            model.avatar_url(user.avatar_url);
         });
         return model;
     }

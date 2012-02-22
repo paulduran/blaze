@@ -1,6 +1,7 @@
 ﻿/// <reference path="~/Scripts/chatcontroller.js"/>
 /// <reference path="~/Scripts/knockout-2.0.0.js"/>
 /// <reference path="~/Scripts/Chat.toast.js"/>
+/// <reference path="~/Scripts/md5.js"/>
 
 function RoomModel(obj, user, prefs) {
     var self = this;
@@ -204,11 +205,19 @@ function UserModel(obj) {
             return ' ' + str.substring(1, 2) + '.';
         });
     });
-    if (!obj.avatar_url) {
-        obj.avatar_url = 'http://asset0.37img.com/global/missing/avatar.gif?r=3';
-    }
-    obj.avatar_url = obj.avatar_url.replace("http:", window.location.protocol);
+    this.email_address = ko.observable(obj.email_address);   
     this.avatar_url = ko.observable(obj.avatar_url);
+    this.avatar = ko.computed(function () {
+        var url = self.avatar_url();
+        if (!url || url.indexOf('missing/avatar.gif') !== -1) {
+            if (self.email_address()) {
+                url = 'http://www.gravatar.com/avatar/' + hex_md5(self.email_address()) + '?s=16&d=mm';
+            } else {
+                url = 'http://asset0.37img.com/global/missing/avatar.gif?r=3';
+            }
+        }
+        return url.replace("http:", window.location.protocol);
+    });
 }
 function MessageModel(obj, user, currentUser, prevMsg, contentProcessor) {
     var self = this;
