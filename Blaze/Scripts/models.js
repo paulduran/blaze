@@ -211,7 +211,11 @@ function UserModel(obj) {
         var url = self.avatar_url();
         if (!url || url.indexOf('missing/avatar.gif') !== -1) {
             if (self.email_address()) {
-                url = 'http://www.gravatar.com/avatar/' + hex_md5(self.email_address()) + '?s=16&d=mm';
+                if(window.location.protocol === 'https:') {
+                    url = 'https://secure.gravatar.com/avatar/' + hex_md5(self.email_address()) + '?s=32&d=mm';
+                } else {
+                    url = 'http://www.gravatar.com/avatar/' + hex_md5(self.email_address()) + '?s=32&d=mm';                    
+                }
             } else {
                 url = 'http://asset0.37img.com/global/missing/avatar.gif?r=3';
             }
