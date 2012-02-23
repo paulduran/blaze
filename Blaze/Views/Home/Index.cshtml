@@ -13,6 +13,7 @@
         <link href="@Url.Content("~/Content/Login.css")" rel="Stylesheet" />
         <link href="@Url.Content("~/Content/Chat.githubissues.css")" rel="Stylesheet" />
         <link href="@Url.Content("~/Content/Chat.bbcnews.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/emoji20.css")" rel="Stylesheet" />
         <link rel="icon" href="@Url.Content("~/Content/images/blaze_logo_small_x.png")" type="image/x-icon">
         <link rel="shortcut icon" href="@Url.Content("~/Content/images/blaze_logo_small_x.png")" type="image/x-icon">
     </head>
@@ -234,6 +235,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/Chat.toast.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chatview.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/chat.notification.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.emoji.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/loginview.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
@@ -249,22 +251,15 @@
 <script type="text/javascript"> 
 
     $(function () {
-        var contentProcessor = new ContentProcessor(emojis);
+        var emojiProcessor = new Emoji.Parser();
         var campfire = new Campfire(@ViewBag.Stealth);
         var chatView = new ChatView();
         var loginView = new LoginView();
         var prefs = new PreferencesModel();
         var notifications = new ChatNotifications(prefs);        
-        var controller = new ChatController(campfire, contentProcessor, chatView, loginView, notifications, prefs);
+        var controller = new ChatController(campfire, emojiProcessor , chatView, loginView, notifications, prefs);
         controller.init('@ViewBag.AccountName');
         chat.ui.isNearTheEnd = $.proxy(chatView.isNearTheEnd, chatView);
         chat.ui.scrollToEnd = $.proxy(chatView.scrollToEnd, chatView);
     });
-    
-    var emojis = {
-        @foreach (var e in Model.Emojis)
-            {
-            <text>'@e.Name':'@e.ImageUrl',</text>
-            }
-        };
 </script>

@@ -1,6 +1,7 @@
 ﻿/// <reference path="~/Scripts/chatcontroller.js"/>
 /// <reference path="~/Scripts/knockout-2.0.0.js"/>
 /// <reference path="~/Scripts/Chat.toast.js"/>
+/// <reference path="~/Scripts/Chat.emoji.js"/>
 /// <reference path="~/Scripts/md5.js"/>
 
 function RoomModel(obj, user, prefs) {
@@ -219,7 +220,7 @@ function UserModel(obj) {
         return url.replace("http:", window.location.protocol);
     });
 }
-function MessageModel(obj, user, currentUser, prevMsg, contentProcessor) {
+function MessageModel(obj, user, currentUser, prevMsg, emoji) {
     var self = this;
     this.previousMessage = prevMsg;
     this.id = ko.observable(obj.id);
@@ -273,7 +274,9 @@ function MessageModel(obj, user, currentUser, prevMsg, contentProcessor) {
         } else if (self.type() === 'TweetMessage' && self.parsed_body().indexOf('<a ') != -1) {
             return self.parsed_body().substring(self.parsed_body().indexOf('<a '));
         }
-        var body = contentProcessor.process(self.parsed_body());
+
+        var body = emoji.parse(self.parsed_body());
+        //var body = contentProcessor.process(self.parsed_body());
         return body;
     });
     this.isToCurrentUser = ko.computed(function () {
