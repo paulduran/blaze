@@ -246,6 +246,8 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/Markdown.Converter.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.fileupload.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.history.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.captureDocumentWrite.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.documentonwrite.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jstorage.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/md5.js")"></script>
 <script type="text/javascript"> 
@@ -261,5 +263,6 @@
         controller.init('@ViewBag.AccountName');
         chat.ui.isNearTheEnd = $.proxy(chatView.isNearTheEnd, chatView);
         chat.ui.scrollToEnd = $.proxy(chatView.scrollToEnd, chatView);
+        chat.ui.scrollToBottom = $.proxy(chatView.scrollToEnd, chatView);
     });
 </script>

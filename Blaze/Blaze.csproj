@@ -213,6 +213,7 @@
     <Content Include="Scripts\chatview.js" />
     <Content Include="Scripts\bootstrap-transition.js" />
     <Content Include="Scripts\jquery.autotabcomplete.js" />
+    <Content Include="Scripts\jquery.captureDocumentWrite.min.js" />
     <Content Include="Scripts\jquery.fileupload.js" />
     <Content Include="Scripts\jquery.history.js" />
     <Content Include="Scripts\jquery.insertAtCaret.js" />
