@@ -13,6 +13,10 @@ namespace Blaze.Controllers
     [RequireHttpsAttribute]
     public class HomeController : Controller
     {
+        public ActionResult Public()
+        {
+            return View();
+        }
         //
         // GET: /Home/
 

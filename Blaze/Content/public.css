@@ -1,0 +1,399 @@
+﻿
+/* Main CSS Start */
+*{
+padding:0;
+margin:0;
+}
+html
+{
+	background:url("images/public/html-bg.jpg") repeat;
+	width:100%;
+}
+body {
+font-size: 12px;
+font-family: "Lucida Grande", Arial, Helvetica, sans-serif;
+color: #666;
+
+}
+h1{
+font-size:17px;
+color:#fff;
+}
+h2{
+font-size:15px;
+color:#00507C;
+padding:0 0 7px 0;
+}
+h3{
+font-size:14px;
+color:#26558B;
+padding:0 0 10px 0;
+}
+h4{
+font-size:13px;
+color:#26558B;
+padding:0 0 10px 0;
+}
+h5{
+font-size:12px;
+color:#26558B;
+padding:0 0 10px 0;
+}
+h6{
+font-size:12px;
+color:#8a4355;
+padding:0 0 10px 0;
+} 
+p{
+padding:0 0 15px 0;
+color:#40342c;
+font-size:12px;
+}
+
+ul{
+
+padding:0 0 12px 30px;
+}
+ul li{
+}
+ol{
+
+padding:0 0 10px 30px;
+}
+ol li{
+}
+a{
+color:#3096b8;
+text-decoration:underline;
+}
+a:hover{
+text-decoration:none;
+}
+img.centered{
+display: block;
+margin-left: auto;
+margin-right: auto;
+margin-bottom:23px;
+}
+img.alignright{
+padding: 0px;
+margin:5px 0 10px 10px;
+display: inline;
+}
+img.alignleft{
+padding: 0px;
+margin:5px 10px 5px 0;
+display: inline;
+}	
+img.aligncenter{
+display: block;
+padding: 0px;
+margin:0 10px 0 10px;
+}
+.alignright{
+float: right;
+}
+.alignleft
+{
+	float: left;
+}
+
+/* Main CSS End */
+
+#wrapper {
+width:100%;
+background:url("images/public/sec1-bg.jpg") repeat-x left top;
+overflow:hidden;
+}
+#wrapper-outer{
+	width:100%;
+	overflow:hidden;
+	/*background:url(http://www.yourdomain.com/images/section1-bg.gif) no-repeat center top;*/
+}
+#wrapper-inner
+{
+	width:930px;
+	margin:0 auto;
+	overflow:hidden;
+	background: url("images/public/repat-ribbn.png") repeat-y 13px top;
+}
+#ribbon
+{
+	width:143px;
+	float:left;
+	margin-left:13px;
+	height:1150px;
+/*	background:url(http://www.yourdomain.com/images/repat-ribbn.png) repeat-y;*/
+}
+#inner-ribbon
+{
+	width:143px;
+	float:left;
+	min-height:1150px;
+	height:auto !important;
+	height:1150px;
+	background:url("images/public/ribbon-img1.png") no-repeat 3px top;
+}
+#wrapper-right
+{
+	width:701px;
+	float:right;
+	padding:0 0 0 0;
+}
+/* Header CSS Start */
+header, #header
+{
+width:670px;
+}
+.inner-header{
+	height:110px;
+	padding:29px 0 0 31px;
+	width:670px;
+	float:left;
+}
+.logo
+{
+	width:418px;
+	height:103px;
+	padding:0 0 0 0;
+}
+.logo small
+{
+	font-size:13px;
+	color:#D5CEC0;
+	display:block;
+	font-weight: normal;
+	text-shadow: 0 -1px 1px #000;
+}
+/* Header CSS End */
+
+/* Menu CSS Start */
+
+#menu {
+
+}
+
+/* Menu CSS End */
+
+/* Content CSS Start */
+
+#content {
+	width:695px;
+}
+.inner-content{
+	width:695px;
+	padding:0px 6px 0 0;
+	float:left;
+	position: relative;
+}
+
+	#iphone {
+		position: absolute;
+		left: 300px;
+		top: 200px;
+		width: 197px;
+		height: 460px;
+		background: url("images/public/iphone.png") no-repeat 0 0;
+	}
+	#iphone-img {
+		background: black;
+		width: 163px;
+		height: 245px;
+		margin-left: 18px;
+		margin-top: 68px;
+	}
+#up-section
+{
+	width:695px;
+	float:right;
+}
+#col-1
+{
+	width:458px;
+	float:left;
+	padding:0px 0 0 0;
+	background:url("images/public/iphone-img.png") no-repeat;
+	height:576px;
+	position: relative;
+}
+.price {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 103px;
+	height: 103px;
+	background:url("images/public/price.png") no-repeat 0 0;
+	display: block;
+	text-indent: -9999px;
+	margin-top: -35px;
+	margin-right: -15px;
+}
+#image-area
+{
+	width:311px;
+	height:417px;
+	padding:1px;
+	margin:0 auto;
+	background: #000;
+}
+
+#col-2
+{
+	width:165px;
+	float:right;
+	padding:0 0 0 0;
+}
+#frame-list
+{
+	width:165px;
+	float:right;
+	padding:0 0 17px 0;
+	position:relative;
+}
+#frame-list ul
+{
+	padding:0 0 0 0;
+	list-style:none;
+}
+#frame-list ul li
+{
+	padding:0 0 0 0;
+	margin-bottom:23px;
+	_margin-bottom:19px;
+	width:140px;
+	height:140px;
+	position:relative;
+-moz-box-shadow:0 0 15px rgba(0, 0, 0, 0.9);
+-webkit-box-shadow: 1px -5px 8px rgba(0, 0, 0, 0.2);
+}
+#frame-list ul li .icon
+{
+	width:44px;
+	height:43px;
+	position:absolute;
+	top:-15px;
+	right:-12px;
+	background:url("images/public/eye-btn.png") no-repeat right top;
+	text-indent:-9999px;
+}
+#frame-list ul li a:hover { background-position: right -47px;}
+#frame-list ul li a:active { background-position: right -94px;}
+.app-store
+{
+	width:143px;
+	height:50px;
+	padding:0 0 0 0;
+	float:left;
+	background:url("images/public/app-store.png") no-repeat;
+	margin-left:0;
+}
+.app-store a
+{
+	width:100px;
+	height:40px;
+	float:left;
+	padding:9px 0 0 41px;
+	text-decoration:none;
+	color:#f2f2f2;
+	font-size:12px;
+	text-indent: -9999px;
+}
+.app-store a em
+{
+	font-style:normal;
+	font-size:16px;
+	font-weight:bold;
+}
+#down-section
+{
+	width:695px;
+	float:right;
+	padding:0 0 0 0;
+	position:relative;
+	top:-60px;
+}
+#info-area
+{
+	width:670px;
+	float:left;
+	padding:0 0 0 25px;
+}
+#info-area ul
+{
+	padding:0 0 0 0;
+	list-style:none;
+	float:left;
+	background:url("images/public/border-btm.gif") repeat-x left bottom;
+}
+#info-area ul li
+{
+	padding:15px 0 10px 0;
+	float:left;
+}
+.nobg{
+	background: none!important;
+}
+#info-area ul li.first
+{
+padding:20px 0 0 0;	
+}
+#info-area ul li.sec
+{
+	background:url("images/public/vertcil-border.gif") repeat-y;
+	padding:20px 0 10px 25px;
+}
+#info-area ul li.first .main-area{
+	width:340px !important;
+}
+#info-area ul li.sec .main-area{
+	width:290px !important;
+}
+.main-area
+{
+	width:315px;
+	float:left;
+	padding:0 0 0 0;
+}
+.main-area img
+{
+	float:left;
+	width:50px;
+}
+.right-cont
+{
+	width:210px;
+	float:left;
+	padding:0 0 0 27px;
+	text-shadow: 0 1px 1px #fff;
+}
+/* Content CSS End */
+
+/* Footer CSS Start */
+
+#footer {
+height:91px;
+padding:0 0 0 0;
+width:695px;
+}
+#left-footer
+{
+	width:180px;
+	float:left;
+	padding:0 0 0 25px;
+}
+
+#right-footer
+{
+	width:427px;
+	float:right;
+	padding:10px 0 0 0;
+	
+}
+#right-footer p
+{
+	color:#61564e !important;
+	font-size:11px !important;
+	
+}
+
+/* Footer CSS End */
