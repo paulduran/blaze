@@ -132,7 +132,8 @@
     <Content Include="Content\images\close-icon.png" />
     <Content Include="Content\images\emoji20.png" />
     <Content Include="Content\images\logo32.png" />
-    <Content Include="Content\images\public\blaze-20120228.png" />
+    <Content Include="Content\images\public\blaze-20120301.png" />
+    <Content Include="Content\images\public\blaze-notification.png" />
     <Content Include="Content\images\public\border-btm.gif" />
     <Content Include="Content\images\public\btn1.png" />
     <Content Include="Content\images\public\btn2.png" />
