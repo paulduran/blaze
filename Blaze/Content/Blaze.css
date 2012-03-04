@@ -1,3 +1,6 @@
+.banner img {
+    border: none;
+}
 .btn {
   cursor: pointer;
   display: inline-block;

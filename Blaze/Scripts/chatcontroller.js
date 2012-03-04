@@ -53,8 +53,8 @@ ChatController.prototype.init = function (accountName) {
 ChatController.prototype.login = function (account, username, password) {
     var self = this;
     self.campfire.login(account, username, password, function (user) {
-        $.cookie('account', account, { expires: 1 });
-        $.cookie(account + '_authtoken', user.api_auth_token, { expires: 1 });
+        $.cookie('account', account, { expires: 100 });
+        $.cookie(account + '_authtoken', user.api_auth_token, { expires: 14 });
         self.loginView.hide();
         self.showLobby(user);
     }, function () {
