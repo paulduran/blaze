@@ -141,6 +141,7 @@ function RoomsModel(chat) {
     this.rooms = ko.observableArray([]);
     this.roomsByDomId = { };
     this.activeRooms = ko.observableArray([]);
+    this.showHint = ko.observable(true);
     this.displayRoom = function (room) {
         var newRoom = false;
         if (self.activeRooms.indexOf(room) === -1) {
@@ -167,8 +168,9 @@ function RoomsModel(chat) {
     this.sendMessage = function () {
         if (self.visibleRoom) {
             var isPaste = self.inputMessage().indexOf('\n') !== -1;
-            chat.sendMessage(self.visibleRoom,self.inputMessage(), isPaste);
+            chat.sendMessage(self.visibleRoom, self.inputMessage(), isPaste);
         }
+        self.showHint(true);
         self.inputMessage('');
         self.isPaste(false);
     };

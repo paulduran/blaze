@@ -25,10 +25,16 @@ ChatView.prototype.init = function (roomsModel, campfire) {
 
     ko.applyBindings(self.roomsModel, document.getElementById('page'));
 
+    $('#new-message').autogrow({ maxHeight: 80, expandTolerance: 1, minHeight: 32 });
+
     $('#new-message').live('keydown', function (e) {
         if (e.keyCode === 13 && e.ctrlKey) {
             $(this).insertAtCaret('\n');
         }
+        var $txt = $(this);
+        setTimeout(function () {            
+            self.roomsModel.showHint($txt.height() <= 32);
+        }, 100);
     });
     $('#tabs-lobby').live('click', function () {
         var name = $(this).data('name');

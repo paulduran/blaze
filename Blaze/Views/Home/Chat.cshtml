@@ -179,7 +179,7 @@
                         <textarea id="new-message" autocomplete="off" accesskey="m" data-bind="value: inputMessage, valueUpdate: 'afterkeydown', event: {keydown: onKeyDown, paste: onPaste}"></textarea>
                     </div>
                     <input type="submit" id="send" value="Send" class="send btn" data-bind="click: sendMessage" />
-                    <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
+                    <div id="message-instruction" data-bind="visible: showHint">Type @@ then press TAB to auto-complete nicknames</div>
                 </form>
                 <form id="file-upload" method="POST" enctype="multipart/form-data" style="display: none;">
                     <input type="file" class="file-input" name="upload"/>
@@ -232,6 +232,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.insertAtCaret.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.timeago.0.10.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.autotabcomplete.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.autogrow.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-2.0.0.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-transition.js")"></script>
