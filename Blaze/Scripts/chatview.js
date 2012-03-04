@@ -125,6 +125,15 @@ ChatView.prototype.changeRoom = function (roomId) {
     var self = this;
     if (self.roomsModel.visibleRoom != null) {
         self.roomsModel.visibleRoom.isVisible(false);
+        var lastSeenMessage = self.roomsModel.visibleRoom.lastSeenMessage;
+        if (lastSeenMessage) {
+            lastSeenMessage.isLastMessage(false);
+            self.roomsModel.visibleRoom.lastSeenMessage = null;            
+        }
+        if (self.roomsModel.visibleRoom.lastMessage /*&& self.roomsModel.visibleRoom.lastMessage !== lastSeenMessage*/) {
+            self.roomsModel.visibleRoom.lastSeenMessage = self.roomsModel.visibleRoom.lastMessage;
+            self.roomsModel.visibleRoom.lastSeenMessage.isLastMessage(true);
+        }
         self.roomsModel.visibleRoom = null;
     }
     $('#chat-area .current').hide();
@@ -176,7 +185,7 @@ ChatView.prototype.changeRoom = function (roomId) {
         });
     } else {
         // lobby        
-        $('#tabs-' + roomId).addClass('current');        
+        $('#tabs-' + roomId).addClass('current');
         $('#messages-' + roomId).addClass('current').show();
         $('#userlist-' + roomId).addClass('current').show();
     }

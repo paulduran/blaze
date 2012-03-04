@@ -72,7 +72,7 @@
         </div>   
     </script>
     <!-- /Github Issus Content Provider -->
-        <script id="base-message-template" type="text/x-jquery-tmpl">
+        <script id="base-message-template" type="text/x-jquery-tmpl">            
             {{if isNotification}}
             {{tmpl "#new-notification-template"}}
             {{else isTimestamp}}
@@ -80,6 +80,10 @@
             {{else}}
             {{tmpl "#new-message-template"}}
             {{/if}}            
+            {{if isLastMessage}}
+                <li class="message-separator">
+                </li>
+            {{/if}}
         </script>
         <script id="new-separator-template" type="text/x-jquery-tmpl">
             <li class="list-header" data-timestamp="${created_at}">

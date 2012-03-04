@@ -227,6 +227,7 @@ function UserModel(obj) {
 function MessageModel(obj, user, currentUser, prevMsg, emoji) {
     var self = this;
     this.previousMessage = prevMsg;
+    this.isLastMessage = ko.observable(false);
     this.id = ko.observable(obj.id);
     this.parsed_body = ko.observable(obj.parsed_body);
     this.type = ko.observable(obj.type);
