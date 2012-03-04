@@ -3,168 +3,219 @@
 }
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Blaze campfire client</title>
-        <link href="@Url.Content("~/Content/reset.css")" rel="Stylesheet" />
-        <link href="@Url.Content("~/Content/public.css")" rel="Stylesheet" />        
-        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
-        <script type="text/javascript">
-            $(function () {
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Blaze campfire client</title>
+    <link href="@Url.Content("~/Content/reset.css")" rel="Stylesheet" />
+    <link href="@Url.Content("~/Content/public.css")" rel="Stylesheet" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#ribbon').css({ 'height': (($(window).height())) + 'px' });
+
+            $(window).resize(function () {
                 $('#ribbon').css({ 'height': (($(window).height())) + 'px' });
-
-                $(window).resize(function () {
-                    $('#ribbon').css({ 'height': (($(window).height())) + 'px' });
-                });
-
-                $('#frame-list li a').click(function(e) {
-                    var id = $(this).attr('href');
-                    var iphoneId = id + '-iphone';
-                    $('#image-area img, #iphone-img img').hide();
-                    $(id).fadeIn();
-                    $(iphoneId).fadeIn();
-                    e.preventDefault();
-                });
             });
-        </script>
-    </head>
-    <body promptdialogcheckdone="1">
-        <div id="wrapper">
-            <div id="wrapper-outer">
-                <div id="wrapper-inner">
-                    <div id="ribbon" style="height: 732px; ">
-                        <div id="inner-ribbon">
-                        </div>
-                    </div>
-                    <div id="wrapper-right">
-                        <!--header-->
-                        <header id="header">
-                            <div class="inner-header"> 	<div class="logo"><img src="@Url.Content("~/Content/images/blaze_logo_medium_x.png")" width="48" height="48" style="padding-top: 5px;"/> <h1 style="display: inline-block;font-family: Lucida Grande, Trebuchet MS;font-size: 2em;">Blaze</h1>
-                                                            <small>At last. A <strong>modern</strong> web-based campfire client!</small>
-                                                        </div></div>
-                        </header>
-                        <!--/header-->
-  
-                        <!--menu-->
-                        <nav></nav>
-                        <!--/menu-->
-  
-                        <!--content-->
-                        <div id="content">
-                            <div class="inner-content">
-                                <section id="up-section">
-                                    <div id="col-1">
-                                        
-                                        <div id="image-area">
-                                            <img id="screen-1" src="@Url.Content("~/Content/images/public/blaze-20120301.png")" alt="" height="500" >
-                                        </div>
-                                    </div>
-                                    <div id="col-2">
-                                        <div id="frame-list">
-                                            <ul>                                                
-                                                <li><a href="#screen-1"><img src="@Url.Content("~/Content/images/public/blaze-notification.png")" alt="" width="140"></a><a class="icon" href="#screen-1">View</a></li>
-                                            </ul>
-                                        </div>
-                                        <span class="app-store"><a href="http://itunes.apple.com/">Available on the <em>App Store</em></a></span>
-                                    </div>
-                                </section>
-                                <section id="down-section" style="padding-top: 50px;">
-                                    <div id="info-area">
-                                        <ul>
-                                            <li class="first">
-                                                <div class="main-area">
-                                                    <a href="#"><img src="@Url.Content("~/Content/images/public/btn6.png")" alt=""></a>
-                                                    <div class="right-cont">
-                                                        <p><strong> Efficient use of space</strong>. Blaze makes much more efficient use of space than the standard campfire client.</p><p>Multiple Join / Leave messages are compressed to take up a single line rather than many.</p><p>Timestamps are shown subtely to the right of each message rather than consuming a separate line.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                             <li class="sec">
-                                                <div class="main-area">
-                                                    <a href="#"><img src="@Url.Content("~/Content/images/public/btn4.png")" alt=""></a>
-                                                    <div class="right-cont">
-                                                        <p><strong>Ajax user interface</strong>. Where Campfire will only show updates to the room you are currently in, Blaze shows all of your open rooms in a tabbed interface where all rooms are updated in real time. </p><p>When a new message arrives in another room, the tab is highlighted and shows the number of new messages.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul>
-                                             <li class="first">
-                                                <div class="main-area">
-                                                    <a href="#"><img src="@Url.Content("~/Content/images/public/btn3.png")" alt=""></a>
-                                                    <div class="right-cont">
-                                                        <p><strong>Window title updates</strong>. The number of unread messages show in the window title, enabling 'glow' effect on pinned tabs in Chrome/Firefox</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="sec">
-                                                <div class="main-area">
-                                                    <a href="#"><img src="@Url.Content("~/Content/images/public/btn2.png")" alt=""></a>
-                                                    <div class="right-cont">
-                                                        <p><strong>Avatars</strong>. Blaze will show your Campfire avatar, if you have configured one. If not, we will even try to display your <a href="http://www.gravatar.com">Gravatar image</a>.</p>
-                                                    </div>
-                                                </div>
-                                            </li>                                            
-                                        </ul>
-                                        <ul>                                           
-				                           <li class="first">
-                                                <div class="main-area">
-                                                    <a href="#"><img src="@Url.Content("~/Content/images/public/btn5.png")" alt=""></a>
-                                                    <div class="right-cont">
-                                                        <p><strong> Drag / Drop file upload</strong>.Simply drag files from your desktop onto the page to upload the file to the room.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="sec">
-                                                <div class="main-area">
-                                                    <a href="#"><img src="@Url.Content("~/Content/images/public/btn8.png")" alt=""></a>
-                                                    <div class="right-cont">
-                                                        <p><strong> Hilight my conversations</strong>. Blaze will hilight messages sent from you in yellow. It will also hilight messages where you are mentioned.</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                           
-                                        </ul>
-                                        <ul class="nobg">
-                                            <li class="first">
-                                                <div class="main-area">
-                                                    <a href="#"><img src="@Url.Content("~/Content/images/public/btn7.png")" alt=""></a>
-                                                    <div class="right-cont">
-                                                        <p><strong>Flexible notifications</strong>. Blaze ensures you won't miss those messages by providing you with several ways to be notified when new messages arrive in a room. These notifications can be configured on individual rooms.<p>Currently supported notification types are <strong>desktop (popup) notifications</strong> (webkit browsers only) and <strong>audible notifications</strong></p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                             <li class="sec">
-                                                <div class="main-area">
-                                                    <a href="#"><img src="@Url.Content("~/Content/images/public/btn1.png")" alt=""></a>
-                                                    <div class="right-cont">
-                                                        <p><strong>Inline Content Providers</strong>. Why leave Blaze? We'll show those Tweets, Images, Youtube/Vimeo videos, Soundcloud clips (and many more!) inline. All in nice collapsible panels so that they are out of your way when you are done with them!</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-		
-                                </section>                                
 
-                            </div></div>
-                        <!--/content-->
-  
-                        <!--footer-->
-                        <footer id="footer">
-                            <div id="left-footer">
-       
-                            </div>
-                            <div id="right-footer">
-                                <p>fork me on <a href="http://github.com/paulduran/blaze">github</a></p>
-                            </div>
-  
-                        </footer>
-                        <!--/footer-->
+            $('#frame-list li a').click(function (e) {
+                var id = $(this).attr('href');
+                var iphoneId = id + '-iphone';
+                $('#image-area img, #iphone-img img').hide();
+                $(id).fadeIn();
+                $(iphoneId).fadeIn();
+                e.preventDefault();
+            });
+        });
+    </script>
+</head>
+<body promptdialogcheckdone="1">
+    <div id="wrapper">
+        <div id="wrapper-outer">
+            <div id="wrapper-inner">
+                <div id="ribbon" style="height: 732px;">
+                    <div id="inner-ribbon">
                     </div>
                 </div>
-            </div> 
+                <div id="wrapper-right">
+                    <!--header-->
+                    <header id="header">
+                        <div class="inner-header">
+                            <div class="logo">
+                                <img src="@Url.Content("~/Content/images/blaze_logo_medium_x.png")" width="48" height="48" style="padding-top: 5px;"/><h1>
+                                                                                                                                                          Blaze</h1>
+                                <small>At last. A <strong>modern</strong> web-based campfire client!</small>
+                               
+                            </div>                            
+                        </div>
+                        <div class="login"><button class="login btn btn-large btn-success">Sign in now</button></div>
+                    </header>
+                    <!--/header-->
+                    <!--menu-->
+                    <nav>
+                    </nav>
+                    <!--/menu-->
+                    <!--content-->
+                    <div id="content">
+                        <div class="inner-content">
+                            <section id="up-section">
+                                <div id="col-1" >
+                                    <div class="about">
+                                        <h1>About Blaze</h1>
+                                        <p>Blaze is an alternative <a href="http://campfirenow.com">Campfire</a> web client. Blaze aims to improve on the existing Campfire web client by delivering a modern 
+                                            HTML 5 experience.
+                                        </p>
+                                        <p>
+                                            Blaze utilises Ajax throughout to provide a seamless experience when changing rooms, uploading files, watching linked video files etc.
+                                        </p>
+                                        <p>
+                                            By leveraging new features in HTML 5, Blaze is able to deliver a superior user experience by utilising desktop integration features such as pop-up notifications and 
+                                            drag-drop file upload.
+                                        </p>                                        
+                                    </div>
+                                </div>
+                                <div id="col-2">
+                                    <div id="image-area">
+                                        <img id="screen-1" src="@Url.Content("~/Content/images/public/blaze-20120301.png")" alt="" width="418" >
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="down-section" style="padding-top: 50px;">
+                                <div class="features">
+                                    <h1>
+                                        Features</h1>
+                                </div>
+                                <div id="info-area">
+                                    <ul>
+                                        <li class="first">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn6.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Efficient use of space</strong>. Blaze makes much more efficient use of
+                                                        space than the standard campfire client.</p>
+                                                    <p>
+                                                        Multiple Join / Leave messages are compressed to take up a single line rather than
+                                                        many.</p>
+                                                    <p>
+                                                        Timestamps are shown subtely to the right of each message rather than consuming
+                                                        a separate line.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="sec">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn4.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Ajax user interface</strong>. Where Campfire will only show updates to the
+                                                        room you are currently in, Blaze shows all of your open rooms in a tabbed interface
+                                                        where all rooms are updated in real time.
+                                                    </p>
+                                                    <p>
+                                                        When a new message arrives in another room, the tab is highlighted and shows the
+                                                        number of new messages.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li class="first">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn3.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Window title updates</strong>. The number of unread messages show in the
+                                                        window title, enabling 'glow' effect on pinned tabs in Chrome/Firefox</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="sec">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn2.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Avatars</strong>. Blaze will show your Campfire avatar, if you have configured
+                                                        one. If not, we will even try to display your <a href="http://www.gravatar.com">Gravatar
+                                                            image</a>.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li class="first">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn5.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Drag / Drop file upload</strong>.Simply drag files from your desktop onto
+                                                        the page to upload the file to the room.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="sec">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn8.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Hilight my conversations</strong>. Blaze will hilight messages sent from
+                                                        you in yellow. It will also hilight messages where you are mentioned.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ul class="nobg">
+                                        <li class="first">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn7.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Flexible notifications</strong>
+                                                    . Blaze ensures you won't miss those messages by providing you with several ways
+                                                    to be notified when new messages arrive in a room. These notifications can be configured
+                                                    on individual rooms.<p>
+                                                        Currently supported notification types are <strong>desktop (popup) notifications</strong>
+                                                        (webkit browsers only) and <strong>audible notifications</strong></p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="sec">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn1.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Inline Content Providers</strong>. Why leave Blaze? We'll show those Tweets,
+                                                        Images, Youtube/Vimeo videos, Soundcloud clips (and many more!) inline. All in nice
+                                                        collapsible panels so that they are out of your way when you are done with them!</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <!--/content-->
+                    <!--footer-->
+                    <footer id="footer">
+                        <div id="left-footer">
+                        </div>
+                        <div id="right-footer">
+                            <p>
+                                fork me on <a href="http://github.com/paulduran/blaze">github</a></p>
+                        </div>
+                    </footer>
+                    <!--/footer-->
+                </div>
+            </div>
         </div>
-
-    </body>
+    </div>
+</body>
 </html>
