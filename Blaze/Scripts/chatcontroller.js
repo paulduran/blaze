@@ -22,7 +22,7 @@ ChatController.prototype.init = function (accountName) {
         authToken;
 
     this.roomsModel = new RoomsModel(this);
-    self.view.init(this.roomsModel, this.campfire);   
+    self.view.init(this.roomsModel, this.campfire);
     if (account) {
         authToken = $.cookie(account + '_authtoken');
     }
@@ -44,8 +44,7 @@ ChatController.prototype.init = function (accountName) {
         var parts = hash.split('/');
         if (parts[0] === 'rooms') {
             var roomName = parts[1];
-            var room = self.roomsModel.roomsByDomId['messages-' + roomName];
-            room && self.view.showRoom(room);
+            self.view.changeRoom(roomName);
         }
     }, { unescape: ',/' });
 };

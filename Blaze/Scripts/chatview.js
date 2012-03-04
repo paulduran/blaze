@@ -32,7 +32,7 @@ ChatView.prototype.init = function (roomsModel, campfire) {
     });
     $('#tabs-lobby').live('click', function () {
         var name = $(this).data('name');
-        self.changeRoom(name);
+        $.history.load('/rooms/' + name);
     });
     $(document).on('click', 'h3.collapsible_title', function () {
         var nearEnd = self.isNearTheEnd();
@@ -186,11 +186,6 @@ ChatView.prototype.changeRoom = function (roomId) {
 
 ChatView.prototype.show = function () {
     $('#page').fadeIn(1000);    
-};
-
-ChatView.prototype.showRoom = function (room) {
-    var self = this;
-    self.changeRoom(room.id());
 };
 
 ChatView.prototype.sortRooms = function() {
