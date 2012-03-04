@@ -238,6 +238,7 @@
     <Content Include="Scripts\jquery.fileupload.js" />
     <Content Include="Scripts\jquery.history.js" />
     <Content Include="Scripts\jquery.insertAtCaret.js" />
+    <Content Include="Scripts\jquery.placeholder.js" />
     <Content Include="Scripts\jquery.scrollto.js" />
     <Content Include="Scripts\jquery.timeago.0.10.js" />
     <Content Include="Scripts\jQuery.tmpl.min.js" />
