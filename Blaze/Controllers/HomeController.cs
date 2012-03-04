@@ -13,14 +13,14 @@ namespace Blaze.Controllers
     [RequireHttpsAttribute]
     public class HomeController : Controller
     {
-        public ActionResult Public()
+        public ActionResult Index()
         {
             return View();
         }
         //
         // GET: /Home/
 
-        public ActionResult Index(string accountName)
+        public ActionResult Chat(string accountName)
         {
             ViewBag.AccountName = accountName;
             ViewBag.Stealth = Convert.ToBoolean(ConfigurationManager.AppSettings["Stealth"] ?? "true")
@@ -29,7 +29,7 @@ namespace Blaze.Controllers
             var model = new HomeModel
                             {
                             };
-            return View(model);
+            return View("Chat",model);
         }
 
         public ActionResult Proxy(string account, string url, string auth)

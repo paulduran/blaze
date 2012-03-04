@@ -1,0 +1,274 @@
+﻿@model Blaze.Models.HomeModel
+@{
+    ViewBag.Title = "Campfire Client";
+    Layout = null;
+}
+<html>
+    <head>
+        <title>Blaze</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <link href="@Url.Content("~/Content/Chat.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/Blaze.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/Login.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/Chat.githubissues.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/Chat.bbcnews.css")" rel="Stylesheet" />
+        <link href="@Url.Content("~/Content/emoji20.css")" rel="Stylesheet" />
+        <link rel="icon" href="@Url.Content("~/Content/images/blaze_logo_small_x.png")" type="image/x-icon">
+        <link rel="shortcut icon" href="@Url.Content("~/Content/images/blaze_logo_small_x.png")" type="image/x-icon">
+    </head>
+    <body>
+        @Html.Partial("_Login")
+    <!-- TweetContentProvider: Should be extracted out if other content providers need templates -->
+    <script id="tweet-template" type="text/x-jquery-tmpl">
+        <div class="user">
+            <img src="${user.profile_image_url}" />
+            <span class="name">${user.screen_name}</span> (${user.name})
+        </div>
+        {{html text}}
+        <time class="js-relative-date" datetime="${created_at}">${created_at}</time> 
+    </script>
+    <!-- /TweetContentProvider -->
+    <!-- /GitHub Issues Content Provider -->
+    <script id="github-issues-template" type="text/x-jquery-tmpl">
+        <div class="new-comments">
+            <div class="avatar-bubble js-comment-container">
+                <span class="avatar">
+                    <img height="48" width="48" src="${user.avatar_url}">
+                    <span class="overlay size-48"></span>
+                </span>
+                <div class="bubble">
+                    <div class="comment starting-comment ">
+                        <div class="body">
+                            <p class="author">
+                                <a href="#" class='github-issue-user-${user.login}' target="_blank">${user.login}</a> opened this issue
+                                <time class="js-relative-date" datetime="${created_at}">${created_at}</time>
+                            </p>
+                            <a href="${html_url}" target="_blank"><h2 class="content-title">${title}</h2></a>
+                            <div class="infobar clearfix">
+                                <p class="milestone js-milestone-infobar-item-wrapper">No milestone</p>
+                                {{if assignee}}
+                                    <p class="assignee">
+                                        <span class="avatar">
+                                            <img height="20" width="20" src="${assignee.avatar_url}">
+                                            <span class="overlay size-20"></span>
+                                        </span>
+                                        <a href="#" class="github-issue-user-${assignee.login}" target="_blank">${assignee.login}</a> is assigned
+                                    </p>
+                                {{/if}}
+                            </div>
+                            <div class="formatted-content">
+                                <div class="content-body wikistyle markdown-format">
+                                    <p>
+                                        {{html body}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>   
+    </script>
+    <!-- /Github Issus Content Provider -->
+        <script id="base-message-template" type="text/x-jquery-tmpl">
+            {{if isNotification}}
+            {{tmpl "#new-notification-template"}}
+            {{else isTimestamp}}
+            {{tmpl "#new-separator-template"}}
+            {{else}}
+            {{tmpl "#new-message-template"}}
+            {{/if}}            
+        </script>
+        <script id="new-separator-template" type="text/x-jquery-tmpl">
+            <li class="list-header" data-timestamp="${created_at}">
+                <div class="content">
+                    {{html message}}
+                </div>
+            </li>
+        </script>
+        <script id="new-message-template" type="text/x-jquery-tmpl">
+            <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${created_at}">
+                <div class="left">
+                    {{if showUser}}
+                    <img src="${user.avatar}" class="gravatar" />
+                    <span class="name">${trimmedName}</span>
+                    {{/if}}
+                </div>
+                <div class="middle">
+                    {{html message}}
+                </div>
+                <div class="right">
+                    <span id="t-${id}" class="time" title="${created_at}">${when}</span>
+                </div>
+            </li>
+        
+        </script>
+        <script id="new-notification-template" type="text/x-jquery-tmpl">
+            {{if isVisible}}
+            <li class="notification" data-timestamp="${date}">
+                <div class="content">
+                    {{html message}}
+                    <a class="info" href="#" data-bind="click: toggleCollapse">${collapseText}</a>
+                </div>
+                <div class="right">
+                    <span class="time" title="${fulldate}">${when}</span>
+                </div>
+            </li>
+            {{/if}}
+        </script>
+
+        <div id="page" style="display: none;">
+            <div id="heading">
+                <div class="banner"><a href="@Url.Action("Index")"><img src="@Url.Content("~/Content/images/blaze_logo_medium_x.png")" width="48" height="48" style="padding-top: 5px;"/></a>
+                                    <h1>
+                        
+                                        Blaze
+                                    </h1>
+                                    
+                    <div>Campfire Client</div>
+                    @*                <img alt="logo" src="Content/images/logo32.png" id="logo" />*@
+                    <div class="right">
+                        Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a> and <a href="https://github.com/davidfowl/JabbR" target="_blank">JabbR</a></div>
+                </div>
+                <a class="janrainEngage" href="#" style="display:none">Sign-In</a>
+                <div style="clear: both">
+                </div>
+                <ul id="tabs">
+                    <li id="tabs-lobby" class="current lobby" data-name="lobby">
+                        <button accesskey="l">
+                            <span class="content">Lobby</span></button>
+                    </li>
+                    <!-- ko foreach: activeRooms -->
+                    <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible, active: isActive}, click: $parent.displayRoom">
+                        <span class="lock"></span>
+                        <button> 
+                            <span class="content" data-bind="text: tabText"></span>
+                        </button>
+                        <div class="close" data-bind="click: $parent.leaveRoom"></div>
+                    </li>
+                    <!-- /ko -->
+                </ul>
+            </div>
+            <div id="janrainEngageEmbed">
+            </div>
+            <div id="chat-area">
+                <ul id="messages-lobby" class="messages current" >
+                    <li class="notification"><div class="content">Welcome to the Campfire lobby</div></li>
+                    <li class="notification"><div class="content">You can join any of the rooms on the right.</div></li>
+                </ul>
+                <form id="users-filter-form" action="#">
+                    <input id="users-filter" class="filter" type="text" />
+                </form>
+                <div id="userlist-lobby" class="users current">
+                    <h3 class="userlist-header nav-header">Rooms</h3>
+                    <ul data-bind="foreach: rooms">
+                        <li class="room" data-bind="attr: {'data-room':name}, click: $parent.displayRoom" style="background-color: rgb(229,229,229)">
+                            <span class="name" data-bind="text: name, attr: {title: topic}"></span>
+                            <span class="count" data-bind="text: numUsers"></span>
+                        </li>
+                    </ul>
+                </div>               
+                <form id="send-message" action="#">
+                    <div id="message-box">
+                        <textarea id="new-message" autocomplete="off" accesskey="m" data-bind="value: inputMessage, valueUpdate: 'afterkeydown', event: {keydown: onKeyDown, paste: onPaste}"></textarea>
+                    </div>
+                    <input type="submit" id="send" value="Send" class="send btn" data-bind="click: sendMessage" />
+                    <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
+                </form>
+                <form id="file-upload" method="POST" enctype="multipart/form-data" style="display: none;">
+                    <input type="file" class="file-input" name="upload"/>
+                </form>
+                <div id="file-upload-progress" style="display: none;">
+                    <button class="btn btn-warning confirm" type="button">Confirm upload?</button>
+                    <button class="btn btn-danger cancel" type="button">Cancel</button>
+                    <div class="progress progress-info progress-striped active">
+                        <div class="bar" style="width: 0%;"></div>
+                    </div>
+                    <div class="status-msg"></div>
+                </div>
+                <!-- ko foreach: activeRooms -->
+                <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
+                </ul>
+                <div class="preferences"  data-bind="visible: isVisible">
+                    <a class="sound" title="audible notifications" data-bind="css: {off:!prefs.sound()}, click: toggleSound"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop, visible: canToast()"></a>
+                </div>
+                <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span data-bind="text: topic"></span></div>
+                <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
+                    <h3 class="userlist-header nav-header">Users</h3>
+                    <div>
+                        <ul data-bind="foreach: users">
+                            <li class="user" data-bind="attr: {'data-name':name}">
+                                <img class="gravatar" data-bind="attr: {src: avatar}"/>
+                                <div class="details">
+                                    <span class="name" data-bind="text: name"></span>                               
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <audio src="Content/sounds/notification.wav" id="notificationSound" hidden="hidden" />
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+    chat = {};
+    chat.ui = {};
+</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.17.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cookie.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.scrollto.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jQuery.tmpl.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.insertAtCaret.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.timeago.0.10.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.autotabcomplete.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/knockout-2.0.0.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-transition.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.toast.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/chatview.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/chat.notification.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.emoji.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/loginview.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/base64.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.utility.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.githubissues.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.twitter.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Markdown.Converter.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.fileupload.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.history.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.captureDocumentWrite.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.documentonwrite.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jstorage.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/md5.js")"></script>
+<script type="text/javascript"> 
+
+    $(function () {
+        var emojiProcessor = new Emoji.Parser();
+        var campfire = new Campfire(@ViewBag.Stealth);
+        var chatView = new ChatView();
+        var loginView = new LoginView();
+        var prefs = new PreferencesModel();
+        var notifications = new ChatNotifications(prefs);
+        var controller = new ChatController(campfire, emojiProcessor, chatView, loginView, notifications, prefs);
+        controller.init('@ViewBag.AccountName');
+        chat.ui.isNearTheEnd = $.proxy(chatView.isNearTheEnd, chatView);
+        chat.ui.scrollToEnd = $.proxy(chatView.scrollToEnd, chatView);
+        chat.ui.scrollToBottom = $.proxy(chatView.scrollToEnd, chatView);
+        $('#page').on('mouseover mouseout','.gravatar',
+            function(ev) {
+                var size = ev.type === 'mouseover' ? '48px' : '24px';
+                $(this).animate({ width: size, height: size }, 300);
+            });
+    });
+</script>

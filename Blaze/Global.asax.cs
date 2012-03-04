@@ -20,7 +20,14 @@ namespace Blaze
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
+            routes.MapRoute(
+                "chat_route", // Route name
+                "chat", // URL with parameters
+                new { controller = "Home", action = "Chat" } // Parameter defaults
+            );
+
+
             routes.MapRoute(
                 "get_upload_route", // Route name
                 "uploads/{auth}/{account}/{*url}", // URL with parameters

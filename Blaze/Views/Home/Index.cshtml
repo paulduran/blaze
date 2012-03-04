@@ -1,273 +1,220 @@
-﻿@model Blaze.Models.HomeModel
-@{
-    ViewBag.Title = "Campfire Client";
+﻿@{
     Layout = null;
 }
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Blaze</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-        <link href="@Url.Content("~/Content/Chat.css")" rel="Stylesheet" />
-        <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="Stylesheet" />
-        <link href="@Url.Content("~/Content/Blaze.css")" rel="Stylesheet" />
-        <link href="@Url.Content("~/Content/Login.css")" rel="Stylesheet" />
-        <link href="@Url.Content("~/Content/Chat.githubissues.css")" rel="Stylesheet" />
-        <link href="@Url.Content("~/Content/Chat.bbcnews.css")" rel="Stylesheet" />
-        <link href="@Url.Content("~/Content/emoji20.css")" rel="Stylesheet" />
-        <link rel="icon" href="@Url.Content("~/Content/images/blaze_logo_small_x.png")" type="image/x-icon">
-        <link rel="shortcut icon" href="@Url.Content("~/Content/images/blaze_logo_small_x.png")" type="image/x-icon">
-    </head>
-    <body>
-        @Html.Partial("_Login")
-    <!-- TweetContentProvider: Should be extracted out if other content providers need templates -->
-    <script id="tweet-template" type="text/x-jquery-tmpl">
-        <div class="user">
-            <img src="${user.profile_image_url}" />
-            <span class="name">${user.screen_name}</span> (${user.name})
-        </div>
-        {{html text}}
-        <time class="js-relative-date" datetime="${created_at}">${created_at}</time> 
-    </script>
-    <!-- /TweetContentProvider -->
-    <!-- /GitHub Issues Content Provider -->
-    <script id="github-issues-template" type="text/x-jquery-tmpl">
-        <div class="new-comments">
-            <div class="avatar-bubble js-comment-container">
-                <span class="avatar">
-                    <img height="48" width="48" src="${user.avatar_url}">
-                    <span class="overlay size-48"></span>
-                </span>
-                <div class="bubble">
-                    <div class="comment starting-comment ">
-                        <div class="body">
-                            <p class="author">
-                                <a href="#" class='github-issue-user-${user.login}' target="_blank">${user.login}</a> opened this issue
-                                <time class="js-relative-date" datetime="${created_at}">${created_at}</time>
-                            </p>
-                            <a href="${html_url}" target="_blank"><h2 class="content-title">${title}</h2></a>
-                            <div class="infobar clearfix">
-                                <p class="milestone js-milestone-infobar-item-wrapper">No milestone</p>
-                                {{if assignee}}
-                                    <p class="assignee">
-                                        <span class="avatar">
-                                            <img height="20" width="20" src="${assignee.avatar_url}">
-                                            <span class="overlay size-20"></span>
-                                        </span>
-                                        <a href="#" class="github-issue-user-${assignee.login}" target="_blank">${assignee.login}</a> is assigned
-                                    </p>
-                                {{/if}}
-                            </div>
-                            <div class="formatted-content">
-                                <div class="content-body wikistyle markdown-format">
-                                    <p>
-                                        {{html body}}
-                                    </p>
-                                </div>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Blaze campfire client</title>
+    <link href="@Url.Content("~/Content/reset.css")" rel="Stylesheet" />
+    <link href="@Url.Content("~/Content/public.css")" rel="Stylesheet" />
+    <link href="@Url.Content("~/Content/Login.css")" rel="Stylesheet" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+</head>
+<body>
+    @Html.Partial("_Login")
+    <div id="wrapper">
+        <div id="wrapper-outer">
+            <div id="wrapper-inner">
+                <div id="ribbon" style="height: 732px;">
+                    <div id="inner-ribbon">
+                    </div>
+                </div>
+                <div id="wrapper-right">
+                    <!--header-->
+                    <header id="header">
+                        <div class="inner-header">
+                            <div class="logo">
+                                <img src="@Url.Content("~/Content/images/blaze_logo_medium_x.png")" width="48" height="48" style="padding-top: 5px;"/><h1>
+                                                                                                                                                          Blaze</h1>
+                                <small>At last. A <strong>modern</strong> web-based campfire client!</small>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-           
-        </div>   
-    </script>
-    <!-- /Github Issus Content Provider -->
-        <script id="base-message-template" type="text/x-jquery-tmpl">
-            {{if isNotification}}
-            {{tmpl "#new-notification-template"}}
-            {{else isTimestamp}}
-            {{tmpl "#new-separator-template"}}
-            {{else}}
-            {{tmpl "#new-message-template"}}
-            {{/if}}            
-        </script>
-        <script id="new-separator-template" type="text/x-jquery-tmpl">
-            <li class="list-header" data-timestamp="${created_at}">
-                <div class="content">
-                    {{html message}}
-                </div>
-            </li>
-        </script>
-        <script id="new-message-template" type="text/x-jquery-tmpl">
-            <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${created_at}">
-                <div class="left">
-                    {{if showUser}}
-                    <img src="${user.avatar}" class="gravatar" />
-                    <span class="name">${trimmedName}</span>
-                    {{/if}}
-                </div>
-                <div class="middle">
-                    {{html message}}
-                </div>
-                <div class="right">
-                    <span id="t-${id}" class="time" title="${created_at}">${when}</span>
-                </div>
-            </li>
-        
-        </script>
-        <script id="new-notification-template" type="text/x-jquery-tmpl">
-            {{if isVisible}}
-            <li class="notification" data-timestamp="${date}">
-                <div class="content">
-                    {{html message}}
-                    <a class="info" href="#" data-bind="click: toggleCollapse">${collapseText}</a>
-                </div>
-                <div class="right">
-                    <span class="time" title="${fulldate}">${when}</span>
-                </div>
-            </li>
-            {{/if}}
-        </script>
-
-        <div id="page" style="display: none;">
-            <div id="heading">
-                <div class="banner"><img src="@Url.Content("~/Content/images/blaze_logo_medium_x.png")" width="48" height="48" style="padding-top: 5px;"/>
-                    <h1>
-                        
-                        Blaze
-                    </h1>
-                    <div>Campfire Client</div>
-                    @*                <img alt="logo" src="Content/images/logo32.png" id="logo" />*@
-                    <div class="right">
-                        Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a> and <a href="https://github.com/davidfowl/JabbR" target="_blank">JabbR</a></div>
-                </div>
-                <a class="janrainEngage" href="#" style="display:none">Sign-In</a>
-                <div style="clear: both">
-                </div>
-                <ul id="tabs">
-                    <li id="tabs-lobby" class="current lobby" data-name="lobby">
-                        <button accesskey="l">
-                            <span class="content">Lobby</span></button>
-                    </li>
-                    <!-- ko foreach: activeRooms -->
-                    <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible, active: isActive}, click: $parent.displayRoom">
-                        <span class="lock"></span>
-                        <button> 
-                            <span class="content" data-bind="text: tabText"></span>
-                        </button>
-                        <div class="close" data-bind="click: $parent.leaveRoom"></div>
-                    </li>
-                    <!-- /ko -->
-                </ul>
-            </div>
-            <div id="janrainEngageEmbed">
-            </div>
-            <div id="chat-area">
-                <ul id="messages-lobby" class="messages current" >
-                    <li class="notification"><div class="content">Welcome to the Campfire lobby</div></li>
-                    <li class="notification"><div class="content">You can join any of the rooms on the right.</div></li>
-                </ul>
-                <form id="users-filter-form" action="#">
-                    <input id="users-filter" class="filter" type="text" />
-                </form>
-                <div id="userlist-lobby" class="users current">
-                    <h3 class="userlist-header nav-header">Rooms</h3>
-                    <ul data-bind="foreach: rooms">
-                        <li class="room" data-bind="attr: {'data-room':name}, click: $parent.displayRoom" style="background-color: rgb(229,229,229)">
-                            <span class="name" data-bind="text: name, attr: {title: topic}"></span>
-                            <span class="count" data-bind="text: numUsers"></span>
-                        </li>
-                    </ul>
-                </div>               
-                <form id="send-message" action="#">
-                    <div id="message-box">
-                        <textarea id="new-message" autocomplete="off" accesskey="m" data-bind="value: inputMessage, valueUpdate: 'afterkeydown', event: {keydown: onKeyDown, paste: onPaste}"></textarea>
-                    </div>
-                    <input type="submit" id="send" value="Send" class="send btn" data-bind="click: sendMessage" />
-                    <div id="message-instruction">Type @@ then press TAB to auto-complete nicknames</div>
-                </form>
-                <form id="file-upload" method="POST" enctype="multipart/form-data" style="display: none;">
-                    <input type="file" class="file-input" name="upload"/>
-                </form>
-                <div id="file-upload-progress" style="display: none;">
-                    <button class="btn btn-warning confirm" type="button">Confirm upload?</button>
-                    <button class="btn btn-danger cancel" type="button">Cancel</button>
-                    <div class="progress progress-info progress-striped active">
-                        <div class="bar" style="width: 0%;"></div>
-                    </div>
-                    <div class="status-msg"></div>
-                </div>
-                <!-- ko foreach: activeRooms -->
-                <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
-                </ul>
-                <div class="preferences"  data-bind="visible: isVisible">
-                    <a class="sound" title="audible notifications" data-bind="css: {off:!prefs.sound()}, click: toggleSound"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop, visible: canToast()"></a>
-                </div>
-                <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span data-bind="text: topic"></span></div>
-                <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
-                    <h3 class="userlist-header nav-header">Users</h3>
-                    <div>
-                        <ul data-bind="foreach: users">
-                            <li class="user" data-bind="attr: {'data-name':name}">
-                                <img class="gravatar" data-bind="attr: {src: avatar}"/>
-                                <div class="details">
-                                    <span class="name" data-bind="text: name"></span>                               
+                        <div class="login">
+                            <a class="login btn btn-large btn-success" href="@Url.Action("Chat")">
+                                Sign in now</a></div>
+                    </header>
+                    <!--/header-->
+                    <!--menu-->
+                    <nav>
+                    </nav>
+                    <!--/menu-->
+                    <!--content-->
+                    <div id="content">
+                        <div class="inner-content">
+                            <section id="up-section">
+                                <div id="col-1">
+                                    <div class="about">
+                                        <h1>
+                                            About Blaze</h1>
+                                        <p>
+                                            Blaze is an alternative <a href="http://campfirenow.com">Campfire</a> web client.
+                                            Blaze aims to improve on the existing Campfire web client by delivering a modern
+                                            HTML 5 experience.
+                                        </p>
+                                        <p>
+                                            Blaze utilises Ajax throughout to provide a seamless experience when changing rooms,
+                                            uploading files, watching linked video files etc.
+                                        </p>
+                                        <p>
+                                            By leveraging new features in HTML 5, Blaze is able to deliver a superior user experience
+                                            by utilising desktop integration features such as pop-up notifications and drag-drop
+                                            file upload.
+                                        </p>
+                                    </div>
                                 </div>
-                            </li>
-                        </ul>
+                                <div id="col-2">
+                                    <div id="image-area">
+                                        <img id="screen-1" src="@Url.Content("~/Content/images/public/blaze-20120301.png")" alt="" width="418" >
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="down-section" style="padding-top: 50px;">
+                                <div class="features">
+                                    <h1>
+                                        Features</h1>
+                                </div>
+                                <div id="info-area">
+                                    <ul>
+                                        <li class="first">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn6.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Efficient use of space</strong>. Blaze makes much more efficient use of
+                                                        space than the standard campfire client.</p>
+                                                    <p>
+                                                        Multiple Join / Leave messages are compressed to take up a single line rather than
+                                                        many.</p>
+                                                    <p>
+                                                        Timestamps are shown subtely to the right of each message rather than consuming
+                                                        a separate line.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="sec">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn4.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Ajax user interface</strong>. Where Campfire will only show updates to the
+                                                        room you are currently in, Blaze shows all of your open rooms in a tabbed interface
+                                                        where all rooms are updated in real time.
+                                                    </p>
+                                                    <p>
+                                                        When a new message arrives in another room, the tab is highlighted and shows the
+                                                        number of new messages.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li class="first">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn3.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Window title updates</strong>. The number of unread messages show in the
+                                                        window title, enabling 'glow' effect on pinned tabs in Chrome/Firefox</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="sec">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn2.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Avatars</strong>. Blaze will show your Campfire avatar, if you have configured
+                                                        one. If not, we will even try to display your <a href="http://www.gravatar.com">Gravatar
+                                                                                                          image</a>.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li class="first">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn5.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Drag / Drop file upload</strong>.Simply drag files from your desktop onto
+                                                        the page to upload the file to the room.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="sec">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn8.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Hilight my conversations</strong>. Blaze will hilight messages sent from
+                                                        you in yellow. It will also hilight messages where you are mentioned.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ul class="nobg">
+                                        <li class="first">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn7.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                    <strong>Flexible notifications</strong>
+                                                    . Blaze ensures you won't miss those messages by providing you with several ways
+                                                    to be notified when new messages arrive in a room. These notifications can be configured
+                                                    on individual rooms.<p>
+                                                                            Currently supported notification types are <strong>desktop (popup) notifications</strong>
+                                                                            (webkit browsers only) and <strong>audible notifications</strong></p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="sec">
+                                            <div class="main-area">
+                                                <a href="#">
+                                                    <img src="@Url.Content("~/Content/images/public/btn1.png")" alt=""></a>
+                                                <div class="right-cont">
+                                                    <p>
+                                                        <strong>Inline Content Providers</strong>. Why leave Blaze? We'll show those Tweets,
+                                                        Images, Youtube/Vimeo videos, Soundcloud clips (and many more!) inline. All in nice
+                                                        collapsible panels so that they are out of your way when you are done with them!</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                        </div>
                     </div>
+                    <!--/content-->
+                    <!--footer-->
+                    <footer id="footer">
+                        <div id="left-footer">
+                        </div>
+                        <div id="right-footer">
+                            <p>
+                                fork me on <a href="http://github.com/paulduran/blaze">github</a></p>
+                        </div>
+                    </footer>
+                    <!--/footer-->
                 </div>
-                <!-- /ko -->
             </div>
-            <audio src="Content/sounds/notification.wav" id="notificationSound" hidden="hidden" />
         </div>
-    </body>
-</html>
-<script type="text/javascript">
-    chat = {};
-    chat.ui = {};
-</script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.17.min.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cookie.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.scrollto.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jQuery.tmpl.min.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.insertAtCaret.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.timeago.0.10.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.autotabcomplete.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/knockout-2.0.0.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-transition.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/chatcontroller.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.toast.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/chatview.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/chat.notification.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.emoji.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/loginview.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/models.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/api.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/base64.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.utility.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.githubissues.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.twitter.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/Markdown.Converter.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.fileupload.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.history.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.captureDocumentWrite.min.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/Chat.documentonwrite.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jstorage.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/md5.js")"></script>
-<script type="text/javascript"> 
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#ribbon').css({ 'height': (($(window).height())) + 'px' });
 
-    $(function () {
-        var emojiProcessor = new Emoji.Parser();
-        var campfire = new Campfire(@ViewBag.Stealth);
-        var chatView = new ChatView();
-        var loginView = new LoginView();
-        var prefs = new PreferencesModel();
-        var notifications = new ChatNotifications(prefs);
-        var controller = new ChatController(campfire, emojiProcessor, chatView, loginView, notifications, prefs);
-        controller.init('@ViewBag.AccountName');
-        chat.ui.isNearTheEnd = $.proxy(chatView.isNearTheEnd, chatView);
-        chat.ui.scrollToEnd = $.proxy(chatView.scrollToEnd, chatView);
-        chat.ui.scrollToBottom = $.proxy(chatView.scrollToEnd, chatView);
-        $('#page').on('mouseover mouseout','.gravatar',
-            function(ev) {
-                var size = ev.type === 'mouseover' ? '48px' : '24px';
-                $(this).animate({ width: size, height: size }, 300);
+            $(window).resize(function () {
+                $('#ribbon').css({ 'height': (($(window).height())) + 'px' });
             });
-    });
-</script>
+        });
+    </script>
+</body>
+</html>
