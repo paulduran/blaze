@@ -34,6 +34,7 @@ LoginView.prototype.show = function (showError, loginCallback) {
     if(!showError) {
         this.loginModel.loginCallback = loginCallback;
         ko.applyBindings(this.loginModel, document.getElementById('login-form'));
+        $('#login-form input[placeholder], #login-form textarea[placeholder]').placeholder();
         $('#login-form').fadeIn(1000);
     }
 };

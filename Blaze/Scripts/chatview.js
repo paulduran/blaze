@@ -134,7 +134,7 @@ ChatView.prototype.changeRoom = function (roomId) {
         var lastSeenMessage = self.roomsModel.visibleRoom.lastSeenMessage;
         if (lastSeenMessage) {
             lastSeenMessage.isLastMessage(false);
-            self.roomsModel.visibleRoom.lastSeenMessage = null;            
+            self.roomsModel.visibleRoom.lastSeenMessage = null;
         }
         if (self.roomsModel.visibleRoom.lastMessage /*&& self.roomsModel.visibleRoom.lastMessage !== lastSeenMessage*/) {
             self.roomsModel.visibleRoom.lastSeenMessage = self.roomsModel.visibleRoom.lastMessage;
@@ -154,6 +154,7 @@ ChatView.prototype.changeRoom = function (roomId) {
             maxNumberOfFiles: 1,
             paramName: 'upload',
             add: function (e, data) {
+                if (!data.files[0]) return;
                 $('#file-upload-progress').fadeIn();
                 $('#file-upload-progress .progress').hide();
                 $('#file-upload-progress .confirm').show().click(function () {
