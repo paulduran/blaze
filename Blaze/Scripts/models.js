@@ -213,9 +213,9 @@ function UserModel(obj) {
         if (!url || url.indexOf('missing/avatar.gif') !== -1) {
             if (self.email_address()) {
                 if(window.location.protocol === 'https:') {
-                    url = 'https://secure.gravatar.com/avatar/' + hex_md5(self.email_address()) + '?s=32&d=mm';
+                    url = 'https://secure.gravatar.com/avatar/' + hex_md5(self.email_address()) + '?s=48&d=mm';
                 } else {
-                    url = 'http://www.gravatar.com/avatar/' + hex_md5(self.email_address()) + '?s=32&d=mm';                    
+                    url = 'http://www.gravatar.com/avatar/' + hex_md5(self.email_address()) + '?s=48&d=mm';
                 }
             } else {
                 url = 'http://asset0.37img.com/global/missing/avatar.gif?r=3';

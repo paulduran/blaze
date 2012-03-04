@@ -92,6 +92,7 @@
 }
 .user .gravatar {
     width: 24px;
+    display: inline-block;
 }
 
 .preferences {

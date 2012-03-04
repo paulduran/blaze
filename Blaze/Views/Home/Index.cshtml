@@ -258,11 +258,16 @@
         var chatView = new ChatView();
         var loginView = new LoginView();
         var prefs = new PreferencesModel();
-        var notifications = new ChatNotifications(prefs);        
-        var controller = new ChatController(campfire, emojiProcessor , chatView, loginView, notifications, prefs);
+        var notifications = new ChatNotifications(prefs);
+        var controller = new ChatController(campfire, emojiProcessor, chatView, loginView, notifications, prefs);
         controller.init('@ViewBag.AccountName');
         chat.ui.isNearTheEnd = $.proxy(chatView.isNearTheEnd, chatView);
         chat.ui.scrollToEnd = $.proxy(chatView.scrollToEnd, chatView);
         chat.ui.scrollToBottom = $.proxy(chatView.scrollToEnd, chatView);
+        $('#page').on('mouseover mouseout','.gravatar',
+            function(ev) {
+                var size = ev.type === 'mouseover' ? '48px' : '24px';
+                $(this).animate({ width: size, height: size }, 300);
+            });
     });
 </script>
