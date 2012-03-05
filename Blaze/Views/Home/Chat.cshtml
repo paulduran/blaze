@@ -141,19 +141,21 @@
                 </div>
                 <ul id="tabs">
                     <li id="tabs-lobby" class="current lobby" data-name="lobby">
-                        <button accesskey="l">
+                        <button accesskey="l" type="button">
                             <span class="content">Lobby</span></button>
                     </li>
                     <!-- ko foreach: activeRooms -->
                     <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible, active: isActive}, click: $parent.displayRoom">
                         <span class="lock"></span>
-                        <button> 
+                        <button data-bind="attr: {accesskey: accessKey}" type="button">  
                             <span class="content" data-bind="text: tabText"></span>
                         </button>
                         <div class="close" data-bind="click: $parent.leaveRoom"></div>
                     </li>
                     <!-- /ko -->
                 </ul>
+                <button style="display: none" accesskey="[" data-bind="click: showPreviousRoom" type="button">&larr;</button>
+                <button style="display: none" accesskey="]" data-bind="click: showNextRoom" type="button">&rarr;</button>
             </div>
             <div id="janrainEngageEmbed">
             </div>
