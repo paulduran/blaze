@@ -7,6 +7,7 @@
 function RoomModel(obj, user, prefs) {
     var self = this;
     this.prefs = prefs;
+    this.accessKey = ko.observable('');
     this.currentUserId = ko.computed(function () {
         return user.id();
     });
@@ -148,6 +149,7 @@ function RoomsModel(chat) {
             newRoom = true;
             self.activeRooms.push(room);
             room.isOpen(true);
+            self.reNumberActiveRooms();
         }
         room.resetActiveFlag();
         chat.showRoom(room, newRoom);
@@ -161,7 +163,46 @@ function RoomsModel(chat) {
             if (room.isVisible() && idx > 0) {
                 chat.showRoom(self.activeRooms()[idx - 1]);
             }
+            self.reNumberActiveRooms();
         }
+    };
+    this.reNumberActiveRooms = function() {
+        $(self.activeRooms()).each(function(i, room) {
+            if (i < 9)
+                room.accessKey(i+1);
+        });
+    };
+    this.showNextRoom = function () {
+        var numRooms = self.activeRooms().length,
+            newRoom;
+        if (!self.visibleRoom && numRooms > 0) {
+            self.displayRoom(self.activeRooms()[0]);
+            return;
+        }
+        $(self.activeRooms()).each(function(i, room) {
+            if (room === self.visibleRoom) {
+                if ((i + 1) < numRooms) {
+                    newRoom = self.activeRooms()[i + 1];
+                    self.displayRoom(newRoom);
+                }
+            }
+        });        
+    };
+    this.showPreviousRoom = function () {
+        var numRooms = self.activeRooms().length,
+            newRoom;
+        if (!self.visibleRoom && numRooms > 0) {
+            self.displayRoom(self.activeRooms()[self.activeRooms().length-1]);
+            return;
+        }
+        $(self.activeRooms()).each(function (i, room) {
+            if (room === self.visibleRoom) {
+                if (i > 0) {
+                    newRoom = self.activeRooms()[i - 1];
+                    self.displayRoom(newRoom);
+                }
+            }
+        });
     };
     this.inputMessage = ko.observable('');
     this.isPaste = ko.observable(false);

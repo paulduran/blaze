@@ -40,37 +40,6 @@ ChatView.prototype.init = function (roomsModel, campfire) {
         var name = $(this).data('name');
         $.history.load('/rooms/' + name);
     });
-    $(document).keydown(function (e) {
-        if (e.altKey) {
-            var numRooms = self.roomsModel.activeRooms().length;
-            var newRoom;
-            if (e.keyCode === 219 || e.keyCode === 221) {
-                $(self.roomsModel.activeRooms()).each(function (i, room) {
-                    if (room === self.roomsModel.visibleRoom) {
-                        if (e.keyCode === 221 && (i + 1) < numRooms) {
-                            newRoom = self.roomsModel.activeRooms()[i + 1];
-                            $.history.load('/rooms/' + newRoom.id());
-                            e.stopPropagation();
-                            return false;
-                        } else if (e.keyCode === 219 && i > 0) {
-                            newRoom = self.roomsModel.activeRooms()[i - 1];
-                            $.history.load('/rooms/' + newRoom.id());
-                            e.stopPropagation();
-                            return false;
-                        }
-                    }
-                });
-            }
-            var roomNum = e.keyCode - 49;
-            if (roomNum >= 0 && roomNum < numRooms) {
-                newRoom = self.roomsModel.activeRooms()[roomNum];
-                $.history.load('/rooms/' + newRoom.id());
-                e.stopPropagation();
-                return false;
-            }
-        }
-        return true;
-    });
     $(document).on('click', 'h3.collapsible_title', function () {
         var nearEnd = self.isNearTheEnd();
         $(this).next().toggle(0, function () {
