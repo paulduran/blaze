@@ -1,3 +1,9 @@
+.info-icon{
+    display: inline-block;
+    background-image: url(images/info-icon.png);    
+    width: 16px;
+    height: 16px;
+}
 .banner img {
     border: none;
 }
