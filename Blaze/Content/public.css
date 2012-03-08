@@ -549,3 +549,13 @@ width:695px;
     font-size: 24px;
     font-weight: bold;
 }
+.email {
+    background-image: url(images/public/email.png);
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+.tweet {
+    background-image: url(images/public/twitter.png);
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}

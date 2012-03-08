@@ -149,11 +149,13 @@
     <Content Include="Content\images\public\btn6.png" />
     <Content Include="Content\images\public\btn7.png" />
     <Content Include="Content\images\public\btn8.png" />
+    <Content Include="Content\images\public\email.png" />
     <Content Include="Content\images\public\eye-btn.png" />
     <Content Include="Content\images\public\html-bg.jpg" />
     <Content Include="Content\images\public\repat-ribbn.png" />
     <Content Include="Content\images\public\ribbon-img1.png" />
     <Content Include="Content\images\public\sec1-bg.jpg" />
+    <Content Include="Content\images\public\twitter.png" />
     <Content Include="Content\images\public\vertcil-border.gif" />
     <Content Include="Content\images\sound-off.png" />
     <Content Include="Content\images\sound-on.png" />
