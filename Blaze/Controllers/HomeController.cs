@@ -31,8 +31,8 @@ namespace Blaze.Controllers
         public string ProcessContent(HttpRequestBase request, string accountName, string content)
         {
             dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject(content);
-            Log.Info("login on account: {0}. email: {1}. Referrer: {2}, IP Address: {3} ({4}). Agent: {5}", accountName,
-                     obj.user != null ? obj.user.email_address : "(unknown)", request.UrlReferrer,
+            Log.Info("login on account: {0}. email: {1}. IP Address: {2} ({3}). Agent: {4}", accountName,
+                     obj.user != null ? obj.user.email_address : "(unknown)", 
                      request.UserHostAddress, request.UserHostName, request.UserAgent);
             return content;
         }
