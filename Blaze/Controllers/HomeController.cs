@@ -1,18 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Blaze.Models;
+using NLog;
 
 namespace Blaze.Controllers
 {
+    public interface ICommandWrapper
+    {
+        bool Match(string url);
+        string ProcessContent(string accountName, string content);
+    }
+
+    public class LoginLoggingCommandWrapper : ICommandWrapper
+    {
+        private static readonly Logger log = LogManager.GetCurrentClassLogger();
+
+        public bool Match(string url)
+        {
+            return url == "users/me.json";
+        }
+
+        public string ProcessContent(string accountName, string content)
+        {
+            dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject(content);
+            log.Info("login on account: {0}. email: {1}", accountName, obj.user != null ? obj.user.email_address : "(unknown)");
+            return content;
+        }
+    }
+
     [RequireHttpsAttribute]
     public class HomeController : Controller
     {
+        private readonly IList<ICommandWrapper> commandWrappers;
+        private static readonly Logger log = LogManager.GetCurrentClassLogger();
+
+        public HomeController(IList<ICommandWrapper> commandWrappers)
+        {
+            this.commandWrappers = commandWrappers;
+        }
+
+        public HomeController()
+        {
+            commandWrappers = new List<ICommandWrapper>() {new LoginLoggingCommandWrapper()};
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -56,10 +95,15 @@ namespace Blaze.Controllers
             {
                 var response = (HttpWebResponse) request.GetResponse();
                 Response.StatusCode = (int) response.StatusCode;
-                return new FileStreamResult(response.GetResponseStream(), response.ContentType);
+                var reader = new StreamReader(response.GetResponseStream());
+                var data = reader.ReadToEnd();
+                data = commandWrappers
+                    .Where(commandWrapper => commandWrapper.Match(url))
+                    .Aggregate(data, (current, commandWrapper) => commandWrapper.ProcessContent(account, current));
+                return Content(data, response.ContentType);
             } catch (WebException ex)
             {
-                return HandleWebException(ex);
+                return HandleWebException(fullUrl, ex);
             }
         }
 
@@ -86,19 +130,21 @@ namespace Blaze.Controllers
             }
             catch (WebException ex)
             {
-                return HandleWebException(ex);
+                return HandleWebException(fullUrl,ex);
             }
         }
 
-        private ActionResult HandleWebException(WebException ex)
+        private ActionResult HandleWebException(string fullUrl, WebException ex)
         {
             if (ex.Response == null)
             {
+                log.ErrorException(string.Format("Web Exception received requesting URL: {0}", fullUrl), ex);
                 Response.StatusCode = 503;
                 return null;
             }
             var response = ((HttpWebResponse) ex.Response);
             Response.StatusCode = (int) response.StatusCode;
+            log.ErrorException(string.Format("Response Code : {0} received requesting URL: {1}", response.StatusCode, fullUrl), ex);
             return new FileStreamResult(response.GetResponseStream(), response.ContentType);
         }
 
@@ -114,7 +160,7 @@ namespace Blaze.Controllers
                 return new FileStreamResult(response.GetResponseStream(), response.ContentType);
             } catch (WebException ex)
             {
-                return HandleWebException(ex);
+                return HandleWebException(fullUrl, ex);
             }
         }
     }
