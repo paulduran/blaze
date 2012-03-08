@@ -21,7 +21,7 @@ namespace Blaze.Controllers
 
     public class LoginLoggingCommandWrapper : ICommandWrapper
     {
-        private static readonly Logger log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Log = LogManager.GetLogger("Blaze.Login");
 
         public bool Match(string url)
         {
@@ -31,7 +31,7 @@ namespace Blaze.Controllers
         public string ProcessContent(string accountName, string content)
         {
             dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject(content);
-            log.Info("login on account: {0}. email: {1}", accountName, obj.user != null ? obj.user.email_address : "(unknown)");
+            Log.Info("login on account: {0}. email: {1}", accountName, obj.user != null ? obj.user.email_address : "(unknown)");
             return content;
         }
     }
@@ -40,7 +40,7 @@ namespace Blaze.Controllers
     public class HomeController : Controller
     {
         private readonly IList<ICommandWrapper> commandWrappers;
-        private static readonly Logger log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public HomeController(IList<ICommandWrapper> commandWrappers)
         {
@@ -138,13 +138,13 @@ namespace Blaze.Controllers
         {
             if (ex.Response == null)
             {
-                log.ErrorException(string.Format("Web Exception received requesting URL: {0}", fullUrl), ex);
+                Log.ErrorException(string.Format("Web Exception received requesting URL: {0}", fullUrl), ex);
                 Response.StatusCode = 503;
                 return null;
             }
             var response = ((HttpWebResponse) ex.Response);
             Response.StatusCode = (int) response.StatusCode;
-            log.ErrorException(string.Format("Response Code : {0} received requesting URL: {1}", response.StatusCode, fullUrl), ex);
+            Log.ErrorException(string.Format("Response Code : {0} received requesting URL: {1}", response.StatusCode, fullUrl), ex);
             return new FileStreamResult(response.GetResponseStream(), response.ContentType);
         }
 
