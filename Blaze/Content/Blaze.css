@@ -363,3 +363,11 @@
 {
     margin-bottom: 5px;    
 }
+
+#credits 
+{
+    position: absolute;
+    text-align: right;
+    bottom: 10px;
+    right: 20px;
+}

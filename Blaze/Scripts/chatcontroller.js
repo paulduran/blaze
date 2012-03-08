@@ -14,6 +14,7 @@ function ChatController(campfire, contentProcessor, view, loginView, notificatio
     this.prefs = prefs;
     this.currentUser = null;
     this.roomsModel = null;
+    this.account = null;
 }
 
 ChatController.prototype.init = function (accountName) {
@@ -21,6 +22,7 @@ ChatController.prototype.init = function (accountName) {
         account = accountName ? accountName : $.cookie('account'),
         authToken;
 
+    this.account = account;
     this.roomsModel = new RoomsModel(this);
     self.view.init(this.roomsModel, this.campfire);
     if (account) {
@@ -199,3 +201,13 @@ ChatController.prototype.leaveRoom = function (room) {
     });
 };
 
+ChatController.prototype.signOut = function () {
+    var self = this;
+    $.cookie(self.account + '_authtoken', null);
+    $(self.roomsModel.activeRooms()).each(function (i, room) {
+        self.campfire.leaveRoom(room.id(), function () {
+            
+        });
+    });
+    window.location = '/';
+};

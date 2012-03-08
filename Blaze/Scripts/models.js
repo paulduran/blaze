@@ -239,6 +239,9 @@ function RoomsModel(chat) {
             self.visibleRoom.countOffline(true);            
         }
     };
+    this.signOut = function () {
+        chat.signOut();
+    };
 }
 function UserModel(obj) {
     var self = this;

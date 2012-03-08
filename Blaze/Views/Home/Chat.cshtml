@@ -134,7 +134,8 @@
                     <div>Campfire Client</div>
                     @*                <img alt="logo" src="Content/images/logo32.png" id="logo" />*@
                     <div class="right">
-                        Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a> and <a href="https://github.com/davidfowl/JabbR" target="_blank">JabbR</a></div>
+                    <a href="#" data-bind="click: signOut">Sign Out</a>
+                        </div>
                 </div>
                 <a class="janrainEngage" href="#" style="display:none">Sign-In</a>
                 <div style="clear: both">
@@ -216,7 +217,8 @@
                 </div>
                 <!-- /ko -->
             </div>
-            <audio src="Content/sounds/notification.wav" id="notificationSound" hidden="hidden" />
+            <div id="credits">Powered by <a href="https://github.com/SignalR/SignalR" target="_blank">SignalR</a> and <a href="https://github.com/davidfowl/JabbR" target="_blank">JabbR</a></div>
+            <audio src="Content/sounds/notification.wav" id="notificationSound" hidden="hidden" />            
         </div>
     </body>
 </html>
