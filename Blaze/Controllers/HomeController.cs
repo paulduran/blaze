@@ -38,7 +38,6 @@ namespace Blaze.Controllers
         }
     }
 
-    [RequireHttpsAttribute]
     public class HomeController : Controller
     {
         private readonly IList<ICommandWrapper> commandWrappers;
