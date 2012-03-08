@@ -545,3 +545,7 @@ width:695px;
     color: #fff;
     text-shadow: rgba(0, 0, 0, 0.246094) 0px -1px 0px;
 }
+.call-to-action {
+    font-size: 24px;
+    font-weight: bold;
+}
