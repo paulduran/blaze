@@ -55,7 +55,7 @@ namespace Blaze.Controllers
 
         public ActionResult Index()
         {
-            Log.Info("Home Page Visitor. Referrer: {0}, IP Address: {1} ({2}). Agent: {3}", Request.UrlReferrer, Request.UserHostAddress, Request.UserHostName, Request.UserAgent);
+            Log.Info("Home Page Visitor. Referrer: {0}, IP Address: {1}. Agent: {2}", Request.UrlReferrer, GetIPAddress(Request), Request.UserAgent);
             return View();
         }
         //
