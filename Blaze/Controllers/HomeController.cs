@@ -16,7 +16,7 @@ namespace Blaze.Controllers
     public interface ICommandWrapper
     {
         bool Match(string url);
-        string ProcessContent(string accountName, string content);
+        string ProcessContent(HttpRequestBase request, string accountName, string content);
     }
 
     public class LoginLoggingCommandWrapper : ICommandWrapper
@@ -28,10 +28,12 @@ namespace Blaze.Controllers
             return url == "users/me.json";
         }
 
-        public string ProcessContent(string accountName, string content)
+        public string ProcessContent(HttpRequestBase request, string accountName, string content)
         {
             dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject(content);
-            Log.Info("login on account: {0}. email: {1}", accountName, obj.user != null ? obj.user.email_address : "(unknown)");
+            Log.Info("login on account: {0}. email: {1}. Referrer: {2}, IP Address: {3} ({4}). Agent: {5}", accountName,
+                     obj.user != null ? obj.user.email_address : "(unknown)", request.UrlReferrer,
+                     request.UserHostAddress, request.UserHostName, request.UserAgent);
             return content;
         }
     }
@@ -54,6 +56,7 @@ namespace Blaze.Controllers
 
         public ActionResult Index()
         {
+            Log.Info("Home Page Visitor. Referrer: {0}, IP Address: {1} ({2}). Agent: {3}", Request.UrlReferrer, Request.UserHostAddress, Request.UserHostName, Request.UserAgent);
             return View();
         }
         //
@@ -99,7 +102,7 @@ namespace Blaze.Controllers
                 var data = reader.ReadToEnd();
                 data = commandWrappers
                     .Where(commandWrapper => commandWrapper.Match(url))
-                    .Aggregate(data, (current, commandWrapper) => commandWrapper.ProcessContent(account, current));
+                    .Aggregate(data, (current, commandWrapper) => commandWrapper.ProcessContent(Request, account, current));
                 return Content(data, response.ContentType);
             } catch (WebException ex)
             {
