@@ -16,7 +16,7 @@ namespace Blaze.Controllers
     public interface ICommandWrapper
     {
         bool Match(string url);
-        string ProcessContent(HttpRequestBase request, string accountName, string content);
+        string ProcessContent(HttpRequestBase request, string ipAddress, string accountName, string content);
     }
 
     public class LoginLoggingCommandWrapper : ICommandWrapper
@@ -28,12 +28,12 @@ namespace Blaze.Controllers
             return url == "users/me.json";
         }
 
-        public string ProcessContent(HttpRequestBase request, string accountName, string content)
-        {
+        public string ProcessContent(HttpRequestBase request, string ipAddress, string accountName, string content)
+        {            
             dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject(content);
-            Log.Info("login on account: {0}. email: {1}. IP Address: {2} ({3}). Agent: {4}", accountName,
+            Log.Info("login on account: {0}. email: {1}. IP: {2}. Agent: {3}", accountName,
                      obj.user != null ? obj.user.email_address : "(unknown)", 
-                     request.UserHostAddress, request.UserHostName, request.UserAgent);
+                     ipAddress, request.UserAgent);
             return content;
         }
     }
@@ -101,12 +101,26 @@ namespace Blaze.Controllers
                 var data = reader.ReadToEnd();
                 data = commandWrappers
                     .Where(commandWrapper => commandWrapper.Match(url))
-                    .Aggregate(data, (current, commandWrapper) => commandWrapper.ProcessContent(Request, account, current));
+                    .Aggregate(data, (current, commandWrapper) => commandWrapper.ProcessContent(Request,GetIPAddress(Request), account, current));
                 return Content(data, response.ContentType);
             } catch (WebException ex)
             {
                 return HandleWebException(fullUrl, ex);
             }
+        }
+
+        private static string GetIPAddress(HttpRequestBase request)
+        {
+            string ip = request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (!String.IsNullOrEmpty(ip))
+            {
+                // sometimes HTTP_X_FORWARDED_FOR returns multiple IP's
+                string[] ipRange = ip.Split(',');
+                ip = ipRange[ipRange.Length - 1];
+            }
+            else
+                ip = request.ServerVariables["REMOTE_ADDR"];
+            return ip;
         }
 
         public ActionResult Recent(string account, string url)
