@@ -20,6 +20,8 @@ Twitter: @fatal_2
 Implemented Features
 --------------------
 * ajax tabbed interface
+* coniguration desktop notifications for active/inactive tabs
+* drag/drop file upload
 * window title includes unread message count
 * inactive tab highlighted if there are new messages
 * multiple notifications collapsed to save space 
@@ -34,7 +36,5 @@ Implemented Features
 
 Planned Features:
 -----------------
-* configurable desktop notifications for active/inactive tabs
-* drag/drop file upload 
 * responsive interface - UI should adapt to size of the window. less important features (recent files etc) dropped if space is minimal
 * see the Trello board for more 
