@@ -75,6 +75,7 @@ namespace Blaze.Controllers
 
         public ActionResult Proxy(string account, string url, string auth)
         {
+            ++++
             string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);
             var request = (HttpWebRequest) WebRequest.Create(fullUrl);
             request.Method = Request.HttpMethod;
