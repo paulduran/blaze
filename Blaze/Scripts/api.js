@@ -1,7 +1,6 @@
 ﻿function Campfire(stealth) {
     this.origbase = '/x';
     this.base = this.origbase;
-    this.authToken = '';
     this.account = '';
     this.stealth = stealth;
 }
@@ -9,25 +8,6 @@
 Campfire.prototype.setAccount = function(account) {
     this.account = account;
     this.base = this.origbase + '/' + account;
-};
-
-Campfire.prototype.login = function (account, username, password, callback, errorCallback) {
-    var self = this;
-    self.setAccount(account);
-    $.ajax({
-        url: self.base + '/users/me.json',
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic  " + encodeBase64(username + ":" + password));
-        },
-        success: function (data) {
-            self.authToken = data.user.api_auth_token;
-            callback(data.user);
-        },
-        error: function () {
-            errorCallback();
-        },
-        dataType: 'json'
-    });
 };
 
 Campfire.prototype.getPresence = function(callback) {
@@ -141,13 +121,13 @@ Campfire.prototype.getUser = function (userId, callback) {
 };
 
 Campfire.prototype.setAuthHeader = function (xhr) {
-    xhr.setRequestHeader("Authorization", "Basic  " + encodeBase64(this.authToken + ":x"));
+   
 };
 
 Campfire.prototype.getAuthorisedUrl = function (url) {
     var self = this;
     return url.replace(/.*campfirenow.com\//, function (h) {
-        return '/home/getfile?auth=' + encodeBase64(self.authToken + ":x") + '&account=' + self.account + '&url=';
+        return '/f/' + self.account + '/';
     });
 };
 
@@ -193,7 +173,6 @@ Campfire.prototype.leaveRoom = function (roomId, callback) {
 
 Campfire.prototype.getUploadUrl = function (roomId) {
     var self = this;
-    var url = '/y/' + self.account + '/' + encodeBase64(self.authToken + ":x") + '/room/' + roomId + '/uploads.xml';
-    //'/home/upload?auth=' + encodeBase64(self.authToken + ":x") + '&account=' + self.account + '&roomid=' + roomId;
+    var url = '/x/' + self.account + '/room/' + roomId + '/uploads.xml';
     return url;
 };

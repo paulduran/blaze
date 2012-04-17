@@ -1,4 +1,5 @@
-﻿@model Blaze.Models.HomeModel
+﻿@using Newtonsoft.Json
+@model Blaze.Models.HomeModel
 @{
     ViewBag.Title = "Campfire Client";
     Layout = null;
@@ -271,7 +272,7 @@
         var prefs = new PreferencesModel();
         var notifications = new ChatNotifications(prefs);
         var controller = new ChatController(campfire, emojiProcessor, chatView, loginView, notifications, prefs);
-        controller.init('@ViewBag.AccountName');
+        controller.init(@Html.Raw(JsonConvert.SerializeObject(ViewBag.Accounts)));
         chat.ui.isNearTheEnd = $.proxy(chatView.isNearTheEnd, chatView);
         chat.ui.scrollToEnd = $.proxy(chatView.scrollToEnd, chatView);
         chat.ui.scrollToBottom = $.proxy(chatView.scrollToEnd, chatView);

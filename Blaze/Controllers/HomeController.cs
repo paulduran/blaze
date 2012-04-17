@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Configuration;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Blaze.Models;
@@ -22,7 +21,7 @@ namespace Blaze.Controllers
     public class LoginLoggingCommandWrapper : ICommandWrapper
     {
         private static readonly Logger Log = LogManager.GetLogger("Blaze.Login");
-
+ 
         public bool Match(string url)
         {
             return url == "users/me.json";
@@ -42,37 +41,72 @@ namespace Blaze.Controllers
     {
         private readonly IList<ICommandWrapper> commandWrappers;
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private readonly OAuthService oAuthService;
+        private static readonly Regex r = new Regex("https?://(.*?)\\.campfirenow");
 
         public HomeController(IList<ICommandWrapper> commandWrappers)
         {
             this.commandWrappers = commandWrappers;
-        }
+            oAuthService = new OAuthService();
+         }
 
         public HomeController()
         {
             commandWrappers = new List<ICommandWrapper>() {new LoginLoggingCommandWrapper()};
+            oAuthService = new OAuthService();
         }
 
         public ActionResult Index()
         {
+            var authUrl = oAuthService.GetLoginUrl();
+            ViewBag.LoginUrl = authUrl;
             Log.Info("Home Page Visitor. Referrer: {0}, IP Address: {1}. Agent: {2}", Request.UrlReferrer, GetIPAddress(Request), Request.UserAgent);
             return View();
         }
+
         //
         // GET: /Home/
-
-        public ActionResult Chat(string accountName)
+        [AuthActionFilter]
+        public ActionResult Chat(string accountName, string code, string auth)
         {
-            ViewBag.AccountName = accountName;
+            var info = oAuthService.GetInfo(auth);
+            switch( info.Accounts.Count(x=>x.Product == "campfire"))
+            {
+                case 0:
+                    return View("NoCampfireAccounts");
+                default:
+                    ViewBag.Accounts = info.Accounts.Where(x => x.Product == "campfire").Select(GetAccountName);
+                    break;
+            }
+
             ViewBag.Stealth = Convert.ToBoolean(ConfigurationManager.AppSettings["Stealth"] ?? "true")
                                   ? "true"
                                   : "false";
-            var model = new HomeModel
-                            {
-                            };
+            var model = new HomeModel();
             return View("Chat",model);
         }
 
+        private static string GetAccountName(Account account)
+        {
+            string accountName = null;
+            var match = r.Match(account.Href);
+            if (match.Success)
+                accountName = match.Groups[1].Value;
+            return accountName;
+        }
+
+        public ActionResult LaunchpadCallback(string code)
+        {
+            if (!string.IsNullOrEmpty(code))
+            {
+                var reply = oAuthService.GetTokens(code);
+                oAuthService.AssignCookies(reply, Response);
+                return RedirectToAction("Chat");
+            }
+            return RedirectToAction("Index");
+        }
+
+        [AuthActionFilter]
         public ActionResult Proxy(string account, string url, string auth)
         {
             string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);
@@ -80,10 +114,9 @@ namespace Blaze.Controllers
             request.Method = Request.HttpMethod;
             request.ContentType = Request.ContentType;
             request.ContentLength = Request.ContentLength;
+
             if (!string.IsNullOrEmpty(auth))
-                request.Headers["Authorization"] = "Basic  " + auth;
-            else
-                request.Headers["Authorization"] = Request.Headers["Authorization"];
+                request.Headers["Authorization"] = "Bearer " + auth;
             request.Accept = Request.Headers["Accept"];
 
             if (Request.HttpMethod == "POST" || Request.HttpMethod == "PUT")
@@ -123,13 +156,14 @@ namespace Blaze.Controllers
             return ip;
         }
 
-        public ActionResult Recent(string account, string url)
+        [AuthActionFilter]
+        public ActionResult Recent(string account, string url, string auth)
         {
             string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);
             var request = (HttpWebRequest)WebRequest.Create(fullUrl);
             request.Method = "GET";
             request.ContentType = "application/json";
-            request.Headers["Authorization"] = Request.Headers["Authorization"];
+            request.Headers["Authorization"] = "Bearer " + auth;
             try
             {
                 var response = (HttpWebResponse) request.GetResponse();
@@ -164,12 +198,13 @@ namespace Blaze.Controllers
             return new FileStreamResult(response.GetResponseStream(), response.ContentType);
         }
 
+        [AuthActionFilter]
         public ActionResult GetFile(string account, string auth, string url)
         {
             string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);
             var request = (HttpWebRequest)WebRequest.Create(fullUrl);
             request.Method = "GET";
-            request.Headers["Authorization"] = "Basic  " + auth;
+            request.Headers["Authorization"] = "Bearer " + auth;
             try
             {
                 var response = request.GetResponse();
@@ -179,5 +214,14 @@ namespace Blaze.Controllers
                 return HandleWebException(fullUrl, ex);
             }
         }
+
+        
+    }
+
+    public class LaunchpadTokens
+    {
+        public int ExpiresIn { get; set; }
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

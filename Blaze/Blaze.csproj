@@ -54,6 +54,9 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.103.0.0\lib\net35\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
@@ -92,6 +95,8 @@
     <Compile Include="ContentProviders\Core\EmbedContentProvider.cs" />
     <Compile Include="ContentProviders\Core\IContentProvider.cs" />
     <Compile Include="ContentProviders\Core\IResourceProcessor.cs" />
+    <Compile Include="Controllers\AuthActionFilter.cs" />
+    <Compile Include="Controllers\OAuthService.cs" />
     <Compile Include="Controllers\RequireHttpsAttribute.cs" />
     <Compile Include="Util\RegexExtensions.cs" />
     <Compile Include="ContentProviders\Core\ResourceProcessor.cs" />
@@ -301,6 +306,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\NoCampfireAccounts.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

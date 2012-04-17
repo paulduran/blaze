@@ -30,7 +30,7 @@ namespace Blaze
 
             routes.MapRoute(
                 "get_upload_route", // Route name
-                "uploads/{auth}/{account}/{*url}", // URL with parameters
+                "uploads/{account}/{*url}", // URL with parameters
                 new { controller = "Home", action = "GetFile" } // Parameter defaults
             );
 
@@ -41,10 +41,11 @@ namespace Blaze
             );
 
             routes.MapRoute(
-                "proxy2_route", // Route name
-                "y/{account}/{auth}/{*url}", // URL with parameters
-                new { controller = "Home", action = "Proxy" } // Parameter defaults
-            );
+               "getfile_route", // Route name
+               "f/{account}/{*url}", // URL with parameters
+               new { controller = "Home", action = "GetFile" } // Parameter defaults
+           );
+
 
             routes.MapRoute(
                 "recent_route", // Route name

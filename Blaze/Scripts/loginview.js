@@ -1,11 +1,10 @@
 ﻿function LoginView() {    
 }
 
-LoginView.prototype.init = function(account) {
+LoginView.prototype.init = function(accounts) {
     this.loginModel = {
-        username: ko.observable(''),
-        password: ko.observable(''),
-        account: ko.observable(account),
+        availableAccounts: ko.observableArray(accounts),
+        account: ko.observable(''),
         showError: ko.observable(false),
         loginText: ko.observable('Login'),
         enabled: ko.observable(true),
@@ -14,15 +13,7 @@ LoginView.prototype.init = function(account) {
             self.showError(false);
             self.loginText('Please Wait...');
             self.enabled(false);
-            self.loginCallback(self.account(), self.username(), self.password());
-        },
-        checkForSubmit: function (data, e) {
-            var self = this;
-            if (e.keyCode === 13) {
-                self.login();
-                return false;
-            }
-            return true;
+            self.loginCallback(self.account());
         }
     };
 };
@@ -34,7 +25,6 @@ LoginView.prototype.show = function (showError, loginCallback) {
     if(!showError) {
         this.loginModel.loginCallback = loginCallback;
         ko.applyBindings(this.loginModel, document.getElementById('login-form'));
-        $('#login-form input[placeholder], #login-form textarea[placeholder]').placeholder();
         $('#login-form').fadeIn(1000);
     }
 };

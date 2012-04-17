@@ -1,27 +1,20 @@
 ﻿<div id="login-form" style="display: none;">
-    <form data-bind="event: {keydown: checkForSubmit}">
+    <form>
     <div class="modal">
         <div class="modal-header">
             <h3>
-                CampFire Login</h3>
-                 <div class="alert-message error" data-bind="visible: showError">Login attempt failed. Please check your username and password</div>
+                Select Campfire Account</h3>
         </div>
         <div class="modal-body">
-           
+            <p>
+                You have access to multiple Campfire accounts. Please select the account you wish to use.
+            </p>           
             <div class="clearfix">
-                <div class="input">
-                    <input type="text" data-bind="value:account, valueUpdate: 'afterkeydown'" placeholder="Account Name" /> <div class="info-icon" title="If you previously logged into myaccount.campfirenow.com , then you would input 'myacccount' into this box"></div>
-                </div>
-            </div>
-            <div class="clearfix">
-                <div class="input">
-                    <input type="text" class="username" data-bind="value:username, valueUpdate: 'afterkeydown'" placeholder="Username" />
-                </div>
-            </div>
-            <div class="clearfix">
-                <div class="input">
-                    <input type="password" class="password" data-bind="value:password, valueUpdate: 'afterkeydown'" placeholder="Password" />
-                </div>
+                <label for="acct">Account:</label>
+                <span class="input">
+                    <select id="acct" data-bind="options: availableAccounts, value: account">
+                    </select>
+                </span>
             </div>
         </div>
         <div class="modal-footer">

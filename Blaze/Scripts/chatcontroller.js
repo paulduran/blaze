@@ -14,30 +14,24 @@ function ChatController(campfire, contentProcessor, view, loginView, notificatio
     this.prefs = prefs;
     this.currentUser = null;
     this.roomsModel = null;
-    this.account = null;
 }
 
-ChatController.prototype.init = function (accountName) {
-    var self = this,
-        account = accountName ? accountName : $.cookie('account'),
-        authToken;
+ChatController.prototype.init = function (accounts) {
+    var self = this;
 
-    this.account = account;
     this.roomsModel = new RoomsModel(this);
     self.view.init(this.roomsModel, this.campfire);
-    if (account) {
-        authToken = $.cookie(account + '_authtoken');
-    }
-    if (!authToken || !account) {
-        self.loginView.init(account);
-        self.loginView.show(false, $.proxy(self.login, self));
-    } else {
-        self.campfire.authToken = authToken;
-        self.campfire.setAccount(account);
-        self.campfire.login(account, self.campfire.authToken, 'x', function (user) {
+    
+    if (accounts.length == 1) {
+        self.campfire.setAccount(accounts[0]);
+        self.campfire.getUser('me', function (user) {
             self.showLobby(user);
         });
+    } else {
+        self.loginView.init(accounts);
+        self.loginView.show(false, $.proxy(self.login, self));
     }
+
     $.history.init(function (hash) {
         if (hash.length && hash[0] == '/') {
             hash = hash.substr(1);
@@ -51,15 +45,12 @@ ChatController.prototype.init = function (accountName) {
     }, { unescape: ',/' });
 };
 
-ChatController.prototype.login = function (account, username, password) {
+ChatController.prototype.login = function (account) {
     var self = this;
-    self.campfire.login(account, username, password, function (user) {
-        $.cookie('account', account, { expires: 100 });
-        $.cookie(account + '_authtoken', user.api_auth_token, { expires: 14 });
+    self.campfire.setAccount(account);
+    self.campfire.getUser('me', function (user) {
         self.loginView.hide();
         self.showLobby(user);
-    }, function () {
-        self.loginView.show(true, $.proxy(self.login, self));
     });
 };
 
@@ -203,11 +194,11 @@ ChatController.prototype.leaveRoom = function (room) {
 
 ChatController.prototype.signOut = function () {
     var self = this;
-    $.cookie(self.account + '_authtoken', null);
     $(self.roomsModel.activeRooms()).each(function (i, room) {
-        self.campfire.leaveRoom(room.id(), function () {
-            
+        self.campfire.leaveRoom(room.id(), function () {            
         });
     });
+    $.cookie('BlazeAT', null); 
+    $.cookie('BlazeRT', null);
     window.location = '/';
 };

@@ -8,8 +8,14 @@
 margin-bottom: 18px;
 zoom: 1;
 }
+#login-form label {
+    width: 140px;
+    display: inline-block;
+    margin-bottom: 5px;
+    text-align: right;
+}
 #login-form .input {
-margin-left: 150px;
+margin-left: 20px;
 }
 #login-form input {
   display: inline-block;
