@@ -127,7 +127,7 @@ Campfire.prototype.setAuthHeader = function (xhr) {
 Campfire.prototype.getAuthorisedUrl = function (url) {
     var self = this;
     return url.replace(/.*campfirenow.com\//, function (h) {
-        return '/f/' + self.account + '/';
+        return '/Home/GetFile?account=' + self.account + '&url=';
     });
 };
 
