@@ -19,6 +19,7 @@
             _index,
             _caret,
             _prefix,
+            _hasSelectionStart = false,
             _matchRegExp = new RegExp(options.prefixMatch + "\\S*$", "i"),
             Keys = { Tab: 9, Shift: 16 };
 
@@ -86,10 +87,18 @@
                 reset();
             }
         });
+        
+        try {
+            if(typeof (element["selectionStart"]) !== "undefined") {
+                _hasSelectionStart = true;
+            }
+        } catch (err) {
+            
+        }
 
         // create helper to get current caret position
         // only works if support selectionStart/End properties
-        if (typeof (element["selectionStart"]) !== "undefined") {
+        if (_hasSelectionStart) {
             getSelection = function (el) {
                 return { start: el.selectionStart, end: el.selectionEnd };
             };
