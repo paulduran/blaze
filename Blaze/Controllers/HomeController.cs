@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Blaze.Models;
 using NLog;
+using Newtonsoft.Json;
 
 namespace Blaze.Controllers
 {
@@ -73,6 +74,7 @@ namespace Blaze.Controllers
             switch( info.Accounts.Count(x=>x.Product == "campfire"))
             {
                 case 0:
+                    Log.Info("No Campfire accounts. Info received from auth: {0}", JsonConvert.SerializeObject(info));
                     return View("NoCampfireAccounts");
                 default:
                     ViewBag.Accounts = info.Accounts.Where(x => x.Product == "campfire").Select(GetAccountName);
