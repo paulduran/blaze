@@ -128,7 +128,7 @@ ChatController.prototype.loadMessages = function (room) {
             }
         });
         if (numNewMessages > 0) {
-            if(!self.roomsModel.isVisible() && !room.lastMessage.isNotification()) {
+            if (!self.roomsModel.isVisible() && !room.lastMessage.isNotification() && !room.lastMessage.isFromCurrentUser()) {                
                 self.notifications.notify(room, ko.toJS(room.lastMessage));
             }
             if (room.isVisible()) {
