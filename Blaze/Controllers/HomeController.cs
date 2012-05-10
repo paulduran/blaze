@@ -71,6 +71,7 @@ namespace Blaze.Controllers
         public ActionResult Chat(string accountName, string code, string auth)
         {
             var info = oAuthService.GetInfo(auth);
+            Log.Info("Info received from auth: {0}", JsonConvert.SerializeObject(info));
             switch( info.Accounts.Count(x=>x.Product == "campfire"))
             {
                 case 0:
