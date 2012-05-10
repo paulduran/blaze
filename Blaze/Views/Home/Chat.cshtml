@@ -149,7 +149,7 @@
                     <!-- ko foreach: activeRooms -->
                     <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible, active: isActive}, click: $parent.displayRoom">
                         <span class="lock"></span>
-                        <button data-bind="attr: {accesskey: accessKey}" type="button">  
+                        <button data-bind="attr: {accesskey: $index()+1}" type="button">  
                             <span class="content" data-bind="text: tabText"></span>
                         </button>
                         <div class="close" data-bind="click: $parent.leaveRoom"></div>
@@ -227,8 +227,8 @@
     chat = {};
     chat.ui = {};
 </script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.17.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.19.min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cookie.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.linkify.1.0-min.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.youtube.js")"></script>
@@ -239,7 +239,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.autotabcomplete.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.autogrow.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.placeholder.js")"></script>
-<script type="text/javascript" src="@Url.Content("~/Scripts/knockout-2.0.0.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/knockout-2.1.0.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-modal.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-transition.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/content.js")"></script>

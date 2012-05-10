@@ -1,5 +1,5 @@
 ﻿/// <reference path="~/Scripts/chatcontroller.js"/>
-/// <reference path="~/Scripts/knockout-2.0.0.js"/>
+/// <reference path="~/Scripts/knockout-2.1.0.js"/>
 /// <reference path="~/Scripts/Chat.toast.js"/>
 /// <reference path="~/Scripts/Chat.emoji.js"/>
 /// <reference path="~/Scripts/md5.js"/>
@@ -149,7 +149,6 @@ function RoomsModel(chat) {
             newRoom = true;
             self.activeRooms.push(room);
             room.isOpen(true);
-            self.reNumberActiveRooms();
         }
         room.resetActiveFlag();
         chat.showRoom(room, newRoom);
@@ -163,14 +162,7 @@ function RoomsModel(chat) {
             if (room.isVisible() && idx > 0) {
                 chat.showRoom(self.activeRooms()[idx - 1]);
             }
-            self.reNumberActiveRooms();
         }
-    };
-    this.reNumberActiveRooms = function() {
-        $(self.activeRooms()).each(function(i, room) {
-            if (i < 9)
-                room.accessKey(i+1);
-        });
     };
     this.showNextRoom = function () {
         var numRooms = self.activeRooms().length,
