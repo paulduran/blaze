@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using NLog;
 
 namespace Blaze
 {
@@ -63,6 +64,7 @@ namespace Blaze
 
         protected void Application_Start()
         {
+            LogManager.GetCurrentClassLogger().Info("Blaze is starting up");
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
