@@ -1,10 +1,13 @@
+using System;
 using System.Web.Mvc;
+using NLog;
 
 namespace Blaze.Controllers
 {
     public class AuthActionFilter : ActionFilterAttribute
     {
         private readonly OAuthService oAuthService;
+        private readonly Logger log = LogManager.GetCurrentClassLogger();
 
         public AuthActionFilter()
         {
@@ -22,11 +25,19 @@ namespace Blaze.Controllers
             if( accessTokenCookie == null )
             {
                 var refreshTokenCookie = req.Cookies["BlazeRT"];
-                if(refreshTokenCookie != null )
+                if(refreshTokenCookie != null && !string.IsNullOrEmpty(refreshTokenCookie.Value))
                 {                    
-                    var tokens = oAuthService.RefreshTokens(refreshTokenCookie.Value);
-                    oAuthService.AssignCookies(tokens, filterContext.RequestContext.HttpContext.Response);
-                    accessToken = tokens.AccessToken;
+                    log.Info("Attempting to refresh oauth token");
+                    try
+                    {
+                        var tokens = oAuthService.RefreshTokens(refreshTokenCookie.Value);
+                        tokens.RefreshToken = refreshTokenCookie.Value;
+                        oAuthService.AssignCookies(tokens, filterContext.RequestContext.HttpContext.Response);
+                        accessToken = tokens.AccessToken;
+                    } catch (Exception ex)
+                    {
+                        log.ErrorException("Error refreshing oauth token using value: " + refreshTokenCookie.Value, ex);
+                    }
                 }
                 else
                 {
