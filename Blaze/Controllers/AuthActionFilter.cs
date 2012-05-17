@@ -37,6 +37,7 @@ namespace Blaze.Controllers
                     } catch (Exception ex)
                     {
                         log.ErrorException("Error refreshing oauth token using value: " + refreshTokenCookie.Value, ex);
+                        filterContext.Result = new RedirectResult(oAuthService.GetLoginUrl());
                     }
                 }
                 else
