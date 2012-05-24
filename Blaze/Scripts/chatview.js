@@ -222,7 +222,7 @@ ChatView.prototype.isNearTheEnd = function () {
 
 ChatView.prototype.scrollToEnd = function () {
     if (this.roomsModel.visibleRoom != null) {
-        console && console.log('scrolling to end for #messages-' + this.roomsModel.visibleRoom.id());
+        //console && console.log('scrolling to end for #messages-' + this.roomsModel.visibleRoom.id());
         // $('#messages-' + this.roomsModel.visibleRoom.id()).scrollTo('max');
         var msgs = $('#messages-' + this.roomsModel.visibleRoom.id());
         msgs.scrollTop(msgs[0].scrollHeight);
