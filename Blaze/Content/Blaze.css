@@ -192,6 +192,7 @@
 }
 #new-message {
     height: 32px;
+    max-height: 76px;
 }
 #userlist-lobby {
     top: 55px;
