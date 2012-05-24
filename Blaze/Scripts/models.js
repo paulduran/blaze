@@ -316,8 +316,9 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji) {
             return new Date(self.created_at()).toLocaleDateString();
         } else if (self.type() === 'TweetMessage' && self.parsed_body().indexOf('<a ') != -1) {
             return self.parsed_body().substring(self.parsed_body().indexOf('<a '));
+        } else if (self.type() === 'PasteMessage') {
+            return self.parsed_body();
         }
-
         var body = emoji.parse(self.parsed_body());
         //var body = contentProcessor.process(self.parsed_body());
         return body;
