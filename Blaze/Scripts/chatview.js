@@ -1,6 +1,6 @@
 ﻿/// <reference path="models.js"/>
 /// <reference path="~/Scripts/Chat.toast.js"/>
-/// <reference path="knockout-2.0.0.js"/>
+/// <reference path="knockout-2.1.0.js"/>
 function ChatView() {
     this.roomsModel = null;
 }
@@ -26,11 +26,11 @@ ChatView.prototype.init = function (roomsModel, campfire) {
     ko.applyBindings(self.roomsModel, document.getElementById('page'));
 
     $('#new-message').autogrow({
-        expandCallback: function(minHeight, curHeight) {
+        expandCallback: function (minHeight, curHeight) {
             self.roomsModel.showHint(minHeight === curHeight);
         }
     });
-    
+
     $('#new-message').live('keydown', function (e) {
         if (e.keyCode === 13 && e.ctrlKey) {
             $(this).insertAtCaret('\n');
@@ -38,8 +38,29 @@ ChatView.prototype.init = function (roomsModel, campfire) {
     });
     $('#tabs-lobby').live('click', function () {
         var name = $(this).data('name');
-        $.history.load('/rooms/' + name);
+        self.changeRoom(name);
     });
+    $('#page').on('mouseover', '.gravatar',
+            function () {
+                var $source = $(this);
+                var timeout = setTimeout(function () {
+                    $source.data('resizeTimeout', null);
+                    var size = '48px';
+                    $source.animate({ width: size, height: size }, 300);
+                }, 700);
+                $source.data('resizeTimeout', timeout);
+            });
+    $('#page').on('mouseout', '.gravatar',
+            function () {
+                var $source = $(this);
+                var timeout = $source.data('resizeTimeout');
+                if (timeout) {
+                    clearTimeout(timeout);
+                } else {
+                    var size = $source.parents('.messages').length === 0 ? '24px' : '16px';
+                    $source.animate({ width: size, height: size }, 300);
+                }
+            });
     $(document).on('click', 'h3.collapsible_title', function () {
         var nearEnd = self.isNearTheEnd();
         $(this).next().toggle(0, function () {

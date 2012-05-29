@@ -277,27 +277,6 @@
         chat.ui.isNearTheEnd = $.proxy(chatView.isNearTheEnd, chatView);
         chat.ui.scrollToEnd = $.proxy(chatView.scrollToEnd, chatView);
         chat.ui.scrollToBottom = $.proxy(chatView.scrollToEnd, chatView);
-        $('#page').on('mouseover','.gravatar',
-            function(ev) {
-                var $source = $(this);
-                var timeout = setTimeout(function() {
-                    $source.data('resizeTimeout', null);
-                    var size = '48px';
-                    $source.animate({ width: size, height: size }, 300);
-                }, 700);
-                $source.data('resizeTimeout', timeout);
-            });
-        $('#page').on('mouseout','.gravatar',
-            function(ev) {
-                var $source = $(this);
-                var timeout = $source.data('resizeTimeout');
-                if (timeout) {
-                    clearTimeout(timeout);
-                } else {
-                    var size = $source.parents('.messages').length === 0 ? '24px' : '16px';
-                    $source.animate({ width: size, height: size }, 300);
-                }
-            });
     });
 </script>
 <script type="text/javascript">

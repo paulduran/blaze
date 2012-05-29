@@ -1,6 +1,6 @@
 ﻿/// <reference path="chat.notification.js"/>
 /// <reference path="~/Scripts/models.js"/>
-/// <reference path="~/Scripts/knockout-2.0.0.js"/>
+/// <reference path="~/Scripts/knockout-2.1.0.js"/>
 /**
  * @param {ChatNotifications} notifications
  */
@@ -31,18 +31,6 @@ ChatController.prototype.init = function (accounts) {
         self.loginView.init(accounts);
         self.loginView.show(false, $.proxy(self.login, self));
     }
-
-    $.history.init(function (hash) {
-        if (hash.length && hash[0] == '/') {
-            hash = hash.substr(1);
-        }
-
-        var parts = hash.split('/');
-        if (parts[0] === 'rooms') {
-            var roomName = parts[1];
-            self.view.changeRoom(roomName);
-        }
-    }, { unescape: ',/' });
 };
 
 ChatController.prototype.login = function (account) {
@@ -61,14 +49,14 @@ ChatController.prototype.showLobby = function (user) {
     self.userCache[currentUserModel.id()] = currentUserModel;
     self.view.show();
     self.campfire.getRooms(function (rooms) {
-        $.map(rooms, function (o) {
-            var roomModel = new RoomModel(o, currentUserModel, self.prefs.getRoomPreferences(o.id));
+        $(rooms).each(function() {
+            var roomModel = new RoomModel(this, currentUserModel, self.prefs.getRoomPreferences(this.id));
             self.view.addRoom(roomModel);
             self.loadUsers(roomModel);
         });
         self.campfire.getPresence(function (myRooms) {
-            $.each(myRooms, function (i, myRoom) {
-                var id = 'messages-' + myRoom.id;
+            $(myRooms).each(function () {
+                var id = 'messages-' + this.id;
                 var roomToJoin = self.roomsModel.roomsByDomId[id];
                 self.roomsModel.displayRoom(roomToJoin);
             });
@@ -99,7 +87,7 @@ ChatController.prototype.showRoom = function (room, isNewRoom) {
             self.loadMessages(room);
         });
     }
-    $.history.load('/rooms/' + room.id());
+    self.view.changeRoom(room.id());
 };
 
 ChatController.prototype.loadMessages = function (room) {
