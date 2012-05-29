@@ -278,8 +278,17 @@
         chat.ui.scrollToBottom = $.proxy(chatView.scrollToEnd, chatView);
         $('#page').on('mouseover mouseout','.gravatar',
             function(ev) {
-                var size = ev.type === 'mouseover' ? '48px' : '24px';
+                var origSize = $(ev.target).parents('.messages').length === 0 ? '24px' : '16px';
+                var size = ev.type === 'mouseover' ? '48px' : origSize;
                 $(this).animate({ width: size, height: size }, 300);
             });
     });
 </script>
+<script type="text/javascript">
+    var uvOptions = {};
+    (function () {
+        var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/tQFmLjZ3VVm1RosncT6Aeg.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+    })();
+    </script>
