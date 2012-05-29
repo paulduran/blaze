@@ -1,5 +1,5 @@
 ﻿﻿/// <reference path="Scripts/jquery-1.7.js" />
-(function($) {
+(function($, basePath) {
     "use strict";
 
     var ToastStatus = { Allowed: 0, NotConfigured: 1, Blocked: 2 },
@@ -30,7 +30,7 @@
             toast.hideToast();
 
             chromeToast = window.webkitNotifications.createNotification(
-                'Content/images/logo32.png',
+                basePath + 'Content/images/logo32.png',
                 message.trimmedName,
                 $('<div/>').html(message.message).text());
 
@@ -86,4 +86,4 @@
         window.chat = {};
     }
     window.chat.toast = toast;
-})(jQuery);
+})(jQuery, basePath);
