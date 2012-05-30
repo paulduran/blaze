@@ -180,7 +180,6 @@
     <Compile Include="Util\RegexExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Content\Blaze.css" />
     <Content Include="Content\bootstrap.min.css" />
