@@ -7,14 +7,10 @@
 <html>
     <head>
         <title>Blaze</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-        <link href="~/Content/chat/Chat.css" rel="Stylesheet" />
-        <link href="~/Content/chat/Chat.githubissues.css" rel="Stylesheet" />
-        <link href="~/Content/chat/Chat.bbcnews.css" rel="Stylesheet" />
-        <link href="~/Content/chat/emoji20.css" rel="Stylesheet" />
-        <link href="~/Content/bootstrap.min.css" rel="Stylesheet" />
-        <link href="~/Content/Blaze.css" rel="Stylesheet" />
-        <link href="~/Content/Login.css" rel="Stylesheet" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />        
+        <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/chat/css")" rel="stylesheet" type="text/css" />
+        <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css")" rel="stylesheet" type="text/css" />
+ 
         <link rel="icon" href="~/Content/images/blaze_logo_small_x.png" type="image/x-icon">
         <link rel="shortcut icon" href="~/Content/images/blaze_logo_small_x.png" type="image/x-icon">
     </head>
@@ -127,38 +123,11 @@
     chat = {};
     chat.ui = {};
 </script>
-<script type="text/javascript" src="~/Scripts/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery-ui-1.8.20-widget.min.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.cookie.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.linkify.1.0-min.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.youtube.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.scrollto.js"></script>
-<script type="text/javascript" src="~/Scripts/jQuery.tmpl.min.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.insertAtCaret.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.timeago.0.10.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.autotabcomplete.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.autogrow.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.placeholder.js"></script>
-<script type="text/javascript" src="~/Scripts/knockout-2.1.0.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap-modal.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap-transition.js"></script>
-<script type="text/javascript" src="~/Scripts/blaze/chatcontroller.js"></script>
-<script type="text/javascript" src="~/Scripts/chat/Chat.toast.js"></script>
-<script type="text/javascript" src="~/Scripts/blaze/chatview.js"></script>
-<script type="text/javascript" src="~/Scripts/chat/chat.notification.js"></script>
-<script type="text/javascript" src="~/Scripts/chat/Chat.emoji.js"></script>
-<script type="text/javascript" src="~/Scripts/blaze/loginview.js"></script>
-<script type="text/javascript" src="~/Scripts/blaze/models.js"></script>
-<script type="text/javascript" src="~/Scripts/blaze/api.js"></script>
-<script type="text/javascript" src="~/Scripts/chat/Chat.utility.js"></script>
-<script type="text/javascript" src="~/Scripts/chat/Chat.githubissues.js"></script>
-<script type="text/javascript" src="~/Scripts/chat/Chat.twitter.js"></script>
-<script type="text/javascript" src="~/Scripts/Markdown.Converter.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.fileupload.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery.captureDocumentWrite.min.js"></script>
-<script type="text/javascript" src="~/Scripts/chat/Chat.documentonwrite.js"></script>
-<script type="text/javascript" src="~/Scripts/jstorage.js"></script>
-<script type="text/javascript" src="~/Scripts/md5.js"></script>
+<script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js")"></script>
+<script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/chat/js")"></script>
+<script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/blaze/js")"></script>
+<script src="~/Scripts/extras/bootstrap-modal.js"></script>
+<script src="~/Scripts/extras/bootstrap-transition.js"></script>
 <script type="text/javascript"> 
 
     $(function () {

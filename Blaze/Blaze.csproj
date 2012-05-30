@@ -235,8 +235,8 @@
     <Content Include="Scripts\blaze\chatview.js" />
     <Content Include="Scripts\blaze\loginview.js" />
     <Content Include="Scripts\blaze\models.js" />
-    <Content Include="Scripts\bootstrap-modal.js" />
-    <Content Include="Scripts\bootstrap-transition.js" />
+    <Content Include="Scripts\extras\bootstrap-modal.js" />
+    <Content Include="Scripts\extras\bootstrap-transition.js" />
     <Content Include="Scripts\chat\Chat.documentonwrite.js" />
     <Content Include="Scripts\chat\Chat.emoji.js" />
     <Content Include="Scripts\chat\Chat.githubissues.js" />
