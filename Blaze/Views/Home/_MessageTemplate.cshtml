@@ -1,0 +1,50 @@
+﻿<script id="base-message-template" type="text/x-jquery-tmpl">            
+    {{if isNotification}}
+    {{tmpl "#new-notification-template"}}
+    {{else isTimestamp}}
+    {{tmpl "#new-separator-template"}}
+    {{else}}
+    {{tmpl "#new-message-template"}}
+    {{/if}}            
+    {{if isLastMessage}}
+        <li class="message-separator">
+        </li>
+    {{/if}}
+</script>
+<script id="new-separator-template" type="text/x-jquery-tmpl">
+    <li class="list-header" data-timestamp="${created_at}">
+        <div class="content">
+            {{html message}}
+        </div>
+    </li>
+</script>
+<script id="new-message-template" type="text/x-jquery-tmpl">
+    <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${created_at}">
+        <div class="left">
+            {{if showUser}}
+            <img src="${user.avatar}" class="gravatar" />
+            <span class="name">${trimmedName}</span>
+            {{/if}}
+        </div>
+        <div class="middle">
+            {{html message}}
+        </div>
+        <div class="right">
+            <span id="t-${id}" class="time" title="${created_at}">${when}</span>
+        </div>
+    </li>
+        
+</script>
+<script id="new-notification-template" type="text/x-jquery-tmpl">
+    {{if isVisible}}
+    <li class="notification" data-timestamp="${date}">
+        <div class="content">
+            {{html message}}
+            <a class="info" href="#" data-bind="click: toggleCollapse">${collapseText}</a>
+        </div>
+        <div class="right">
+            <span class="time" title="${fulldate}">${when}</span>
+        </div>
+    </li>
+    {{/if}}
+</script>

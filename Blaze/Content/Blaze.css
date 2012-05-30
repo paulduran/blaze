@@ -122,7 +122,7 @@
 }
 
 .preferences .sound {
-    background: url('images/sound-on.png') no-repeat;
+    background: url('chat/images/sound-on.png') no-repeat;
     width: 16px;
     height: 16px;
     position: absolute;
@@ -130,11 +130,11 @@
 }
 
 .preferences .sound.off {
-    background: url('images/sound-off.png') no-repeat;
+    background: url('chat/images/sound-off.png') no-repeat;
 }
 
 .preferences .toast {
-    background: url('images/toast-on.png') no-repeat;
+    background: url('chat/images/toast-on.png') no-repeat;
     width: 16px;
     height: 20px;
     left: 26px;
@@ -142,37 +142,37 @@
 }
 
 .preferences .toast.off {
-    background: url('images/toast-off.png') no-repeat;
+    background: url('chat/images/toast-off.png') no-repeat;
 }
 .users li.typing {
-    background-image: url('images/typing.png');
+    background-image: url('chat/images/typing.png');
 }
 .users li.room.locked .lock {
-    background: url(images/lock.png) no-repeat;
+    background: url(chat/images/lock.png) no-repeat;
 }
 .note.afk {
-    background: url(images/stopwatch.png) no-repeat;
+    background: url(chat/images/stopwatch.png) no-repeat;
 }
 .note.message {
-    background: url(images/clippy.png) no-repeat;
+    background: url(chat/images/clippy.png) no-repeat;
 }
 #tabs li .close {
-    background: url(images/close-icon.png);
+    background: url(chat/images/close-icon.png);
 }
 #tabs li.locked .lock {
-    background: url(images/lockwhite.png) no-repeat;
+    background: url(chat/images/lockwhite.png) no-repeat;
 }
 #tabs li.locked.current .lock, #tabs li.locked:hover .lock {
-    background: url(images/lock.png) no-repeat;
+    background: url(chat/images/lock.png) no-repeat;
 }
 #tabs li .close:hover {
-    background: url(images/close-icon-hover.png);
+    background: url(chat/images/close-icon-hover.png);
 }
 .collapsible_pin {
-    background-image: url('images/pop-out-icon.png');
+    background-image: url('chat/images/pop-out-icon.png');
 }
 .flag {
-    background: url('images/flags.png') no-repeat;
+    background: url('chat/images/flags.png') no-repeat;
 }
 #send-message { 
     margin-top: 10px;

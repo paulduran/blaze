@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 using NLog;
 
@@ -21,6 +23,12 @@ namespace Blaze
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
 
             routes.MapRoute(
                 "chat_route", // Route name
@@ -69,6 +77,8 @@ namespace Blaze
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            BundleTable.Bundles.RegisterTemplateBundles();
         }
 
         protected void Application_EndRequest()

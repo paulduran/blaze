@@ -6,8 +6,8 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E08B95E7-024C-47FD-9030-014BFE695ED0}</ProjectGuid>
-    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectGuid>{FE2CEE4A-5596-465D-A379-33F2494D1ACD}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Blaze</RootNamespace>
@@ -15,7 +15,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\blaze\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -36,43 +36,95 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Elmah">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.3\lib\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="le_nlog, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="le_nlog">
       <HintPath>..\packages\le_nlog.1.5.3\lib\4.0\le_nlog.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=103.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.103.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Net.Http.Formatting.4.0.20126.16343\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebApi.Core.4.0.20126.16343\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Web.Http.Common.4.0.20126.16343\lib\net40\System.Web.Http.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebApi.4.0.20126.16343\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetMvc.4.0.20126.16343\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.Web.Optimization.1.0.0-beta\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetRazor.Core.2.0.20126.16343\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -84,8 +136,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\ElmahController.cs" />
     <Compile Include="ContentProviders\AudioContentProvider.cs" />
     <Compile Include="ContentProviders\BashQDBContentProvider.cs" />
     <Compile Include="ContentProviders\BBCNewsContentProvider.cs" />
@@ -95,10 +145,6 @@
     <Compile Include="ContentProviders\Core\EmbedContentProvider.cs" />
     <Compile Include="ContentProviders\Core\IContentProvider.cs" />
     <Compile Include="ContentProviders\Core\IResourceProcessor.cs" />
-    <Compile Include="Controllers\AuthActionFilter.cs" />
-    <Compile Include="Controllers\OAuthService.cs" />
-    <Compile Include="Controllers\RequireHttpsAttribute.cs" />
-    <Compile Include="Util\RegexExtensions.cs" />
     <Compile Include="ContentProviders\Core\ResourceProcessor.cs" />
     <Compile Include="ContentProviders\DictionaryContentProvider.cs" />
     <Compile Include="ContentProviders\GistContentProvider.cs" />
@@ -121,162 +167,106 @@
     <Compile Include="ContentProviders\UStreamContentProvider.cs" />
     <Compile Include="ContentProviders\VimeoContentProvider.cs" />
     <Compile Include="ContentProviders\YoutubeContentProvider.cs" />
+    <Compile Include="Controllers\AuthActionFilter.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageProcessor.cs" />
+    <Compile Include="Controllers\OAuthService.cs" />
+    <Compile Include="Controllers\RequireHttpsAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\RegexExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Chat.css" />
+    <Content Include="App_Readme\Elmah.txt" />
+    <Content Include="favicon.ico" />
     <Content Include="Content\Blaze.css" />
-    <Content Include="Content\emoji20.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chat\Chat.bbcnews.css" />
+    <Content Include="Content\chat\Chat.css" />
+    <Content Include="Content\chat\Chat.githubissues.css" />
+    <Content Include="Content\chat\emoji20.css" />
+    <Content Include="Content\chat\images\contentproviders\bbcnews-header.png" />
+    <Content Include="Content\chat\images\contentproviders\bbcnews-masthead.png" />
+    <Content Include="Content\chat\images\emoji20.png" />
     <Content Include="Content\images\blaze_logo_medium.png" />
     <Content Include="Content\images\blaze_logo_medium_x.png" />
     <Content Include="Content\images\blaze_logo_small.png" />
     <Content Include="Content\images\blaze_logo_small_x.png" />
-    <Content Include="Content\images\close-icon-hover.png" />
-    <Content Include="Content\images\close-icon.png" />
+    <Content Include="Content\chat\images\close-icon-hover.png" />
+    <Content Include="Content\chat\images\close-icon.png" />
     <Content Include="Content\images\emoji20.png" />
     <Content Include="Content\images\info-icon.png" />
-    <Content Include="Content\images\logo32.png" />
-    <Content Include="Content\images\public\blaze-20120301.png" />
-    <Content Include="Content\images\public\blaze-notification.png" />
-    <Content Include="Content\images\public\border-btm.gif" />
-    <Content Include="Content\images\public\btn1.png" />
-    <Content Include="Content\images\public\btn2.png" />
-    <Content Include="Content\images\public\btn3.png" />
-    <Content Include="Content\images\public\btn4.png" />
-    <Content Include="Content\images\public\btn5.png" />
-    <Content Include="Content\images\public\btn6.png" />
-    <Content Include="Content\images\public\btn7.png" />
-    <Content Include="Content\images\public\btn8.png" />
-    <Content Include="Content\images\public\email.png" />
-    <Content Include="Content\images\public\eye-btn.png" />
-    <Content Include="Content\images\public\html-bg.jpg" />
-    <Content Include="Content\images\public\repat-ribbn.png" />
-    <Content Include="Content\images\public\ribbon-img1.png" />
-    <Content Include="Content\images\public\sec1-bg.jpg" />
-    <Content Include="Content\images\public\twitter.png" />
-    <Content Include="Content\images\public\vertcil-border.gif" />
-    <Content Include="Content\images\sound-off.png" />
-    <Content Include="Content\images\sound-on.png" />
-    <Content Include="Content\images\toast-off.png" />
-    <Content Include="Content\images\toast-on.png" />
-    <Content Include="Content\reset.css" />
-    <Content Include="Content\sounds\notification.wav" />
-    <Content Include="Content\public.css" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\jquery-ui.css" />
-    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
-    <Content Include="Content\themes\base\jquery.ui.all.css" />
-    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
-    <Content Include="Content\themes\base\jquery.ui.base.css" />
-    <Content Include="Content\themes\base\jquery.ui.button.css" />
-    <Content Include="Content\themes\base\jquery.ui.core.css" />
-    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
-    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
-    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
-    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
-    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
-    <Content Include="Content\themes\base\jquery.ui.slider.css" />
-    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
-    <Content Include="Content\themes\base\jquery.ui.theme.css" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.all.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.base.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\images\key_fill_16x16.png" />
+    <Content Include="Content\images\logo32.png" />
+    <Content Include="Content\chat\images\sound-off.png" />
+    <Content Include="Content\chat\images\sound-on.png" />
+    <Content Include="Content\chat\images\toast-off.png" />
+    <Content Include="Content\chat\images\toast-on.png" />
     <Content Include="Content\images\user_12x16.png" />
-    <Content Include="Global.asax" />
     <Content Include="Content\Login.css" />
-    <Content Include="README.jQuery.vsdoc.txt" />
-    <Content Include="Scripts\api.js" />
+    <Content Include="Content\public\images\blaze-20120301.png" />
+    <Content Include="Content\public\images\blaze-notification.png" />
+    <Content Include="Content\public\images\border-btm.gif" />
+    <Content Include="Content\public\images\btn1.png" />
+    <Content Include="Content\public\images\btn2.png" />
+    <Content Include="Content\public\images\btn3.png" />
+    <Content Include="Content\public\images\btn4.png" />
+    <Content Include="Content\public\images\btn5.png" />
+    <Content Include="Content\public\images\btn6.png" />
+    <Content Include="Content\public\images\btn7.png" />
+    <Content Include="Content\public\images\btn8.png" />
+    <Content Include="Content\public\images\email.png" />
+    <Content Include="Content\public\images\eye-btn.png" />
+    <Content Include="Content\public\images\html-bg.jpg" />
+    <Content Include="Content\public\images\repat-ribbn.png" />
+    <Content Include="Content\public\images\ribbon-img1.png" />
+    <Content Include="Content\public\images\sec1-bg.jpg" />
+    <Content Include="Content\public\images\twitter.png" />
+    <Content Include="Content\public\images\vertcil-border.gif" />
+    <Content Include="Content\public\public.css" />
+    <Content Include="Content\public\reset.css" />
+    <Content Include="Content\sounds\notification.wav" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\blaze\api.js" />
+    <Content Include="Scripts\blaze\chatcontroller.js" />
+    <Content Include="Scripts\blaze\chatview.js" />
+    <Content Include="Scripts\blaze\loginview.js" />
+    <Content Include="Scripts\blaze\models.js" />
     <Content Include="Scripts\bootstrap-modal.js" />
-    <Content Include="Content\Chat.bbcnews.css" />
-    <Content Include="Content\Chat.githubissues.css" />
-    <Content Include="Scripts\Chat.documentonwrite.js" />
-    <Content Include="Scripts\Chat.emoji.js" />
-    <Content Include="Scripts\Chat.githubissues.js" />
-    <Content Include="Scripts\chat.notification.js" />
-    <Content Include="Scripts\Chat.toast.js" />
-    <Content Include="Scripts\Chat.twitter.js" />
-    <Content Include="Scripts\Chat.utility.js" />
-    <Content Include="Scripts\chatcontroller.js" />
-    <Content Include="Scripts\content.js" />
-    <Content Include="Scripts\chatview.js" />
     <Content Include="Scripts\bootstrap-transition.js" />
+    <Content Include="Scripts\chat\Chat.documentonwrite.js" />
+    <Content Include="Scripts\chat\Chat.emoji.js" />
+    <Content Include="Scripts\chat\Chat.githubissues.js" />
+    <Content Include="Scripts\chat\chat.notification.js" />
+    <Content Include="Scripts\chat\Chat.toast.js" />
+    <Content Include="Scripts\chat\Chat.twitter.js" />
+    <Content Include="Scripts\chat\Chat.utility.js" />
     <Content Include="Scripts\jquery-1.7.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.2.js" />
     <Content Include="Scripts\jquery-1.7.2.min.js" />
-    <Content Include="Scripts\jquery-ui-1.8.19.js" />
-    <Content Include="Scripts\jquery-ui-1.8.19.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20-widget.min.js" />
     <Content Include="Scripts\jquery.autogrow.js" />
     <Content Include="Scripts\jquery.autotabcomplete.js" />
+    <Content Include="Scripts\jquery.captureDocumentWrite.js" />
     <Content Include="Scripts\jquery.captureDocumentWrite.min.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.fileupload.js" />
-    <Content Include="Scripts\jquery.history.js" />
     <Content Include="Scripts\jquery.insertAtCaret.js" />
+    <Content Include="Scripts\jquery.linkify.1.0-min.js" />
     <Content Include="Scripts\jquery.placeholder.js" />
     <Content Include="Scripts\jquery.scrollto.js" />
     <Content Include="Scripts\jquery.timeago.0.10.js" />
     <Content Include="Scripts\jQuery.tmpl.min.js" />
+    <Content Include="Scripts\jquery.youtube.js" />
     <Content Include="Scripts\jstorage.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
-    <Content Include="Scripts\loginview.js" />
-    <Content Include="Scripts\jquery.cookie.js" />
-    <Content Include="Scripts\jquery.linkify.1.0-min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.youtube.js" />
-    <Content Include="Scripts\base64.js" />
     <Content Include="Scripts\Markdown.Converter.js" />
     <Content Include="Scripts\md5.js" />
-    <Content Include="Scripts\models.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Views\bootstrap.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -286,29 +276,42 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\aspNetHome.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\facebook.png" />
+    <Content Include="Images\findHosting.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\NuGetGallery.png" />
+    <Content Include="Images\orderedListOne.png" />
+    <Content Include="Images\orderedListTwo.png" />
+    <Content Include="Images\orderedListThree.png" />
+    <Content Include="Images\twitter.png" />
+    <Content Include="Images\windowsLive.png" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Chat.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\_Login.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="Views\Home\Chat.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Views\Home\NoCampfireAccounts.cshtml" />
+    <Content Include="Views\Home\_GitHubTemplate.cshtml" />
+    <Content Include="Views\Home\_Login.cshtml" />
+    <Content Include="Views\Home\_MessageTemplate.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Home\_TwitterTemplate.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
