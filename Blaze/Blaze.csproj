@@ -180,7 +180,8 @@
     <Compile Include="Util\RegexExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\Pencil.png" />
+    <Content Include="Content\images\pencil_16x16.png" />
+    <Content Include="Content\images\pencil_24x24.png" />
     <Content Include="favicon.ico" />
     <Content Include="Content\Blaze.css" />
     <Content Include="Content\bootstrap.min.css" />

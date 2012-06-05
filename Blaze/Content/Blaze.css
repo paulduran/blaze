@@ -25,9 +25,11 @@
 
 .change-topic {
     cursor: pointer;
-    background-image: url(images/Pencil.png);
-    width: 24px;
-    height: 24px;
+    background-image: url(images/pencil_16x16.png);
+    vertical-align: bottom;
+    margin-top: 8px;
+    width: 16px;
+    height: 16px;
     float: left;
     display: none;
 }
