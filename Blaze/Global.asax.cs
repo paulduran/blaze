@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Blaze.App_Start;
 using NLog;
 
 namespace Blaze
@@ -77,7 +77,17 @@ namespace Blaze
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            BundleTable.Bundles.EnableDefaultBundles();
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        protected void Application_BeginRequest()
+        {
+            var context = HttpContext.Current;
+            var bundle = context.Request["bundle"];
+            if( bundle != null)
+            {
+                BundleTable.EnableOptimizations = bundle != "0" && bundle != "false";
+            }
         }
 
         protected void Application_EndRequest()
