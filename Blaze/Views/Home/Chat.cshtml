@@ -97,7 +97,7 @@
                 <div class="preferences"  data-bind="visible: isVisible">
                     <a class="sound" title="audible notifications" data-bind="css: {off:!prefs.sound()}, click: toggleSound"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop, visible: canToast()"></a>
                 </div>
-                <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span data-bind="text: topic"></span></div>
+                <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span class="topic" data-bind="textValue: topic, attr: {contenteditable: isEditingTopic}, event: {keyup: topicKeyUp, keypress: topicKeyPress},hasfocus: isEditingTopic"></span> <span title="Change topic" class="change-topic" data-bind="click: editTopic"></span></div>
                 <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
                     <h3 class="userlist-header nav-header">Users</h3>
                     <div>

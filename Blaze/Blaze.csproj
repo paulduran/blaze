@@ -180,6 +180,7 @@
     <Compile Include="Util\RegexExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\Pencil.png" />
     <Content Include="favicon.ico" />
     <Content Include="Content\Blaze.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -232,6 +233,7 @@
     <Content Include="Scripts\blaze\api.js" />
     <Content Include="Scripts\blaze\chatcontroller.js" />
     <Content Include="Scripts\blaze\chatview.js" />
+    <Content Include="Scripts\blaze\knockout-textValue.js" />
     <Content Include="Scripts\blaze\loginview.js" />
     <Content Include="Scripts\blaze\models.js" />
     <Content Include="Scripts\extras\bootstrap-modal.js" />

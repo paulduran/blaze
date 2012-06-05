@@ -4,6 +4,38 @@
     width: 16px;
     height: 16px;
 }
+
+.roomTopic 
+{
+    top: 0px;
+    position: relative;
+    width: 70%;
+    float: left;
+}
+
+.roomTopic span[contenteditable] {
+    background-color: white;
+}
+
+.roomTopic strong, .roomTopic .topic {
+    margin-top: 5px;
+    padding: 5px 5px 5px 5px;
+    float: left;
+}
+
+.change-topic {
+    cursor: pointer;
+    background-image: url(images/Pencil.png);
+    width: 24px;
+    height: 24px;
+    float: left;
+    display: none;
+}
+
+.roomTopic:hover .change-topic {
+    display: inline-block;
+}
+
 .banner img {
     border: none;
 }
