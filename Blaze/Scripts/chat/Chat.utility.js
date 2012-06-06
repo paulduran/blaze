@@ -1,4 +1,4 @@
-﻿/// <reference path="Scripts/jquery-1.7.js" />
+﻿﻿/// <reference path="Scripts/jquery-1.7.js" />
 /// <reference path="Scripts/jQuery.tmpl.js" />
 /// <reference path="Scripts/jquery.cookie.js" />
 
@@ -21,12 +21,31 @@
         return s;
     }
 
+    function guidGenerator() {
+        var S4 = function () {
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        };
+        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    }
+
     $.fn.isNearTheEnd = function () {
         return this[0].scrollTop + this.height() >= this[0].scrollHeight;
     };
 
+    // REVIEW: is it safe to assume we do not need to strip tags before decoding?
+    function decodeHtml(html) {
+        // should we strip tags before running this?
+        // obligatory link to SO http://stackoverflow.com/questions/1147359/how-to-decode-html-entities-using-jquery
+        // is it safe to assume bad html has been removed before we've reached this function call?
+        return $("<div/>").html(html).text();
+    }
+
+    function encodeHtml(html) {
+        return $("<div/>").text(html).html();
+    }
+
     String.prototype.fromJsonDate = function () {
-        return eval(this.replace(/\/Date\((\d+)(\+|\-)?.*\)\//gi, "new Date($1)"))
+        return eval(this.replace(/\/Date\((\d+)(\+|\-)?.*\)\//gi, "new Date($1)"));
     };
 
     Date.prototype.formatDate = function () {
@@ -63,7 +82,7 @@
     };
 
     // returns the date portion only (strips time)
-    Date.prototype.toDate = function() {
+    Date.prototype.toDate = function () {
         return new Date(this.getFullYear(), this.getMonth(), this.getDate());
     };
 
@@ -96,7 +115,10 @@
         parseEmojis: function (content) {
             var parser = new Emoji.Parser().parse;
             return (parser(content));
-        }
+        },
+        decodeHtml: decodeHtml,
+        encodeHtml: encodeHtml,
+        newId: guidGenerator
     };
 
     if (!window.chat) {
