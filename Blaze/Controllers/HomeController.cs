@@ -205,13 +205,14 @@ namespace Blaze.Controllers
         public ActionResult GetFile(string account, string auth, string url)
         {
             string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);
+            var filename = url.Substring(url.LastIndexOf('/')+1);
             var request = (HttpWebRequest)WebRequest.Create(fullUrl);
             request.Method = "GET";
             request.Headers["Authorization"] = "Bearer " + auth;
             try
             {
                 var response = request.GetResponse();
-                return new FileStreamResult(response.GetResponseStream(), response.ContentType);
+                return File(response.GetResponseStream(), response.ContentType, filename);
             } catch (WebException ex)
             {
                 return HandleWebException(fullUrl, ex);

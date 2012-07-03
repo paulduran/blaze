@@ -1,10 +1,10 @@
-﻿/// <reference path="~/Scripts/chatcontroller.js"/>
+﻿/// <reference path="chatcontroller.js"/>
 /// <reference path="~/Scripts/knockout-2.1.0.js"/>
-/// <reference path="~/Scripts/Chat.toast.js"/>
-/// <reference path="~/Scripts/Chat.emoji.js"/>
+/// <reference path="~/Scripts/chat/Chat.toast.js"/>
+/// <reference path="~/Scripts/chat/Chat.emoji.js"/>
 /// <reference path="~/Scripts/md5.js"/>
 
-function RoomModel(obj, user, prefs) {
+function RoomModel(obj, user, prefs, controller) {
     var self = this;
     this.prefs = prefs;
     this.accessKey = ko.observable('');
@@ -95,6 +95,32 @@ function RoomModel(obj, user, prefs) {
     this.canToast = ko.computed(function () {
         return chat.toast.canToast();
     });
+    this.origTopic = this.topic();
+    this.isEditingTopic = ko.observable(false);
+    this.isEditingTopic.subscribe(function () {
+        if (self.origTopic != self.topic()) {
+            self.origTopic = self.topic();
+            controller.changeTopic(self);
+        }
+    });
+    this.topicKeyPress = function (me, e) {
+        if (e.which == 13) { // 'enter' key
+            self.isEditingTopic(false);
+            return false;
+        }
+        return true;
+    },
+    this.topicKeyUp = function (me, e) {
+        if (e.which === 27) {
+            self.topic(self.origTopic);
+            self.isEditingTopic(false);
+            return false;
+        }
+        return true;
+    },
+    this.editTopic = function () {
+        self.isEditingTopic(true);
+    };   
 }
 
 function RoomPreferencesModel(parent,pref) {

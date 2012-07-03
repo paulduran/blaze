@@ -7,10 +7,9 @@
 <html>
     <head>
         <title>Blaze</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />        
-        <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/chat/css")" rel="stylesheet" type="text/css" />
-        <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css")" rel="stylesheet" type="text/css" />
- 
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />  
+        @Styles.Render("~/Content/chat/css", "~/Content/css")
+        <script src="~/Scripts/modernizr-2.5.3.js" type="text/javascript"></script>        
         <link rel="icon" href="~/Content/images/blaze_logo_small_x.png" type="image/x-icon">
         <link rel="shortcut icon" href="~/Content/images/blaze_logo_small_x.png" type="image/x-icon">
     </head>
@@ -97,7 +96,7 @@
                 <div class="preferences"  data-bind="visible: isVisible">
                     <a class="sound" title="audible notifications" data-bind="css: {off:!prefs.sound()}, click: toggleSound"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop, visible: canToast()"></a>
                 </div>
-                <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span data-bind="text: topic"></span></div>
+                <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span class="topic" data-bind="textValue: topic, attr: {contenteditable: isEditingTopic}, event: {keyup: topicKeyUp, keypress: topicKeyPress},hasfocus: isEditingTopic"></span> <span title="Change topic" class="change-topic" data-bind="click: editTopic"></span></div>
                 <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
                     <h3 class="userlist-header nav-header">Users</h3>
                     <div>
@@ -123,9 +122,7 @@
     chat = {};
     chat.ui = {};
 </script>
-<script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js")"></script>
-<script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/chat/js")"></script>
-<script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/blaze/js")"></script>
+@Scripts.Render("~/Scripts/js", "~/Scripts/chat/js", "~/Scripts/blaze/js")
 <script src="~/Scripts/extras/bootstrap-modal.js"></script>
 <script src="~/Scripts/extras/bootstrap-transition.js"></script>
 <script type="text/javascript"> 

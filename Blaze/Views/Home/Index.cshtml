@@ -6,10 +6,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Blaze campfire client</title>
-    <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/public/css")" rel="stylesheet" type="text/css" />
+    @Styles.Render("~/Content/public/css")
     <link rel="icon" href="~/Content/images/blaze_logo_small_x.png" type="image/x-icon">
     <link rel="shortcut icon" href="~/Content/images/blaze_logo_small_x.png" type="image/x-icon">
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")"></script>
 </head>
 <body>
     @Html.Partial("_Login")
@@ -223,6 +222,7 @@
             </div>
         </div>
     </div>
+    @Scripts.Render("~/Scripts/js")
     <script type="text/javascript">
         $(function () {
             $('#ribbon').css({ 'height': (($(window).height())) + 'px' });

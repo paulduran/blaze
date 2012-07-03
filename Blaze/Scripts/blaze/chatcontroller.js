@@ -1,5 +1,5 @@
 ﻿/// <reference path="chat.notification.js"/>
-/// <reference path="~/Scripts/models.js"/>
+/// <reference path="models.js"/>
 /// <reference path="~/Scripts/knockout-2.1.0.js"/>
 /**
  * @param {ChatNotifications} notifications
@@ -50,7 +50,7 @@ ChatController.prototype.showLobby = function (user) {
     self.view.show();
     self.campfire.getRooms(function (rooms) {
         $(rooms).each(function() {
-            var roomModel = new RoomModel(this, currentUserModel, self.prefs.getRoomPreferences(this.id));
+            var roomModel = new RoomModel(this, currentUserModel, self.prefs.getRoomPreferences(this.id), self);
             self.view.addRoom(roomModel);
             self.loadUsers(roomModel);
         });
@@ -189,4 +189,9 @@ ChatController.prototype.signOut = function () {
     $.cookie('BlazeAT', null); 
     $.cookie('BlazeRT', null);
     window.location = '/';
+};
+
+ChatController.prototype.changeTopic = function(room) {
+    var self = this;
+    self.campfire.changeTopic(room.id(), room.topic());
 };

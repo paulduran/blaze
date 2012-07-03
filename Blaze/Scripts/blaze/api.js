@@ -176,3 +176,15 @@ Campfire.prototype.getUploadUrl = function (roomId) {
     var url = '/x/' + self.account + '/room/' + roomId + '/uploads.xml';
     return url;
 };
+
+Campfire.prototype.changeTopic = function (roomId, topic) {
+    var self = this;
+    var payload = '<room><topic><![CDATA[' + topic + ']]></topic></room>';
+    $.ajax({
+        url: self.base + '/room/' + roomId,
+        data: payload,
+        type: 'PUT',
+        contentType: 'application/xml',
+        dataType: 'xml'
+    });
+};
