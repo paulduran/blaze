@@ -23,6 +23,10 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -159,6 +163,7 @@
     <Compile Include="ContentProviders\GoogleMapsContentProvider.cs" />
     <Compile Include="ContentProviders\ImageContentProvider.cs" />
     <Compile Include="ContentProviders\ImgurContentProvider.cs" />
+    <Compile Include="ContentProviders\JiraIssuesContentProvider.cs" />
     <Compile Include="ContentProviders\JoinMeContentProvider.cs" />
     <Compile Include="ContentProviders\MixcloudContentProvider.cs" />
     <Compile Include="ContentProviders\NerdDinnerContentProvider.cs" />
@@ -185,6 +190,7 @@
     <Compile Include="Util\RegexExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\chat\images\contentproviders\jira_icon_48x48.png" />
     <Content Include="Content\images\pencil_16x16.png" />
     <Content Include="Content\images\pencil_24x24.png" />
     <Content Include="favicon.ico" />
@@ -242,6 +248,7 @@
     <Content Include="Scripts\blaze\knockout-textValue.js" />
     <Content Include="Scripts\blaze\loginview.js" />
     <Content Include="Scripts\blaze\models.js" />
+    <Content Include="Scripts\chat\Chat.jiraissues.js" />
     <Content Include="Scripts\extras\bootstrap-modal.js" />
     <Content Include="Scripts\extras\bootstrap-transition.js" />
     <Content Include="Scripts\chat\Chat.documentonwrite.js" />
@@ -307,6 +314,9 @@
     <Content Include="Views\Home\_TwitterTemplate.cshtml">
       <SubType>Code</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\_JiraTemplate.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

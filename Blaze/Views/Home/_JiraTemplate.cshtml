@@ -1,0 +1,45 @@
+﻿<!-- /Jira Issues Content Provider -->
+<script id="jira-issues-template" type="text/x-jquery-tmpl">
+    <div class="new-comments">
+        <div class="avatar-bubble js-comment-container">
+            <span class="avatar">
+                <img height="48" width="48" src="${reporter.avatarUrls['48x48']}">
+                <span class="overlay size-48"></span>
+            </span>
+            <div class="bubble">                
+                <div class="comment starting-comment ">                    
+                    <div class="body">
+                        <div style="float:right"><img height="48" width="48" src="/Content/chat/images/contentproviders/jira_icon_48x48.png"></div>
+                        <p class="author">
+                            <a href="#" class='jira-issue-user-${reporter.name}' target="_blank">${reporter.name}</a> opened this issue
+                            <time class="js-relative-date" datetime="${created}">${created}</time>
+                        </p>
+                        
+                        <a href="${html_url}" target="_blank"><h2 class="content-title">${summary}</h2></a>
+                        <div class="infobar clearfix">
+                            <p class="milestone js-milestone-infobar-item-wrapper">${issuetype.name} (${status.name})</p>
+                            {{if assignee}}
+                                <p class="assignee">
+                                    <span class="avatar">
+                                        <img height="16" width="16" src="${assignee.avatarUrls['16x16']}">
+                                        <span class="overlay size-20"></span>
+                                    </span>
+                                    <a href="#" class="jira-issue-user-${assignee.login}" target="_blank">${assignee.name}</a> is assigned
+                                </p>
+                            {{/if}}
+                        </div>
+                        <div class="formatted-content">
+                            <div class="content-body wikistyle markdown-format">
+                                <p>
+                                    {{html description}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+           
+    </div>   
+</script>
+<!-- /Jira Issus Content Provider -->
