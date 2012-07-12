@@ -13,8 +13,15 @@ namespace JabbR.ContentProviders.Core
 
         public Task<ContentProviderResultModel> ExtractResource(string url)
         {
-            var uri = new Uri(url);
-            return Task.Factory.StartNew(() => ExtractContent(uri));
+            Uri resultUrl;
+            if (Uri.TryCreate(url, UriKind.Absolute, out resultUrl))
+            {
+                return Task.Factory.StartNew(() => ExtractContent(resultUrl));
+            }
+
+            var tcs = new TaskCompletionSource<ContentProviderResultModel>();
+            tcs.SetResult(null);
+            return tcs.Task;            
         }
 
         private ContentProviderResultModel ExtractContent(Uri uri)
