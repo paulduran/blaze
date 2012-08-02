@@ -86,6 +86,7 @@ ChatController.prototype.showRoom = function (room, isNewRoom) {
         self.campfire.enterRoom(room.id(), function () {
             self.loadMessages(room);
         });
+        self.view.constrainTabsIfNecessary();
     }
     self.view.changeRoom(room.id());
 };
@@ -178,6 +179,7 @@ ChatController.prototype.leaveRoom = function (room) {
     var self = this;
     self.campfire.leaveRoom(room.id(), function () {
     });
+    self.view.constrainTabsIfNecessary();
 };
 
 ChatController.prototype.signOut = function () {

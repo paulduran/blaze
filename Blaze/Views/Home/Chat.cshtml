@@ -44,7 +44,7 @@
                     <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible, active: isActive}, click: $parent.displayRoom">
                         <span class="lock"></span>
                         <button data-bind="attr: {accesskey: $index()+1}" type="button">  
-                            <span class="content" data-bind="text: tabText"></span>
+                            <div class="content" data-bind="text: tabText, attr: { title: tabText}, css: {'constrained': constrainTabText}"></div>
                         </button>
                         <div class="close" data-bind="click: $parent.leaveRoom"></div>
                     </li>

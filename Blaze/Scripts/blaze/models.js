@@ -70,6 +70,7 @@ function RoomModel(obj, user, prefs, controller) {
         }
         return self.name();
     });
+    this.constrainTabText = ko.observable(true);
     this.collapseNotifications = function (element, i, msg) {
         var count = 0;
         while (i > 0 && self.messages()[i].isNotification()) {
