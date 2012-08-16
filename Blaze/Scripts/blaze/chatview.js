@@ -1,5 +1,5 @@
 ﻿/// <reference path="models.js"/>
-/// <reference path="~/Scripts/Chat.toast.js"/>
+/// <reference path="~/Scripts/chat/Chat.toast.js"/>
 /// <reference path="knockout-2.1.0.js"/>
 function ChatView() {
     this.roomsModel = null;
