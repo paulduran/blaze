@@ -11,19 +11,18 @@ namespace Blaze.App_Start
             bundles.Add(new StyleBundle("~/Content/public/css").Include("~/Content/public/*.css"));
 
             bundles.Add(new ScriptBundle("~/Scripts/js")
-                            .Include("~/Scripts/jquery-1.7.2.js",
-                                     "~/Scripts/jquery-ui-1.8.20-widget.min.js",
+                            .Include(
                                      "~/Scripts/jquery.autogrow.js",
                                      "~/Scripts/jquery.autotabcomplete.js",
                                      "~/Scripts/jquery.captureDocumentWrite.js",
                                      "~/Scripts/jquery.cookie.js",
                                      "~/Scripts/jquery.fileupload.js",
+                                     "~/Scripts/vendor/jquery.ui.widget.js",
                                      "~/Scripts/jquery.insertAtCaret.js",
                                      "~/Scripts/jquery.linkify.1.0-min.js",
                                      "~/Scripts/jquery.placeholder.js",
                                      "~/Scripts/jquery.scrollto.js",
                                      "~/Scripts/jquery.timeago.0.10.js",
-                                     "~/Scripts/jquery.tmpl.min.js",
                                      "~/Scripts/jstorage.js",
                                      "~/Scripts/knockout-2.1.0.js",
                                      "~/Scripts/Markdown.Converter.js",

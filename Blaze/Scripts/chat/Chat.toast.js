@@ -1,4 +1,4 @@
-﻿﻿/// <reference path="Scripts/jquery-1.7.js" />
+﻿﻿/// <reference path="Scripts/jquery-1.8.0.js" />
 (function($, basePath) {
     "use strict";
 

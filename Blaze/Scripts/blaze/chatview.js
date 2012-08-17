@@ -1,9 +1,17 @@
 ﻿/// <reference path="models.js"/>
-/// <reference path="~/Scripts/Chat.toast.js"/>
+/// <reference path="~/Scripts/chat/Chat.toast.js"/>
 /// <reference path="knockout-2.1.0.js"/>
 function ChatView() {
     this.roomsModel = null;
 }
+
+var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+        clearTimeout(timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
 
 /**
 * @param RoomsModel roomsModel
@@ -91,6 +99,16 @@ ChatView.prototype.init = function (roomsModel, campfire) {
         self.roomsModel.isVisible(true);
         self.updateTitle();
     });
+    $(window).resize(function () {
+        
+            self.constrainTabsIfNecessary();
+        
+    });
+    /*self.roomsModel.rooms.subscribe(function () {
+        delay(function () {
+            self.constrainTabsIfNecessary();
+        }, 500);
+    });*/
 };
 
 ChatView.prototype.updateTitle = function () {
@@ -231,6 +249,26 @@ ChatView.prototype.sortRooms = function() {
         if (l.users().length < r.users().length) return 1;
         return -1;
     });
+};
+
+ChatView.prototype.shouldTabsBeConstrained = function () {
+    var maxRight = 0;
+    $('#tabs li').each(function () {
+        maxRight = Math.max(maxRight, $(this).offset().left + $(this).width());
+    });
+//    console.log(maxRight, ($('#heading').width() * 2.0 / 3));
+    return (maxRight > ($('#heading').width() * 2.0 / 3));
+};
+
+ChatView.prototype.constrainTabsIfNecessary = function () {
+    var self = this;
+    delay(function () {
+        var shouldBeConstrained = self.shouldTabsBeConstrained();
+//        console.log('should be constrained?', shouldBeConstrained);
+        $.each(self.roomsModel.rooms(), function (i, r) {
+            r.constrainTabText(shouldBeConstrained);
+        });
+    }, 500);
 };
 
 ChatView.prototype.isNearTheEnd = function () {
