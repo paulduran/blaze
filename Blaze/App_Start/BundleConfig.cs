@@ -15,8 +15,6 @@ namespace Blaze.App_Start
 
             bundles.Add(new ScriptBundle("~/Scripts/js")
                             .Include(
-                                     "~/Scripts/jquery-1.8.0.js",
-                                     "~/Scripts/jQuery.tmpl.min.js",
                                      "~/Scripts/jquery.autogrow.js",
                                      "~/Scripts/jquery.autotabcomplete.js",
                                      "~/Scripts/jquery.captureDocumentWrite.js",
