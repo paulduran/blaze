@@ -279,6 +279,7 @@
     <Content Include="Scripts\Markdown.Converter.js" />
     <Content Include="Scripts\md5.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\vendor\jquery.ui.widget.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
