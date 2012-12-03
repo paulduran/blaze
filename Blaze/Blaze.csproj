@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\chat\images\contentproviders\jira_icon_48x48.png" />
+    <Content Include="Content\chat\images\star.png" />
     <Content Include="Content\images\pencil_16x16.png" />
     <Content Include="Content\images\pencil_24x24.png" />
     <Content Include="favicon.ico" />

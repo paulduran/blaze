@@ -289,8 +289,9 @@ function UserModel(obj) {
         return url.replace("http:", window.location.protocol);
     });
 }
-function MessageModel(obj, user, currentUser, prevMsg, emoji) {
+function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     var self = this;
+    this.chat = chat;
     this.previousMessage = prevMsg;
     this.isLastMessage = ko.observable(false);
     this.id = ko.observable(obj.id);
@@ -386,5 +387,10 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji) {
             prev.isVisible(true);
             prev = prev.previousMessage;
         }
+    };
+    this.toggleStarred = function () {
+        self.starred(!self.starred());
+        self.chat.starMessage(self);
+        return false;
     };
 }
