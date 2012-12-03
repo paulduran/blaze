@@ -103,7 +103,7 @@ ChatController.prototype.loadMessages = function (room) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
             var isSeparator = self.checkForSeparator(o, room.lastMessage);
             if (o.type !== 'TimestampMessage' || isSeparator) {
-                var messageModel = new MessageModel(o, user, self.currentUser, room.lastMessage, self.contentProcessor);
+                var messageModel = new MessageModel(o, user, self.currentUser, room.lastMessage, self.contentProcessor, self);
                 room.addMessage(messageModel);
                 room.lastMessage = messageModel;
                 if (!isSeparator) {
@@ -173,6 +173,11 @@ ChatController.prototype.sendMessage = function(room, message, isPaste) {
     self.campfire.sendMessage(room.id(), message, isPaste, function() {
         self.loadMessages(room);
     });
+};
+
+ChatController.prototype.starMessage = function (message) {
+    var self = this;
+    self.campfire.starMessage(message);
 };
 
 ChatController.prototype.leaveRoom = function (room) {

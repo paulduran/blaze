@@ -142,6 +142,35 @@
     top:25px;
 }
 
+span.star {
+    width: 21px;
+    float: left;
+    height: 17px;
+    margin-top: -4px;
+}
+
+span.star a {
+    text-decoration: none;
+    text-indent: 9999em;
+    display: block;
+    height: 17px;
+    background: url('images/star.png') no-repeat left -100px;
+}
+
+li.message:hover span.star:hover a {
+    background-position: left -18px;
+}
+
+li.message:hover span.star a {
+    background-position: left 0px;
+}
+
+li.message:hover span.starred a,
+li.message:hover span.starred:hover a,
+span.starred a {
+    background-position: left -36px;
+}
+
 .users {
     margin-left: 0px;
     padding-left: 0px;
