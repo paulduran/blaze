@@ -92,6 +92,22 @@ Campfire.prototype.sendMessage = function (roomId, message, isPaste, callback) {
     });
 };
 
+Campfire.prototype.starMessage = function (message) {
+    var self = this;
+    var method = (message.starred) ? 'POST' : 'DELETE';
+    $.ajax({
+        url: self.base + '/messages/' + message.id() + '/star',
+        type: method,
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function () {
+        },
+        error: function () {
+        },
+        contentType: 'application/xml',
+        dataType: 'xml'
+    });
+};
+
 Campfire.prototype.getUsers = function (roomId, callback) {
     var self = this;
     $.ajax({
