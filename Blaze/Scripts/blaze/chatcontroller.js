@@ -170,8 +170,21 @@ ChatController.prototype.getUser = function (id) {
 
 ChatController.prototype.sendMessage = function(room, message, isPaste) {
     var self = this;
-    self.campfire.sendMessage(room.id(), message, isPaste, function() {
+    var type = '';
+    if (message.indexOf("/play ") === 0) {
+        type = 'SoundMessage';
+        message = message.substr(6);
+    }
+    self.campfire.sendMessage(room.id(), type, message, isPaste, function (xmlData) {
         self.loadMessages(room);
+        if (xmlData) {
+            var messageType = $(xmlData).find('type').text();
+            if (messageType === 'SoundMessage') {
+                var url = $(xmlData).find('url').text();
+                var audio = new Audio(url);
+                audio.play();
+            }
+        }
     });
 };
 
