@@ -29,13 +29,13 @@
         <div class="middle">
             {{if isSoundMessage}}
                 <a href="javascript:;" data-bind="click: playSound"><img class="sound_message_icon" alt="Sound" src="Content/chat/images/sound-on.png" /></a>
-                    {{if descriptionIsUrl}}
-                    <a href="javascript:;" data-bind="click: playSound">
-                        <img src="${description}" />
-                    </a>
-                    {{else}}
-                        {{html description}}
-                    {{/if}}
+                {{if descriptionIsUrl}}
+                <a href="javascript:;" data-bind="click: playSound">
+                    <img src="${description}" />
+                </a>
+                {{else}}
+                {{html description}}
+                {{/if}}
             {{else}}
                 {{html message}}
             {{/if}}
