@@ -171,6 +171,12 @@ span.starred a {
     background-position: left -36px;
 }
 
+img.sound_message_icon {
+    height: 12px;
+    width: 12px;
+    opacity: 0.25;
+}
+
 .users {
     margin-left: 0px;
     padding-left: 0px;
