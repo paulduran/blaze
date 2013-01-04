@@ -120,7 +120,7 @@ ChatController.prototype.loadMessages = function (room) {
             if (!self.roomsModel.isVisible() && !room.lastMessage.isNotification() && !room.lastMessage.isFromCurrentUser()) {                
                 self.notifications.notify(room, ko.toJS(room.lastMessage));
             }
-            if (room.lastMessage.type() === 'SoundMessage' && room.prefs.sound()) {
+            if (lastMsgId !== undefined && room.lastMessage.isSoundMessage && room.prefs.sound()) {
                 room.lastMessage.playSound();
             }
             if (room.isVisible()) {
