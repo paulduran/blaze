@@ -71,13 +71,13 @@ Campfire.prototype.uploadFile = function(roomId, data, callback) {
     // not completed yet!
 };
 
-Campfire.prototype.sendMessage = function (roomId, message, isPaste, callback) {
+Campfire.prototype.sendMessage = function (roomId, type, message, isPaste, callback) {
     var self = this;
-    if(message === '') {
+    if (message === '') {
         callback();
         return;
     }
-    var type = '';
+
     var payload = '<message><type>' + type + '</type><body><![CDATA[' + message + ']]></body></message>';
     $.ajax({
         url: self.base + '/room/' + roomId + '/speak.xml',

@@ -299,6 +299,11 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     this.type = ko.observable(obj.type);
     this.starred = ko.observable(obj.starred);
     this.created_at = ko.observable(obj.created_at);
+    this.description = ko.observable(obj.description);
+    this.descriptionIsUrl = function () {
+        return self.description().indexOf("http") === 0;
+    }
+    this.url = ko.observable(obj.url);
     this.when = ko.computed(function () {
         var d = new Date(self.created_at());
         var mins = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
@@ -317,6 +322,9 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     });
     this.username = ko.computed(function () {
         return self.user.name();
+    });
+    this.isSoundMessage = ko.computed(function () {
+        return self.type() === 'SoundMessage';
     });
     this.isTimestamp = ko.computed(function () {
         return self.type() === 'TimestampMessage';
@@ -388,6 +396,10 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
             prev = prev.previousMessage;
         }
     };
+    this.playSound = function () {
+        var audio = new Audio(this.url());
+        audio.play();
+    }
     this.toggleStarred = function () {
         self.starred(!self.starred());
         self.chat.starMessage(self);
