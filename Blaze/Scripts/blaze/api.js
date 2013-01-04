@@ -84,8 +84,8 @@ Campfire.prototype.sendMessage = function (roomId, type, message, isPaste, callb
         data: payload,
         type: 'POST',
         beforeSend: $.proxy(self.setAuthHeader, self),
-        success: function (xmlData) {
-            callback(xmlData);
+        success: function () {
+            callback();
         },
         contentType: 'application/xml',
         dataType: 'xml'

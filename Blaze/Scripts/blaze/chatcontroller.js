@@ -120,6 +120,9 @@ ChatController.prototype.loadMessages = function (room) {
             if (!self.roomsModel.isVisible() && !room.lastMessage.isNotification() && !room.lastMessage.isFromCurrentUser()) {                
                 self.notifications.notify(room, ko.toJS(room.lastMessage));
             }
+            if (room.lastMessage.type() === 'SoundMessage' && room.prefs.sound()) {
+                room.lastMessage.playSound();
+            }
             if (room.isVisible()) {
                 self.view.scrollToEnd();
             }
@@ -175,16 +178,8 @@ ChatController.prototype.sendMessage = function(room, message, isPaste) {
         type = 'SoundMessage';
         message = message.substr(6);
     }
-    self.campfire.sendMessage(room.id(), type, message, isPaste, function (xmlData) {
+    self.campfire.sendMessage(room.id(), type, message, isPaste, function () {
         self.loadMessages(room);
-        if (xmlData) {
-            var messageType = $(xmlData).find('type').text();
-            if (messageType === 'SoundMessage') {
-                var url = $(xmlData).find('url').text();
-                var audio = new Audio(url);
-                audio.play();
-            }
-        }
     });
 };
 
