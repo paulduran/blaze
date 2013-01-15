@@ -45,6 +45,8 @@
                                 
                 // Trigger the focus event
                 $(toast).trigger('toast.focus', [toastRoom]);
+
+                window.focus();
             };
 
             chromeToast.show();
