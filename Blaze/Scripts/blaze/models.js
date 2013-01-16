@@ -354,6 +354,8 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
             return self.parsed_body().substring(self.parsed_body().indexOf('<a '));
         } else if (self.type() === 'PasteMessage') {
             return self.parsed_body();
+        } else if (self.type() === 'SoundMessage') {
+            return emoji.parse(self.description());
         }
         var body = emoji.parse(self.parsed_body());
         //var body = contentProcessor.process(self.parsed_body());

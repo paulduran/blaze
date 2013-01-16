@@ -174,7 +174,8 @@ span.starred a {
 img.sound_message_icon {
     height: 12px;
     width: 12px;
-    opacity: 0.25;
+    opacity: 0.25;   
+    border: none;
 }
 
 .users {

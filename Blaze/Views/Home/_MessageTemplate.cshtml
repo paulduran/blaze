@@ -31,10 +31,10 @@
                 <a href="javascript:;" data-bind="click: playSound"><img class="sound_message_icon" alt="Sound" src="Content/chat/images/sound-on.png" /></a>
                 {{if descriptionIsUrl}}
                 <a href="javascript:;" data-bind="click: playSound">
-                    <img src="${description}" />
+                    <img src="${description}" border="0"/>
                 </a>
                 {{else}}
-                {{html description}}
+                {{html message}}
                 {{/if}}
             {{else}}
                 {{html message}}
