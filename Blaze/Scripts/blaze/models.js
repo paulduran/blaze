@@ -1,5 +1,5 @@
 ﻿/// <reference path="chatcontroller.js"/>
-/// <reference path="~/Scripts/knockout-2.1.0.js"/>
+/// <reference path="~/Scripts/knockout-2.2.1.debug.js"/>
 /// <reference path="~/Scripts/chat/Chat.toast.js"/>
 /// <reference path="~/Scripts/chat/Chat.emoji.js"/>
 /// <reference path="~/Scripts/md5.js"/>
