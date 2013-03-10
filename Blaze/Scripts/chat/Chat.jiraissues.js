@@ -1,7 +1,40 @@
 ﻿(function ($, window, ui) {
     'use strict';
 
+    function transformOldIssue(issue) {
+        return {
+            key: issue.key,
+            fields: {
+                reporter: {
+                    name: issue.fields.reporter.value == null ? null : issue.fields.reporter.value.displayName,
+                    avatarUrls: { '48x48': null }
+                },
+                created: issue.fields.created.value,
+                summary: issue.fields.summary.value,
+                description: issue.fields.description.value,
+                html_url: issue.self.replace('/rest/api/latest/issue/', '/browse/'),
+                issuetype: {
+                    name: issue.fields.issuetype.value.name
+                },
+                status: {
+                    name: issue.fields.status.value.name
+                },
+                assignee: issue.fields.assignee.value == null ? null : {
+                    login: issue.fields.assignee.value.name,
+                    name: issue.fields.assignee.value.displayName,
+                    avatarUrls: { '16x16': null }
+                }
+            }
+        };
+    }
+
     window.addJiraIssue = function (issue) {
+        
+        if (issue.fields.description && issue.fields.description.value) {
+            // its in the old format - extract the stuff we need            
+            issue = transformOldIssue(issue);            
+        }
+
         // Keep track of whether we're need the end, so we can auto-scroll once the tweet is added.
         var nearEnd = ui.isNearTheEnd(),
             elements = null;
