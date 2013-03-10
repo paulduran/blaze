@@ -14,24 +14,27 @@
     };
 
     Emoji.Parser = function () {
+        var util = window.chat.utility;
         this.parse = function (content) {
-            return parseEmoji(content);
-        };
+            // wrap content in div tags, allows plain content to match in the following regex
+            content = '<div>' + content + '</div>';
 
-        this.transformToHtml = transformToHtml;
+            // match text within html tags
+            content = content.replace(/(?:^|>)([^<]+)(?:<|$)/g, function (str, match) {
+                return '>' + parseEmoji(util.encodeHtml(util.decodeHtml(match))) + '<';
+            });
+
+            // unwrap content from div tags
+            return content.slice(5,-6);
+        };
 
         function parseEmoji(content) {
             for (var key in validAlias) {
                 var regex = new RegExp(key, "g");
-                content = content.replace(regex, validAlias[key]);
+                content = content.replace(regex, function () { return validAlias[key]; });
             }
-
-            return content;
-        }
-
-        function transformToHtml(content) {
             return content.replace(/:([a-z0-9\+\-_]+):/g, emojiReplacer);
-        }
+        };
 
         function emojiReplacer(str, match) {
             if (validEmoji[match]) {

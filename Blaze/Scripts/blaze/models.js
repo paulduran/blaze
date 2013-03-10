@@ -357,8 +357,7 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
         } else if (self.type() === 'SoundMessage') {
             return emoji.parse(self.description());
         }
-        var body = window.chat.utility.parseEmojis(self.parsed_body());
-        body = window.chat.utility.transformEmojis(body);
+        var body = emoji.parse(self.parsed_body());
 
         return body;
     });
