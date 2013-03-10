@@ -357,8 +357,9 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
         } else if (self.type() === 'SoundMessage') {
             return emoji.parse(self.description());
         }
-        var body = emoji.parse(self.parsed_body());
-        //var body = contentProcessor.process(self.parsed_body());
+        var body = window.chat.utility.parseEmojis(self.parsed_body());
+        body = window.chat.utility.transformEmojis(body);
+
         return body;
     });
     this.isToCurrentUser = ko.computed(function () {
