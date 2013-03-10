@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Web;
+using System.Threading.Tasks;
 using JabbR.ContentProviders.Core;
 
 namespace JabbR.ContentProviders
@@ -25,7 +25,7 @@ namespace JabbR.ContentProviders
         /// </summary>
         private static readonly string tweetScript = String.Format( // Be aware: Nested string.format placeholder!
             "<div class=\"tweet_{{0}}\"><script src=\"{0}\"></script></div>",
-            HttpUtility.HtmlEncode("http://api.twitter.com/1/statuses/show/{0}.json?include_entities=false&callback=addTweet")
+            WebUtility.HtmlEncode("https://api.twitter.com/1/statuses/show/{0}.json?include_entities=false&callback=addTweet")
         );
 
         protected override ContentProviderResultModel GetCollapsibleContent(Uri uri)
@@ -54,7 +54,9 @@ namespace JabbR.ContentProviders
         protected override bool IsValidContent(Uri uri)
         {
             return uri.AbsoluteUri.StartsWith("http://twitter.com/", StringComparison.OrdinalIgnoreCase)
-                || uri.AbsoluteUri.StartsWith("https://twitter.com/", StringComparison.OrdinalIgnoreCase);
+                || uri.AbsoluteUri.StartsWith("https://twitter.com/", StringComparison.OrdinalIgnoreCase)
+                || uri.AbsoluteUri.StartsWith("http://www.twitter.com/", StringComparison.OrdinalIgnoreCase)
+                || uri.AbsoluteUri.StartsWith("https://www.twitter.com/", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
