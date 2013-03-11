@@ -121,7 +121,7 @@ function RoomModel(obj, user, prefs, controller) {
     },
     this.editTopic = function () {
         self.isEditingTopic(true);
-    };   
+    };
 }
 
 function RoomPreferencesModel(parent,pref) {
@@ -225,6 +225,7 @@ function RoomsModel(chat) {
     };
     this.inputMessage = ko.observable('');
     this.isPaste = ko.observable(false);
+    this.searchTerm = ko.observable('');
     this.sendMessage = function () {
         if (self.visibleRoom) {
             var isPaste = self.inputMessage().indexOf('\n') !== -1;
@@ -260,6 +261,14 @@ function RoomsModel(chat) {
     };
     this.signOut = function () {
         chat.signOut();
+    };
+    this.searchMessages = function () {
+        chat.searchMessages(self.searchTerm());
+    };
+    this.searchResults = ko.observableArray([]);
+    this.isVisible = ko.observable(false);
+    this.addSearchResult = function (searchResult) {
+        self.searchResults.push(searchResult);
     };
 }
 function UserModel(obj) {
@@ -337,7 +346,7 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     this.showUser = ko.computed(function () {
         if (self.isTimestamp())
             return false;
-        if (self.previousMessage === undefined)
+        if (self.previousMessage === undefined || self.previousMessage === null)
             return true;
         if(self.previousMessage.isNotification())
             return true;

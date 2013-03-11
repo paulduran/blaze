@@ -48,6 +48,10 @@ ChatView.prototype.init = function (roomsModel, campfire) {
         var name = $(this).data('name');
         self.changeRoom(name);
     });
+    $('#tabs-search').live('click', function () {
+        var name = $(this).data('name');
+        self.changeRoom(name);
+    });
     $('#page').on('mouseover', '.gravatar',
             function () {
                 var $source = $(this);
@@ -229,13 +233,17 @@ ChatView.prototype.changeRoom = function (roomId) {
                 }
             }
         });
+    } else if (roomId == 'search') {
+        $('#tabs-' + roomId).addClass('current');
+        $('#messages-' + roomId).addClass('current').show();
+        $('#userlist-' + roomId).addClass('current').show();
     } else {
         // lobby        
         $('#tabs-' + roomId).addClass('current');
         $('#messages-' + roomId).addClass('current').show();
         $('#userlist-' + roomId).addClass('current').show();
     }
-    $('#new-message').focus();
+$('#new-message').focus();
     self.scrollToEnd();
 };
 

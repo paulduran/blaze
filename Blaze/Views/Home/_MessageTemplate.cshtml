@@ -62,3 +62,34 @@
     </li>
     {{/if}}
 </script>
+<script id="search-message-template" type="text/x-jquery-tmpl">
+    <li class="message ${highlight} clearfix" id="m-${id}" data-name="${username}" data-timestamp="${created_at}">
+        <div class="left">
+            {{if showUser}}
+            <img src="${user.avatar}" class="gravatar" />
+            <span class="name">${trimmedName}</span>
+            {{/if}}
+        </div>
+        <div class="middle">
+            {{if isSoundMessage}}
+                <a href="javascript:;" data-bind="click: playSound"><img class="sound_message_icon" alt="Sound" src="Content/chat/images/sound-on.png" /></a>
+                {{if descriptionIsUrl}}
+                <a href="javascript:;" data-bind="click: playSound">
+                    <img src="${description}" border="0"/>
+                </a>
+                {{else}}
+                {{html message}}
+                {{/if}}
+            {{else}}
+                {{html message}}
+            {{/if}}
+        </div>
+        <div class="right">
+            <span class="star" data-bind="css: { starred: starred }">
+                <a href="#" data-bind="click: toggleStarred" title="Starred lines appear as highlights in the transcript."></a>
+            </span>
+            <span id="t-${id}" class="time" title="${created_at}">${when}</span>
+        </div>
+    </li>
+        
+</script>

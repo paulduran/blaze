@@ -171,7 +171,18 @@ ChatController.prototype.getUser = function (id) {
     }
 };
 
-ChatController.prototype.sendMessage = function(room, message, isPaste) {
+ChatController.prototype.searchMessages = function (searchTerm) {
+    var self = this;
+    self.campfire.searchMessages(searchTerm, function (messages) {
+        $.each(messages, function (i, o) {
+            var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
+            var messageModel = new MessageModel(o, user, self.currentUser, null, self.contentProcessor, self);
+            self.roomsModel.addSearchResult(messageModel);
+        });
+    });
+};
+
+ChatController.prototype.sendMessage = function (room, message, isPaste) {
     var self = this;
     var type = '';
     if (message.indexOf("/play ") === 0) {

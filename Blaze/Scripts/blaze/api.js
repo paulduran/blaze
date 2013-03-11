@@ -71,6 +71,27 @@ Campfire.prototype.uploadFile = function(roomId, data, callback) {
     // not completed yet!
 };
 
+Campfire.prototype.searchMessages = function (searchTerm, callback) {
+    var self = this;
+    var data = {};
+    data['q'] = searchTerm;
+    var base = self.base.replace('/x', '/search');
+    $.ajax({
+        url: base + '/search',
+        data: data,
+        type: 'GET',
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function (reply) {
+            callback(reply.messages);
+        },
+        error: function (xhr, txt, err) {
+            console && console.log('searchMessages failure: ' + txt + ' (' + err + ')');
+            callback([]);
+        },
+        dataType: 'json'
+    });
+};
+
 Campfire.prototype.sendMessage = function (roomId, type, message, isPaste, callback) {
     var self = this;
     if (message === '') {

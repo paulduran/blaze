@@ -39,17 +39,21 @@
                 <ul id="tabs">
                     <li id="tabs-lobby" class="current lobby" data-name="lobby">
                         <button accesskey="l" type="button">
-                            <span class="content">Lobby</span></button>
+                        <span class="content">Lobby</span></button>
                     </li>
                     <!-- ko foreach: activeRooms -->
                     <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible, active: isActive}, click: $parent.displayRoom">
                         <span class="lock"></span>
-                        <button data-bind="attr: {accesskey: $index()+1}" type="button">  
+                        <button data-bind="attr: {accesskey: $index()+2}" type="button">  
                             <div class="content" data-bind="text: tabText, attr: { title: tabText}, css: {'constrained': constrainTabText}"></div>
                         </button>
                         <div class="close" data-bind="click: $parent.leaveRoom"></div>
                     </li>
                     <!-- /ko -->
+                    <li id="tabs-search" class="" data-name="search">
+                        <button accesskey="2" type="button">
+                        <span class="content">Search</span></button>
+                    </li>
                 </ul>
                 <button style="display: none" accesskey="[" data-bind="click: showPreviousRoom" type="button">&larr;</button>
                 <button style="display: none" accesskey="]" data-bind="click: showNextRoom" type="button">&rarr;</button>
@@ -91,6 +95,12 @@
                     </div>
                     <div class="status-msg"></div>
                 </div>
+                <div id="messages-search" style="display: none;">
+                    <h2>Search Results</h2>
+                    <ul data-bind="template: {name:'search-message-template', foreach: searchResults}" id="messages-search" class="messages">
+                    </ul>
+                </div>
+
                 <!-- ko foreach: activeRooms -->
                 <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
                 </ul>
@@ -99,6 +109,18 @@
                 </div>
                 <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span class="topic" data-bind="textValue: topic, attr: {contenteditable: isEditingTopic}, event: {keyup: topicKeyUp, keypress: topicKeyPress},hasfocus: isEditingTopic"></span> <span title="Change topic" class="change-topic" data-bind="click: editTopic"></span></div>
                 <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
+                <div id="search_form">
+                    <table>
+                        <tr>
+                            <td class="term">
+                                <input id="term" name="term" type="text" data-bind="value: $parent.searchTerm" />
+                            </td>
+                            <td class="submit">
+                                <input name="commit" type="submit" value="Search" data-bind="click: $parent.searchMessages" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                     <h3 class="userlist-header nav-header">Users</h3>
                     <div>
                         <ul data-bind="foreach: users">

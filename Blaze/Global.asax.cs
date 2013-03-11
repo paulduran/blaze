@@ -63,6 +63,12 @@ namespace Blaze
             );
 
             routes.MapRoute(
+                "search_route", // Route name
+                "search/{account}/{*url}", // URL with parameters
+                new { controller = "Home", action = "Search" } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
