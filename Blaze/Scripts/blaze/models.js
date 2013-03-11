@@ -1,5 +1,5 @@
 ﻿/// <reference path="chatcontroller.js"/>
-/// <reference path="~/Scripts/knockout-2.1.0.js"/>
+/// <reference path="~/Scripts/knockout-2.2.1.debug.js"/>
 /// <reference path="~/Scripts/chat/Chat.toast.js"/>
 /// <reference path="~/Scripts/chat/Chat.emoji.js"/>
 /// <reference path="~/Scripts/md5.js"/>
@@ -367,7 +367,7 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
             return emoji.parse(self.description());
         }
         var body = emoji.parse(self.parsed_body());
-        //var body = contentProcessor.process(self.parsed_body());
+
         return body;
     });
     this.isToCurrentUser = ko.computed(function () {

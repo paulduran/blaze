@@ -29,7 +29,7 @@ namespace Blaze.App_Start
                                      "~/Scripts/jquery.scrollto.js",
                                      "~/Scripts/jquery.timeago.0.10.js",
                                      "~/Scripts/jstorage.js",
-                                     "~/Scripts/knockout-2.1.0.js",
+                                     "~/Scripts/knockout-{version}.js",
                                      "~/Scripts/Markdown.Converter.js",
                                      "~/Scripts/md5.js"));
             bundles.Add(new ScriptBundle("~/Scripts/chat/js")

@@ -82,7 +82,7 @@ ChatView.prototype.init = function (roomsModel, campfire) {
         });
     });
     $('#new-message').autoTabComplete({
-        prefixMatch: '[@]',
+        prefixMatch: '[@:]',
         get: function (prefix) {
             switch (prefix) {
                 case '@':
@@ -91,6 +91,8 @@ ChatView.prototype.init = function (roomsModel, campfire) {
                         // todo: exclude current username from autocomplete
                         return room.users().map(function (u) { return u.short_name(); });
                     }
+                case ':':
+                    return Emoji.getIcons();
                 default:
                     return [];
             }

@@ -275,8 +275,8 @@
     <Content Include="Scripts\jQuery.tmpl.min.js" />
     <Content Include="Scripts\jquery.youtube.js" />
     <Content Include="Scripts\jstorage.js" />
-    <Content Include="Scripts\knockout-2.1.0.debug.js" />
-    <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\knockout-2.2.1.debug.js" />
+    <Content Include="Scripts\knockout-2.2.1.js" />
     <Content Include="Scripts\Markdown.Converter.js" />
     <Content Include="Scripts\md5.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
