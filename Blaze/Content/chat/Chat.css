@@ -131,7 +131,7 @@
     border-left: 175px solid #f1f1f1; /* background color for left column (user info) */
 }
 
-.messages li img.gravatar {
+.messages li img.gravatar, #messages-search img.gravatar {
     height: 16px;
     width: 16px;
     display: inline-block;

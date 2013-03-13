@@ -302,6 +302,9 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     var self = this;
     this.chat = chat;
     this.previousMessage = prevMsg;
+    this.room = $.grep(this.chat.roomsModel.activeRooms(), function (room) {
+        return room.id() == obj.room_id;
+    })[0];
     this.isLastMessage = ko.observable(false);
     this.id = ko.observable(obj.id);
     this.parsed_body = ko.observable(obj.parsed_body);
@@ -415,5 +418,8 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
         self.starred(!self.starred());
         self.chat.starMessage(self);
         return false;
+    };
+    this.searchUrl = function () {
+        return "https://scriptrock.campfirenow.com/room/" + self.roomId + "/transcript/message/" + self.id() + "#message_" + self.id();
     };
 }

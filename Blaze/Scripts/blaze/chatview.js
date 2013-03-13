@@ -235,10 +235,12 @@ ChatView.prototype.changeRoom = function (roomId) {
                 }
             }
         });
+        $('#send-message').show();
     } else if (roomId == 'search') {
         $('#tabs-' + roomId).addClass('current');
         $('#messages-' + roomId).addClass('current').show();
         $('#userlist-' + roomId).addClass('current').show();
+        $('#send-message').hide();
     } else {
         // lobby        
         $('#tabs-' + roomId).addClass('current');

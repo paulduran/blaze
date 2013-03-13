@@ -105,8 +105,19 @@
                 </div>
                 <div id="messages-search" style="display: none;">
                     <h2>Search Results</h2>
-                    <ul data-bind="template: {name:'search-message-template', foreach: searchResults}" id="messages-search" class="messages">
-                    </ul>
+                    <table style="width: 95%">
+                        <thead>
+                            <tr>
+                                <th>Room</th>
+                                <th>Person</th>
+                                <th>Result</th>
+                                <th>Day</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="template: {name:'search-message-template', foreach: searchResults}" id="messages-search" class="">
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- ko foreach: activeRooms -->
