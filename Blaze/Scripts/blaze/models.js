@@ -320,10 +320,14 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
         var d = new Date(self.created_at());
         var mins = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
         if (d.getHours() >= 12) {
-            var hours = d.getHours() === 12 ? 12 : (d.getHours() - 12); 
+            var hours = d.getHours() === 12 ? 12 : (d.getHours() - 12);
             return hours + ':' + mins + ' PM';
         }
         return d.getHours() + ':' + mins + ' AM';
+    });
+    this.day = ko.computed(function () {
+        var d = new Date(self.created_at());
+        return d.toLocaleDateString();
     });
     this.user = user;
     this.userId = ko.computed(function () {
@@ -420,6 +424,6 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
         return false;
     };
     this.searchUrl = function () {
-        return "https://scriptrock.campfirenow.com/room/" + self.roomId + "/transcript/message/" + self.id() + "#message_" + self.id();
+        return "https://scriptrock.campfirenow.com/room/" + self.room.id() + "/transcript/message/" + self.id() + "#message_" + self.id();
     };
 }

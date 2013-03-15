@@ -105,7 +105,8 @@
                 </div>
                 <div id="messages-search" style="display: none;">
                     <h2>Search Results</h2>
-                    <table style="width: 95%">
+                    <div class="search-results">
+                    <table id="search-results" style="width: 100%">
                         <thead>
                             <tr>
                                 <th>Room</th>
@@ -118,6 +119,7 @@
                         <tbody data-bind="template: {name:'search-message-template', foreach: searchResults}" id="messages-search" class="">
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
                 <!-- ko foreach: activeRooms -->

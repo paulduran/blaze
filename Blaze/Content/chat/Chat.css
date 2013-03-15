@@ -107,6 +107,19 @@
     margin-left: 5px;
 }
 
+.search-results {
+    width: 95%;
+    border: 1px solid #ccc;
+    overflow: auto;
+    margin-left: 0px;
+    margin-top: 0px;
+    padding-left: 0px;
+    position: absolute;
+    top: 55px;
+    bottom: 40px;
+    background-color: #fff;
+}
+
 .messages {
     width: 70%;
     border: 1px solid #ccc;
@@ -514,6 +527,10 @@ li.room:hover {
 .message-separator {
     height: 2px;
     background-color: #88b7d6;
+}
+
+table#search-results {
+    font-size: 13px;
 }
 
 /* This stuff is to support TweetContentProvider, but should be extracted out if other content providers need custom CSS */
