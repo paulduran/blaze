@@ -207,6 +207,7 @@
     <Content Include="Content\images\blaze_logo_small_x.png" />
     <Content Include="Content\chat\images\close-icon-hover.png" />
     <Content Include="Content\chat\images\close-icon.png" />
+    <Content Include="Content\chat\images\pop-out-icon.png" />
     <Content Include="Content\images\emoji20.png" />
     <Content Include="Content\images\info-icon.png" />
     <Content Include="Content\images\key_fill_16x16.png" />
