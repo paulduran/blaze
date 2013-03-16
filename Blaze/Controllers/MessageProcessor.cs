@@ -1,3 +1,4 @@
+using JabbR.ContentProviders.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
-using JabbR.ContentProviders.Core;
 
 namespace Blaze.Controllers
 {

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using JabbR.ContentProviders.Core;
+using System;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using JabbR.ContentProviders.Core;
 
 namespace JabbR.ContentProviders
 {

@@ -1,8 +1,8 @@
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Web;
-using RestSharp;
 
 namespace Blaze.Controllers
 {

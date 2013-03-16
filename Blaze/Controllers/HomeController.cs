@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Blaze.Models;
+using Newtonsoft.Json;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -7,9 +10,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-using Blaze.Models;
-using NLog;
-using Newtonsoft.Json;
 
 namespace Blaze.Controllers
 {
