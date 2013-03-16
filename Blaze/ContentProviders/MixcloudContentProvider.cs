@@ -1,6 +1,6 @@
+using JabbR.ContentProviders.Core;
 using System;
 using System.Collections.Generic;
-using JabbR.ContentProviders.Core;
 
 namespace JabbR.ContentProviders {
     public class MixcloudContentProvider : EmbedContentProvider

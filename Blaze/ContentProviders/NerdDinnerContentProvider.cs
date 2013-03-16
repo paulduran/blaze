@@ -1,10 +1,10 @@
-﻿using System;
+﻿using JabbR.ContentProviders.Core;
+using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using JabbR.ContentProviders.Core;
-using Newtonsoft.Json;
 
 namespace JabbR.ContentProviders
 {
