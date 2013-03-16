@@ -1,7 +1,6 @@
-﻿using System;
-using System.Net;
+﻿using JabbR.ContentProviders.Core;
+using System;
 using System.Text.RegularExpressions;
-using JabbR.ContentProviders.Core;
 
 namespace JabbR.ContentProviders
 {

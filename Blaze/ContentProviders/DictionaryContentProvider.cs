@@ -1,7 +1,7 @@
-﻿using System;
-using System.Net;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using JabbR.ContentProviders.Core;
+using System;
+using System.Net;
 
 namespace JabbR.ContentProviders
 {
