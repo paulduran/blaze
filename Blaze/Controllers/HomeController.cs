@@ -21,7 +21,7 @@ namespace Blaze.Controllers
     public class LoginLoggingCommandWrapper : ICommandWrapper
     {
         private static readonly Logger Log = LogManager.GetLogger("Blaze.Login");
- 
+
         public bool Match(string url)
         {
             return url == "users/me.json";
@@ -216,8 +216,6 @@ namespace Blaze.Controllers
                 return HandleWebException(fullUrl, ex);
             }
         }
-
-        
     }
 
     public class LaunchpadTokens
