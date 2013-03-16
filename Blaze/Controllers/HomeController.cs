@@ -1,5 +1,4 @@
-﻿using Blaze.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -85,8 +84,7 @@ namespace Blaze.Controllers
             ViewBag.Stealth = Convert.ToBoolean(ConfigurationManager.AppSettings["Stealth"] ?? "true")
                                   ? "true"
                                   : "false";
-            var model = new HomeModel();
-            return View("Chat",model);
+            return View("Chat");
         }
 
         private static string GetAccountName(Account account)
