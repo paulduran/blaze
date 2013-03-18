@@ -243,7 +243,7 @@ ChatView.prototype.changeRoom = function (roomId) {
         $('#messages-' + roomId).addClass('current').show();
         $('#userlist-' + roomId).addClass('current').show();
     }
-$('#new-message').focus();
+    $('#new-message').focus();
     self.scrollToEnd();
 };
 
