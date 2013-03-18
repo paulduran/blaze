@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -7,9 +9,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-using Blaze.Models;
-using NLog;
-using Newtonsoft.Json;
 
 namespace Blaze.Controllers
 {
@@ -22,7 +21,7 @@ namespace Blaze.Controllers
     public class LoginLoggingCommandWrapper : ICommandWrapper
     {
         private static readonly Logger Log = LogManager.GetLogger("Blaze.Login");
- 
+
         public bool Match(string url)
         {
             return url == "users/me.json";
@@ -85,8 +84,7 @@ namespace Blaze.Controllers
             ViewBag.Stealth = Convert.ToBoolean(ConfigurationManager.AppSettings["Stealth"] ?? "true")
                                   ? "true"
                                   : "false";
-            var model = new HomeModel();
-            return View("Chat",model);
+            return View("Chat");
         }
 
         private static string GetAccountName(Account account)
@@ -274,8 +272,6 @@ namespace Blaze.Controllers
                 return HandleWebException(fullUrl, ex);
             }
         }
-
-        
     }
 
     public class LaunchpadTokens

@@ -1,12 +1,12 @@
+using JabbR.ContentProviders.Core;
+using JabbR.Infrastructure;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using JabbR.ContentProviders.Core;
-using JabbR.Infrastructure;
-using Newtonsoft.Json;
 
 namespace JabbR.ContentProviders
 {

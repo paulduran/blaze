@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace JabbR.ContentProviders.Core

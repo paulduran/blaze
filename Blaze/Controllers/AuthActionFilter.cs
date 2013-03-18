@@ -1,6 +1,6 @@
+using NLog;
 using System;
 using System.Web.Mvc;
-using NLog;
 
 namespace Blaze.Controllers
 {

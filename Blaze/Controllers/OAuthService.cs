@@ -1,8 +1,8 @@
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Web;
-using RestSharp;
 
 namespace Blaze.Controllers
 {
@@ -16,7 +16,6 @@ namespace Blaze.Controllers
         {
             clientId = ConfigurationManager.AppSettings["ClientID"];
             clientSecret = ConfigurationManager.AppSettings["ClientSecret"];
-      
         }
 
         public LaunchpadTokens GetTokens(string code)
@@ -119,6 +118,4 @@ namespace Blaze.Controllers
         public string ExpiresAt { get; set; }
         public Identity Identity { get; set; }
     }
-
-
 }

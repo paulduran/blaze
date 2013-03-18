@@ -183,7 +183,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\RegexExtensions.cs" />
   </ItemGroup>
@@ -208,6 +207,7 @@
     <Content Include="Content\images\blaze_logo_small_x.png" />
     <Content Include="Content\chat\images\close-icon-hover.png" />
     <Content Include="Content\chat\images\close-icon.png" />
+    <Content Include="Content\chat\images\pop-out-icon.png" />
     <Content Include="Content\images\emoji20.png" />
     <Content Include="Content\images\info-icon.png" />
     <Content Include="Content\images\key_fill_16x16.png" />
@@ -297,6 +297,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

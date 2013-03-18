@@ -1,8 +1,7 @@
-﻿using System;
+﻿using JabbR.ContentProviders.Core;
+using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Web;
-using JabbR.ContentProviders.Core;
 
 namespace JabbR.ContentProviders
 {
