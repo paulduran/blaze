@@ -129,6 +129,25 @@ Campfire.prototype.starMessage = function (message) {
     });
 };
 
+Campfire.prototype.transcript = function (room, message, callback) {
+    var self = this;
+    var base = self.base.replace('/x', '/transcript');
+    var d = new Date(message.created_at());
+    $.ajax({
+        url: base + '/' + room.id() + '/transcript/' + (d.getYear() + 1900) + '/' + (d.getMonth()+1) + '/' + d.getDate(),
+        type: 'GET',
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function (reply) {
+            callback(reply.messages, message);
+        },
+        error: function (xhr, txt, err) {
+            console && console.log('transcript failure: ' + txt + ' (' + err + ')');
+            callback([]);
+        },
+        dataType: 'json'
+    });
+};
+
 Campfire.prototype.getUsers = function (roomId, callback) {
     var self = this;
     $.ajax({

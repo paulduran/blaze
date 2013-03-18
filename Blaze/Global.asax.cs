@@ -69,6 +69,12 @@ namespace Blaze
             );
 
             routes.MapRoute(
+                "transcript_route", // Route name
+                "transcript/{account}/{*url}", // URL with parameters
+                new { controller = "Home", action = "Transcript" } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults

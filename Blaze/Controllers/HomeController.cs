@@ -230,6 +230,34 @@ namespace Blaze.Controllers
         }
 
         [AuthActionFilter]
+        public ActionResult Transcript(string account, string url, string auth)
+        {
+            string fullUrl = string.Format("https://{0}.campfirenow.com/room/{1}?format=json", account, url, Request["QUERY_STRING"]);
+            var request = (HttpWebRequest)WebRequest.Create(fullUrl);
+            request.Method = "GET";
+            request.ContentType = "application/json";
+            request.Headers["Authorization"] = "Bearer " + auth;
+            try
+            {
+                var response = (HttpWebResponse)request.GetResponse();
+                var reader = new StreamReader(response.GetResponseStream());
+                var data = reader.ReadToEnd();
+                dynamic obj = Newtonsoft.Json.JsonConvert.DeserializeObject(data);
+                var processor = new MessageProcessor();
+                foreach (var msg in obj.messages)
+                {
+                    msg.parsed_body = processor.ProcessMessage(Convert.ToString(msg.body));
+                }
+                string result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+                return Content(result, "application/json");
+            }
+            catch (WebException ex)
+            {
+                return HandleWebException(fullUrl, ex);
+            }
+        }
+
+        [AuthActionFilter]
         public ActionResult GetFile(string account, string auth, string url)
         {
             string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);

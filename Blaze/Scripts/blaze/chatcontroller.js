@@ -180,6 +180,7 @@ ChatController.prototype.searchMessages = function (searchTerm) {
             self.roomsModel.addSearchResult(messageModel);
         });
     });
+    self.view.changeRoom('search');
 };
 
 ChatController.prototype.sendMessage = function (room, message, isPaste) {
@@ -220,4 +221,27 @@ ChatController.prototype.signOut = function () {
 ChatController.prototype.changeTopic = function(room) {
     var self = this;
     self.campfire.changeTopic(room.id(), room.topic());
+};
+
+
+ChatController.prototype.transcript = function (room, message) {
+    var self = this;
+    self.roomsModel.clearTranscriptMessages();
+    self.view.changeRoom('transcript');
+    self.campfire.transcript(room, message, function (messages, selectedMessage) {
+        $.each(messages, function (i, o) {
+            var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
+            var isSeparator = self.checkForSeparator(o, room.lastMessage);
+            if (o.type !== 'TimestampMessage' || isSeparator) {
+                var messageModel = new MessageModel(o, user, self.currentUser, null, self.contentProcessor, self);
+                self.roomsModel.addTranscriptMessage(messageModel);
+                //if (messageModel.type() === 'UploadMessage') {
+                //    self.campfire.getUploadedMessage(room.id(), o.id, function (up) {
+                //        messageModel.parsed_body(self.getBodyForUploadedMessage(up));
+                //    });
+                //}
+            }
+        });
+        $('#messages-transcript #m-' + message.id())[0].scrollIntoView(true);
+    });
 };

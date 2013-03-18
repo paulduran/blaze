@@ -44,15 +44,19 @@
                     <!-- ko foreach: activeRooms -->
                     <li class="room" data-bind="attr: {id: tabId, 'data-name': id}, css: {current: isVisible, active: isActive}, click: $parent.displayRoom">
                         <span class="lock"></span>
-                        <button data-bind="attr: {accesskey: $index()+2}" type="button">  
+                        <button data-bind="attr: {accesskey: $index()+1}" type="button">  
                             <div class="content" data-bind="text: tabText, attr: { title: tabText}, css: {'constrained': constrainTabText}"></div>
                         </button>
                         <div class="close" data-bind="click: $parent.leaveRoom"></div>
                     </li>
                     <!-- /ko -->
                     <li id="tabs-search" class="" data-name="search">
-                        <button accesskey="2" type="button">
+                        <button data-bind="attr: {accesskey: activeRooms().length+1}" type="button">
                         <span class="content">Search</span></button>
+                    </li>
+                    <li id="tabs-transcript" class="" data-name="transcript">
+                        <button data-bind="attr: {accesskey: activeRooms().length+2}" type="button">
+                        <span class="content">Transcript</span></button>
                     </li>
                 </ul>
                 <button style="display: none" accesskey="[" data-bind="click: showPreviousRoom" type="button">&larr;</button>
@@ -122,6 +126,9 @@
                     </div>
                 </div>
 
+                <ul data-bind="template: {name:'base-message-template', foreach: transcriptMessages}" id="messages-transcript" class="messages" style="display: none;">
+                </ul>
+
                 <!-- ko foreach: activeRooms -->
                 <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
                 </ul>
@@ -130,7 +137,7 @@
                 </div>
                 <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span class="topic" data-bind="textValue: topic, attr: {contenteditable: isEditingTopic}, event: {keyup: topicKeyUp, keypress: topicKeyPress},hasfocus: isEditingTopic"></span> <span title="Change topic" class="change-topic" data-bind="click: editTopic"></span></div>
                 <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
-                <div id="search_form">
+                <form id="search_form">
                     <table>
                         <tr>
                             <td class="term">
@@ -141,7 +148,7 @@
                             </td>
                         </tr>
                     </table>
-                </div>
+                </form>
                     <h3 class="userlist-header nav-header">Users</h3>
                     <div>
                         <ul data-bind="foreach: users">

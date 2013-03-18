@@ -266,9 +266,16 @@ function RoomsModel(chat) {
         chat.searchMessages(self.searchTerm());
     };
     this.searchResults = ko.observableArray([]);
+    this.transcriptMessages = ko.observableArray([]);
     this.isVisible = ko.observable(false);
     this.addSearchResult = function (searchResult) {
         self.searchResults.push(searchResult);
+    };
+    this.clearTranscriptMessages = function () {
+        self.transcriptMessages.removeAll();
+    };
+    this.addTranscriptMessage = function (message) {
+        self.transcriptMessages.push(message);
     };
 }
 function UserModel(obj) {
@@ -314,7 +321,11 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     this.description = ko.observable(obj.description);
     this.descriptionIsUrl = function () {
         return self.description().indexOf("http") === 0;
-    }
+    };
+    this.getTranscript = function () {
+        self.chat.transcript(self.room, self);
+        return false;
+    };
     this.url = ko.observable(obj.url);
     this.when = ko.computed(function () {
         var d = new Date(self.created_at());
