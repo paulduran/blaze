@@ -247,6 +247,10 @@ $('#new-message').focus();
     self.scrollToEnd();
 };
 
+ChatView.prototype.scrollIntoTranscriptView = function (message) {
+    $('#messages-transcript #m-' + message.id())[0].scrollIntoView(true);
+};
+
 ChatView.prototype.show = function () {
     $('#page').fadeIn(1000);    
 };

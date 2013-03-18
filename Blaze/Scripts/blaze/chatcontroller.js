@@ -235,13 +235,8 @@ ChatController.prototype.transcript = function (room, message) {
             if (o.type !== 'TimestampMessage' || isSeparator) {
                 var messageModel = new MessageModel(o, user, self.currentUser, null, self.contentProcessor, self);
                 self.roomsModel.addTranscriptMessage(messageModel);
-                //if (messageModel.type() === 'UploadMessage') {
-                //    self.campfire.getUploadedMessage(room.id(), o.id, function (up) {
-                //        messageModel.parsed_body(self.getBodyForUploadedMessage(up));
-                //    });
-                //}
             }
         });
-        $('#messages-transcript #m-' + message.id())[0].scrollIntoView(true);
+        self.view.scrollIntoTranscriptView(selectedMessage);
     });
 };
