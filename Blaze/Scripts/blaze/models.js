@@ -271,6 +271,9 @@ function RoomsModel(chat) {
     this.addSearchResult = function (searchResult) {
         self.searchResults.push(searchResult);
     };
+    this.clearSearchResults = function () {
+        self.searchResults.removeAll();
+    };
     this.clearTranscriptMessages = function () {
         self.transcriptMessages.removeAll();
     };
@@ -309,7 +312,7 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     var self = this;
     this.chat = chat;
     this.previousMessage = prevMsg;
-    this.room = $.grep(this.chat.roomsModel.activeRooms(), function (room) {
+    this.room = $.grep(this.chat.roomsModel.rooms(), function (room) {
         return room.id() == obj.room_id;
     })[0];
     this.isLastMessage = ko.observable(false);

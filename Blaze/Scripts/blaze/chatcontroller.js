@@ -173,6 +173,7 @@ ChatController.prototype.getUser = function (id) {
 
 ChatController.prototype.searchMessages = function (searchTerm) {
     var self = this;
+    self.roomsModel.clearSearchResults();
     self.campfire.searchMessages(searchTerm, function (messages) {
         $.each(messages, function (i, o) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });

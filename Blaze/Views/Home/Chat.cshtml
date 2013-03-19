@@ -108,6 +108,18 @@
                 </div>
                 <div id="messages-search" style="display: none;">
                     <h2>Search Results</h2>
+                    <form id="search_page_form">
+                        <table>
+                            <tr>
+                                <td class="term">
+                                    <input id="term1" name="term" type="text" data-bind="value: searchTerm" />
+                                </td>
+                                <td class="submit">
+                                    <input name="commit1" type="submit" value="Search" data-bind="click: searchMessages" />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
                     <div class="search-results">
                     <table id="search-results" style="width: 100%">
                         <thead>
