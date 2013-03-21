@@ -248,7 +248,12 @@ ChatView.prototype.changeRoom = function (roomId) {
 };
 
 ChatView.prototype.scrollIntoTranscriptView = function (message) {
-    $('#messages-transcript #m-' + message.id())[0].scrollIntoView(true);
+    // this check shouldn't be necessary, seems to be a timezone problem in that
+    // sometimes the message doesn't appear on that day's transcript.
+    var item = $('#messages-transcript #m-' + message.id());
+    if (item.length > 0) {
+        item[0].scrollIntoView(true);
+    }
 };
 
 ChatView.prototype.show = function () {

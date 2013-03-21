@@ -120,6 +120,10 @@
     background-color: #fff;
 }
 
+#earlier_messages {
+    padding-left: 10px;
+}
+
 .messages {
     width: 70%;
     border: 1px solid #ccc;
@@ -131,6 +135,10 @@
     top: 55px;
     bottom: 70px;
     background-color: #fff;
+}
+
+.messages ul {
+    padding: 0px;
 }
 
 .messages li {

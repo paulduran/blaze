@@ -82,6 +82,11 @@ function RoomModel(obj, user, prefs, controller) {
             }
         }
     };
+    this.earlierMessages = function () {
+        if (self.messages().length > 0) {
+            self.messages()[0].getTranscript();
+        }
+    };
     this.toggleSound = function () {
         prefs.sound(!prefs.sound());
         prefs.save();
@@ -267,6 +272,17 @@ function RoomsModel(chat) {
     };
     this.searchResults = ko.observableArray([]);
     this.transcriptMessages = ko.observableArray([]);
+    this.collapseTranscriptNotifications = function (element, i, msg) {
+        var count = 0;
+        while (i > 0 && self.transcriptMessages()[i].isNotification()) {
+            count++;
+            i--;
+            if (count > 3) {
+                msg.collapse();
+                return;
+            }
+        }
+    };
     this.isVisible = ko.observable(false);
     this.addSearchResult = function (searchResult) {
         self.searchResults.push(searchResult);

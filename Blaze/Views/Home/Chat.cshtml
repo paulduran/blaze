@@ -137,12 +137,17 @@
                     </div>
                 </div>
 
-                <ul data-bind="template: {name:'base-message-template', foreach: transcriptMessages}" id="messages-transcript" class="messages" style="display: none;">
+                <ul data-bind="template: {name:'base-message-template', foreach: transcriptMessages, afterAdd: collapseTranscriptNotifications}" id="messages-transcript" class="messages" style="display: none;">
                 </ul>
 
                 <!-- ko foreach: activeRooms -->
-                <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
-                </ul>
+                <div data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
+                    <ul id="earlier_messages">
+                        <li>See <a href="javascript:;"><span data-bind="click: earlierMessages">earlier messages</span></a></li>
+                    </ul>
+                    <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}" class="">
+                    </ul>
+                </div>
                 <div class="preferences"  data-bind="visible: isVisible">
                     <a class="sound" title="audible notifications" data-bind="css: {off:!prefs.sound()}, click: toggleSound"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop, visible: canToast()"></a>
                 </div>

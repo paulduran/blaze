@@ -230,12 +230,13 @@ ChatController.prototype.transcript = function (room, message) {
     self.roomsModel.clearTranscriptMessages();
     self.view.changeRoom('transcript');
     self.campfire.transcript(room, message, function (messages, selectedMessage) {
+        var lastMessage = null;
         $.each(messages, function (i, o) {
             var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
-            var isSeparator = self.checkForSeparator(o, room.lastMessage);
-            if (o.type !== 'TimestampMessage' || isSeparator) {
-                var messageModel = new MessageModel(o, user, self.currentUser, null, self.contentProcessor, self);
+            if (o.type !== 'TimestampMessage') {
+                var messageModel = new MessageModel(o, user, self.currentUser, lastMessage, self.contentProcessor, self);
                 self.roomsModel.addTranscriptMessage(messageModel);
+                lastMessage = messageModel;
             }
         });
         self.view.scrollIntoTranscriptView(selectedMessage);
