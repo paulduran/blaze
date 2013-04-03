@@ -60,11 +60,24 @@
                     <li class="notification"><div class="content">Welcome to the Campfire lobby</div></li>
                     <li class="notification"><div class="content">You can join any of the rooms on the right.</div></li>
                     <li class="notification" style="padding-top: 50px;"><div class="content"><strong>Blaze Updates</strong></div></li>
+                    <li class="notification"><div class="content">&bull;2013-04-03: Added additional keyboard shortcuts. alt-S to toggle sound notifications, alt-N to toggle desktop notifications, alt-T to change topic</div></li>
                     <li class="notification"><div class="content">&bull;2013-01-04: We now support autocomplete for emojis. Try typing <b>:thu<code>[tab]</code></b></div></li>
                     <li class="notification"><div class="content">&bull;2013-01-04: Blaze now has support for sound messages (thanks mccarths)</div></li>                    
                     <li class="notification"><div class="content">&bull;2012-12-03: Blaze now lets you 'star' your favourite messages (thanks mccarths)</div></li>                    
                     <li class="notification" style="padding-top: 50px;"><div class="content"><strong>Did you know?</strong></div></li>
-                    <li class="notification"><div class="content">&bull;Blaze supports keyboard shortcuts? Use alt-1 , alt-2 etc to change rooms </div></li>
+                    <li class="notification"><div class="content">&bull;Blaze supports keyboard shortcuts? 
+                                                 <ul class="shortcuts">
+                                                     <li>alt-1 , alt-2 etc to change rooms</li>
+                                                     <li>alt-L to change to lobby tab</li>
+                                                     <li>alt-M to focus chat box</li>
+                                                     <li>alt-S to toggle sound notifications</li>
+                                                     <li>alt-N to toggle desktop notifications</li>
+                                                     <li>alt-T to change topic</li>
+                                                 </ul>
+                        NOTE: in firefox, the shortcuts are alt-shift instead of alt, for example alt-shift-T to change topic
+                                             </div>
+                    </li>
+
                     <li class="notification"><div class="content">&bull;You can drag-and-drop files into the window to upload them into the room</div></li>
                     <li class="notification"><div class="content">&bull;Blaze works best with Google Chrome</div></li>
                 </ul>
@@ -102,9 +115,9 @@
                 <ul data-bind="template: {name:'base-message-template', foreach: messages, afterAdd: collapseNotifications}, css: {current: isVisible}, visible: isVisible, attr: {id: roomDomId}" class="messages" style="display: none;">
                 </ul>
                 <div class="preferences"  data-bind="visible: isVisible">
-                    <a class="sound" title="audible notifications" data-bind="css: {off:!prefs.sound()}, click: toggleSound"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop, visible: canToast()"></a>
+                    <a class="sound" title="audible notifications" data-bind="css: { off: !prefs.sound() }, click: toggleSound, attr: { accesskey: isVisible() ? 's' : '' }"></a><a class="toast" title="popup notifications" data-bind="css: {off:!prefs.desktop()}, click: toggleDesktop, visible: canToast(), attr: { accesskey: isVisible() ? 'n' : '' }"></a>
                 </div>
-                <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span class="topic" data-bind="textValue: topic, attr: {contenteditable: isEditingTopic}, event: {keyup: topicKeyUp, keypress: topicKeyPress},hasfocus: isEditingTopic"></span> <span title="Change topic" class="change-topic" data-bind="click: editTopic"></span></div>
+                <div class="roomTopic" style="display: none;" data-bind="visible: isVisible"><strong>Topic: </strong><span class="topic" data-bind="    textValue: topic, attr: { contenteditable: isEditingTopic }, event: { keyup: topicKeyUp, keypress: topicKeyPress }, hasfocus: isEditingTopic"></span> <span title="Change topic" class="change-topic" data-bind="click: editTopic, attr: { accesskey: isVisible() ? 't' : '' }"></span></div>
                 <div class="users" data-bind="css: {current: isVisible}, visible: isVisible, attr: {id: usersDomId}" style="display: none;">
                     <h3 class="userlist-header nav-header">Users</h3>
                     <div>

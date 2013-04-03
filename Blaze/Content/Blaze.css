@@ -420,3 +420,7 @@
     bottom: 10px;
     right: 20px;
 }
+
+.shortcuts li {
+    list-style: square
+}
