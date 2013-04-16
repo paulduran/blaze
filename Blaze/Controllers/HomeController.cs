@@ -110,7 +110,8 @@ namespace Blaze.Controllers
                 catch (Exception ex)
                 {
                     Log.FatalException("unable to retrieve oauth tokens", ex);
-                    throw;
+                    ViewBag.Message = ex.ToString();
+                    return View("Error");
                 }
             }
             return RedirectToAction("Index");
