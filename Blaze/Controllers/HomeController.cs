@@ -43,24 +43,27 @@ namespace Blaze.Controllers
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private readonly OAuthService oAuthService;
         private static readonly Regex r = new Regex("https?://(.*?)\\.campfirenow");
+        private readonly bool offline;
 
         public HomeController(IList<ICommandWrapper> commandWrappers)
         {
             this.commandWrappers = commandWrappers;
             oAuthService = new OAuthService();
+            offline = Convert.ToBoolean(ConfigurationManager.AppSettings["app:offline"] ?? "false"); 
          }
 
         public HomeController()
         {
             commandWrappers = new List<ICommandWrapper>() {new LoginLoggingCommandWrapper()};
             oAuthService = new OAuthService();
+            offline = Convert.ToBoolean(ConfigurationManager.AppSettings["app:offline"] ?? "false"); 
         }
 
         public ActionResult Index()
         {
             var authUrl = oAuthService.GetLoginUrl();
             ViewBag.LoginUrl = authUrl;
-            ViewBag.Offline = Convert.ToBoolean(ConfigurationManager.AppSettings["app:offline"] ?? "false");                                  
+            ViewBag.Offline = offline;                                 
             Log.Info("Home Page Visitor. Referrer: {0}, IP Address: {1}. Agent: {2}", Request.UrlReferrer, GetIPAddress(Request), Request.UserAgent);
             return View();
         }
@@ -169,9 +172,23 @@ namespace Blaze.Controllers
             return ip;
         }
 
+        public ActionResult Force(int val)
+        {
+            var httpCookie = new HttpCookie("BlazeForce", val.ToString());
+            httpCookie.Expires = DateTime.Now.AddDays(1);
+            Response.Cookies.Add(httpCookie);
+            return Content("OK");
+        }
+
         [AuthActionFilter]
         public ActionResult Recent(string account, string url, string auth)
         {
+            if (offline)
+            {
+                var cookie = Request.Cookies["BlazeForce"];
+                if( cookie == null || cookie.Value != "1")
+                    return View("Offline");
+            }
             string fullUrl = string.Format("https://{0}.campfirenow.com/{1}?{2}", account, url, Request["QUERY_STRING"]);
             var request = (HttpWebRequest)WebRequest.Create(fullUrl);
             request.Method = "GET";
