@@ -33,7 +33,7 @@ namespace Blaze.Controllers
             {
                 return reply.Data;
             }
-            throw new Exception(string.Format("Error retrieving Launchpad tokens. Status: {0} ({1}) Content: {2}. Error Message: {3}. Error Exception: {4}", reply.StatusCode, reply.StatusDescription, reply.Content, reply.ErrorMessage, reply.ErrorException.ToString()));
+            throw new Exception(string.Format("Error retrieving Launchpad tokens. Status: {0} ({1}) Content: {2}. Error Message: {3}. Error Exception: {4}", reply.StatusCode, reply.StatusDescription, reply.Content, reply.ErrorMessage, reply.ErrorException));
         }
 
         public LaunchpadTokens RefreshTokens(string refreshToken)
