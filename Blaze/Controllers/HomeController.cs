@@ -101,9 +101,17 @@ namespace Blaze.Controllers
         {
             if (!string.IsNullOrEmpty(code))
             {
-                var reply = oAuthService.GetTokens(code);
-                oAuthService.AssignCookies(reply, Response);
-                return RedirectToAction("Chat");
+                try
+                {
+                    var reply = oAuthService.GetTokens(code);
+                    oAuthService.AssignCookies(reply, Response);
+                    return RedirectToAction("Chat");
+                }
+                catch (Exception ex)
+                {
+                    Log.FatalException("unable to retrieve oauth tokens", ex);
+                    throw;
+                }
             }
             return RedirectToAction("Index");
         }
