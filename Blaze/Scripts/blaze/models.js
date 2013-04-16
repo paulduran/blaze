@@ -58,7 +58,7 @@ function RoomModel(obj, user, prefs, controller) {
     };
     this.refreshRate = ko.computed(function () {
         if (self.isVisible()) {
-            return 5000;
+            return 10000;
         }
         return 20000;
     });
