@@ -49,14 +49,12 @@ namespace Blaze.Controllers
         {
             this.commandWrappers = commandWrappers;
             oAuthService = new OAuthService();
-            offline = Convert.ToBoolean(ConfigurationManager.AppSettings["app:offline"] ?? "false"); 
+            offline = Convert.ToBoolean(ConfigurationManager.AppSettings["app:offline"] ?? "false");
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
          }
 
-        public HomeController()
-        {
-            commandWrappers = new List<ICommandWrapper>() {new LoginLoggingCommandWrapper()};
-            oAuthService = new OAuthService();
-            offline = Convert.ToBoolean(ConfigurationManager.AppSettings["app:offline"] ?? "false"); 
+        public HomeController() : this(new List<ICommandWrapper>() {new LoginLoggingCommandWrapper()})
+        {            
         }
 
         public ActionResult Index()
