@@ -60,6 +60,7 @@ namespace Blaze.Controllers
         {
             var authUrl = oAuthService.GetLoginUrl();
             ViewBag.LoginUrl = authUrl;
+            ViewBag.Offline = Convert.ToBoolean(ConfigurationManager.AppSettings["app:offline"] ?? "false");                                  
             Log.Info("Home Page Visitor. Referrer: {0}, IP Address: {1}. Agent: {2}", Request.UrlReferrer, GetIPAddress(Request), Request.UserAgent);
             return View();
         }

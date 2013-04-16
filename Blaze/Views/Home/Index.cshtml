@@ -22,16 +22,28 @@
                 <div id="wrapper-right">
                     <!--header-->
                     <header id="header">
+                        @if (ViewBag.Offline)
+                        {
+                            <div style="border: 3px red solid; background-color: salmon; padding: 20px; margin: 5px;">
+                                <h2>2013-04-16: Blaze is currently unavailable</h2>
+                                <p style="color: white">Blaze is currently unavailable. I'm working with the 37 Signals team to resolve the issue however until it is resolved, you will need to use the standard Campfire client.</p>
+                                <p style="color: white">Please accept our apologies for any inconvenience that this has caused</p>
+                            </div>
+                        }
+
                         <div class="inner-header">
                             <div class="logo">
                                 <img src="~/Content/images/blaze_logo_medium_x.png" width="48" height="48" style="padding-top: 5px;"/><h1>
-                                                                                                                                                          Blaze</h1>
+                                                                                                                                          Blaze</h1>
                                 <small>A modern web-based campfire client!</small>
                             </div>
                         </div>
-                        <div class="login">
-                            <a class="login btn btn-large btn-success" href="@Url.Action("Chat")">
-                                Sign in now</a></div>
+                        @if (!ViewBag.Offline)
+                        {
+                            <div class="login">
+                                <a class="login btn btn-large btn-success" href="@Url.Action("Chat")">
+                                    Sign in now</a></div>
+                        }
                     </header>
                     <!--/header-->
                     <!--menu-->
