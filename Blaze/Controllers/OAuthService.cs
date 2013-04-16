@@ -28,12 +28,12 @@ namespace Blaze.Controllers
             request.AddParameter("redirect_uri", GetRedirectUri());
             request.AddParameter("code", code);
             var client = new RestClient(LaunchpadBaseUrl);
-            var reply = client.Execute<LaunchpadTokens>(request);
+            IRestResponse<LaunchpadTokens> reply = client.Execute<LaunchpadTokens>(request);
             if (reply.StatusCode == HttpStatusCode.OK)
             {
                 return reply.Data;
             }
-            throw new Exception(string.Format("Error retrieving Launchpad tokens. Status: {0} ({1}) {2}", reply.StatusCode, reply.StatusDescription, reply.Content));
+            throw new Exception(string.Format("Error retrieving Launchpad tokens. Status: {0} ({1}) Content: {2}. Error Message: {3}. Error Exception: {4}", reply.StatusCode, reply.StatusDescription, reply.Content, reply.ErrorMessage, reply.ErrorException.ToString()));
         }
 
         public LaunchpadTokens RefreshTokens(string refreshToken)
