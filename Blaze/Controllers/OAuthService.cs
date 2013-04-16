@@ -1,3 +1,4 @@
+using System.Net;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,11 @@ namespace Blaze.Controllers
             request.AddParameter("code", code);
             var client = new RestClient(LaunchpadBaseUrl);
             var reply = client.Execute<LaunchpadTokens>(request);
-            return reply.Data;
+            if (reply.StatusCode == HttpStatusCode.OK)
+            {
+                return reply.Data;
+            }
+            throw new Exception(string.Format("Error retrieving Launchpad tokens. Status: {0} ({1}) {2}", reply.StatusCode, reply.StatusDescription, reply.Content));
         }
 
         public LaunchpadTokens RefreshTokens(string refreshToken)

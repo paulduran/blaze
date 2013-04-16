@@ -101,6 +101,7 @@ namespace Blaze.Controllers
         {
             if (!string.IsNullOrEmpty(code))
             {
+                var message = "trying with code " + code + ".\n";
                 try
                 {
                     var reply = oAuthService.GetTokens(code);
@@ -110,7 +111,8 @@ namespace Blaze.Controllers
                 catch (Exception ex)
                 {
                     Log.FatalException("unable to retrieve oauth tokens", ex);
-                    ViewBag.Message = ex.ToString();
+                    message += ex.ToString();
+                    ViewBag.Message = message;
                     return View("Error");
                 }
             }
