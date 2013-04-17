@@ -44,14 +44,15 @@ namespace Blaze.Controllers
         private readonly OAuthService oAuthService;
         private static readonly Regex r = new Regex("https?://(.*?)\\.campfirenow");
         private readonly bool offline;
+        private readonly string chatUrl;
 
         public HomeController(IList<ICommandWrapper> commandWrappers)
         {
             this.commandWrappers = commandWrappers;
             oAuthService = new OAuthService();
             offline = Convert.ToBoolean(ConfigurationManager.AppSettings["app:offline"] ?? "false");
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-         }
+            chatUrl = ConfigurationManager.AppSettings["app:chatUrl"] ?? "/chat";
+        }
 
         public HomeController() : this(new List<ICommandWrapper>() {new LoginLoggingCommandWrapper()})
         {            
@@ -61,6 +62,7 @@ namespace Blaze.Controllers
         {
             var authUrl = oAuthService.GetLoginUrl();
             ViewBag.LoginUrl = authUrl;
+            ViewBag.ChatUrl = chatUrl;
             ViewBag.Offline = offline;                                 
             Log.Info("Home Page Visitor. Referrer: {0}, IP Address: {1}. Agent: {2}", Request.UrlReferrer, GetIPAddress(Request), Request.UserAgent);
             return View();
