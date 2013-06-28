@@ -48,6 +48,9 @@ ChatView.prototype.init = function (roomsModel, campfire) {
         var name = $(this).data('name');
         self.changeRoom(name);
     });
+    $(document).on('toast.focus', function(event,room) {
+        self.changeRoom(room);
+    });
     $('#page').on('mouseover', '.gravatar',
             function () {
                 var $source = $(this);

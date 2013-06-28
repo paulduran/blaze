@@ -1,26 +1,25 @@
-﻿﻿/// <reference path="Scripts/jquery-1.8.0.js" />
+﻿/// <reference path="Scripts/jquery-1.8.0.js" />
+/// <reference path="Scripts/desktop-notify.js" />
 (function($, basePath) {
     "use strict";
 
-    var ToastStatus = { Allowed: 0, NotConfigured: 1, Blocked: 2 },
-        toastTimeOut = 10000,
+    var toastTimeOut = 10000,
         chromeToast = null,
         toastRoom = null;
 
     var toast = {
         canToast: function () {
-            // we can toast if webkitNotifications exist and the user hasn't explicitly denied
-            return window.webkitNotifications && window.webkitNotifications.checkPermission() !== ToastStatus.Blocked;
+            // we can toast if Notification exist and the user hasn't explicitly denied
+            return notify.isSupported;
         },
         ensureToast: function (preferences) {
-            if (window.webkitNotifications &&
-                window.webkitNotifications.checkPermission() === ToastStatus.NotConfigured) {
+            if (notify.isSupported && notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
                 preferences.canToast = false;
             }
         },
         toastMessage: function(message, roomName) {
-            if (!window.webkitNotifications ||
-                window.webkitNotifications.checkPermission() !== ToastStatus.Allowed) {
+            if (!notify.isSupported ||
+                notify.permissionLevel() !== notify.PERMISSION_GRANTED) {
                 return;
             }
 
@@ -29,40 +28,39 @@
             // Hide any previously displayed toast
             toast.hideToast();
 
-            chromeToast = window.webkitNotifications.createNotification(
-                basePath + 'Content/images/logo32.png',
-                message.trimmedName,
-                $('<div/>').html(message.message).text());
+            chromeToast = notify.createNotification(message.trimmedName, {
+                icon: basePath + 'Content/images/logo32.png',
+                body: $('<div/>').html(message.message).text()
+            });
 
             chromeToast.ondisplay = function () {
+                var self = this;
                 setTimeout(function () {
-                    chromeToast.cancel();
+                    self.close();
                 }, toastTimeOut);
             };
 
             chromeToast.onclick = function () {
-                toast.hideToast();
+                this.close();
                                 
                 // Trigger the focus event
-                $(toast).trigger('toast.focus', [toastRoom]);
+                $(document).trigger('toast.focus', [roomName]);
 
                 window.focus();
             };
-
-            chromeToast.show();
         },
-        hideToast: function() {
-            if (chromeToast && chromeToast.cancel) {
-                chromeToast.cancel();
+        hideToast: function () {
+            if (chromeToast) {
+                chromeToast.close();
             }
         },
         enableToast: function(callback) {
             var deferred = $.Deferred();
-            if (window.webkitNotifications) {
+            if (notify.isSupported) {
                 // If not configured, request permission
-                if (window.webkitNotifications.checkPermission() === ToastStatus.NotConfigured) {
-                    window.webkitNotifications.requestPermission(function () {
-                        if (window.webkitNotifications.checkPermission()) {
+                if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
+                    notify.requestPermission(function () {
+                        if (notify.permissionLevel() !== notify.PERMISSION_GRANTED) {
                             deferred.reject();
                         }
                         else {
@@ -70,7 +68,7 @@
                         }
                     });
                 }
-                else if (window.webkitNotifications.checkPermission() === ToastStatus.Allowed) {
+                else if (notify.permissionLevel() === notify.PERMISSION_GRANTED) {
                     // If we're allowed then just resolve here
                     deferred.resolve();
                 }

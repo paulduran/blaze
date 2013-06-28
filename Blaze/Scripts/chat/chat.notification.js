@@ -8,6 +8,6 @@ ChatNotifications.prototype.notify = function (room, message) {
         $('#notificationSound')[0].play();
     }
     if (prefs.desktop()) {
-        chat.toast.toastMessage(message, room.name());
+        chat.toast.toastMessage(message, room.id());
     }
 };

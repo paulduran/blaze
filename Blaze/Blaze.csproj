@@ -248,6 +248,7 @@
     <Content Include="Scripts\blaze\loginview.js" />
     <Content Include="Scripts\blaze\models.js" />
     <Content Include="Scripts\chat\Chat.jiraissues.js" />
+    <Content Include="Scripts\desktop-notify.js" />
     <Content Include="Scripts\extras\bootstrap-modal.js" />
     <Content Include="Scripts\extras\bootstrap-transition.js" />
     <Content Include="Scripts\chat\Chat.documentonwrite.js" />

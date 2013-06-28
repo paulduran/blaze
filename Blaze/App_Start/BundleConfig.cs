@@ -29,6 +29,7 @@ namespace Blaze.App_Start
                                      "~/Scripts/jquery.scrollto.js",
                                      "~/Scripts/jquery.timeago.0.10.js",
                                      "~/Scripts/jstorage.js",
+                                     "~/Scripts/desktop-notify.js",
                                      "~/Scripts/knockout-{version}.js",
                                      "~/Scripts/Markdown.Converter.js",
                                      "~/Scripts/md5.js"));
