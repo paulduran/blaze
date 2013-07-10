@@ -44,7 +44,7 @@ function RoomModel(obj, user, prefs, controller) {
     };
     this.addMessage = function (message) {
         self.messages.push(message);
-        if ((!self.isVisible() || self.countOffline()) && !message.isNotification()) {
+        if ((!self.isVisible() || self.countOffline()) && !message.isNotification() && !message.isTimestamp()) {
             self.unreadMessages(self.unreadMessages() + 1);
             if (message.isToCurrentUser()) {
                 self.hasUnreadPersonalMessages(true);
