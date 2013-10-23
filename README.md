@@ -1,4 +1,4 @@
-Blaze - Campfire web client
+Blaze - Campfire web client 
 ===========================
 Links
 ------
