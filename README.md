@@ -5,7 +5,7 @@ Links
 * Live Site : https://blaze.apphb.com
 * Trello board: https://trello.com/board/blaze/4f344de5199056394208474f
 
-Info
+Info 
 ----
 Blaze is an alternative to the standard campfire web client.
 
