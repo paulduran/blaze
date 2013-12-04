@@ -1,6 +1,6 @@
 Blaze - Campfire web client 
 ===========================
-Links
+Links 
 ------
 * Live Site : https://blaze.apphb.com
 * Trello board: https://trello.com/board/blaze/4f344de5199056394208474f
