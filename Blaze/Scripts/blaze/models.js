@@ -82,6 +82,11 @@ function RoomModel(obj, user, prefs, controller) {
             }
         }
     };
+    this.earlierMessages = function () {
+        if (self.messages().length > 0) {
+            self.messages()[0].getTranscript();
+        }
+    };
     this.toggleSound = function () {
         prefs.sound(!prefs.sound());
         prefs.save();
@@ -121,7 +126,7 @@ function RoomModel(obj, user, prefs, controller) {
     },
     this.editTopic = function () {
         self.isEditingTopic(true);
-    };   
+    };
 }
 
 function RoomPreferencesModel(parent,pref) {
@@ -225,6 +230,7 @@ function RoomsModel(chat) {
     };
     this.inputMessage = ko.observable('');
     this.isPaste = ko.observable(false);
+    this.searchTerm = ko.observable('');
     this.sendMessage = function () {
         if (self.visibleRoom) {
             var isPaste = self.inputMessage().indexOf('\n') !== -1;
@@ -261,6 +267,35 @@ function RoomsModel(chat) {
     this.signOut = function () {
         chat.signOut();
     };
+    this.searchMessages = function () {
+        chat.searchMessages(self.searchTerm());
+    };
+    this.searchResults = ko.observableArray([]);
+    this.transcriptMessages = ko.observableArray([]);
+    this.collapseTranscriptNotifications = function (element, i, msg) {
+        var count = 0;
+        while (i > 0 && self.transcriptMessages()[i].isNotification()) {
+            count++;
+            i--;
+            if (count > 3) {
+                msg.collapse();
+                return;
+            }
+        }
+    };
+    this.isVisible = ko.observable(false);
+    this.addSearchResult = function (searchResult) {
+        self.searchResults.push(searchResult);
+    };
+    this.clearSearchResults = function () {
+        self.searchResults.removeAll();
+    };
+    this.clearTranscriptMessages = function () {
+        self.transcriptMessages.removeAll();
+    };
+    this.addTranscriptMessage = function (message) {
+        self.transcriptMessages.push(message);
+    };
 }
 function UserModel(obj) {
     var self = this;
@@ -293,6 +328,9 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     var self = this;
     this.chat = chat;
     this.previousMessage = prevMsg;
+    this.room = $.grep(this.chat.roomsModel.rooms(), function (room) {
+        return room.id() == obj.room_id;
+    })[0];
     this.isLastMessage = ko.observable(false);
     this.id = ko.observable(obj.id);
     this.parsed_body = ko.observable(obj.parsed_body);
@@ -302,16 +340,24 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     this.description = ko.observable(obj.description);
     this.descriptionIsUrl = function () {
         return self.description().indexOf("http") === 0;
-    }
+    };
+    this.getTranscript = function () {
+        self.chat.transcript(self.room, self);
+        return false;
+    };
     this.url = ko.observable(obj.url);
     this.when = ko.computed(function () {
         var d = new Date(self.created_at());
         var mins = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
         if (d.getHours() >= 12) {
-            var hours = d.getHours() === 12 ? 12 : (d.getHours() - 12); 
+            var hours = d.getHours() === 12 ? 12 : (d.getHours() - 12);
             return hours + ':' + mins + ' PM';
         }
         return d.getHours() + ':' + mins + ' AM';
+    });
+    this.day = ko.computed(function () {
+        var d = new Date(self.created_at());
+        return d.toLocaleDateString();
     });
     this.user = user;
     this.userId = ko.computed(function () {
@@ -337,7 +383,7 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
     this.showUser = ko.computed(function () {
         if (self.isTimestamp())
             return false;
-        if (self.previousMessage === undefined)
+        if (self.previousMessage === undefined || self.previousMessage === null)
             return true;
         if(self.previousMessage.isNotification())
             return true;
@@ -406,5 +452,8 @@ function MessageModel(obj, user, currentUser, prevMsg, emoji, chat) {
         self.starred(!self.starred());
         self.chat.starMessage(self);
         return false;
+    };
+    this.searchUrl = function () {
+        return "https://scriptrock.campfirenow.com/room/" + self.room.id() + "/transcript/message/" + self.id() + "#message_" + self.id();
     };
 }

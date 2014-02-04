@@ -107,6 +107,23 @@
     margin-left: 5px;
 }
 
+.search-results {
+    width: 95%;
+    border: 1px solid #ccc;
+    overflow: auto;
+    margin-left: 0px;
+    margin-top: 0px;
+    padding-left: 0px;
+    position: absolute;
+    top: 95px;
+    bottom: 40px;
+    background-color: #fff;
+}
+
+#earlier_messages {
+    padding-left: 10px;
+}
+
 .messages {
     width: 70%;
     border: 1px solid #ccc;
@@ -120,6 +137,10 @@
     background-color: #fff;
 }
 
+.messages ul {
+    padding: 0px;
+}
+
 .messages li {
     list-style-type: none;
     position: relative;
@@ -131,7 +152,7 @@
     border-left: 175px solid #f1f1f1; /* background color for left column (user info) */
 }
 
-.messages li img.gravatar {
+.messages li img.gravatar, #messages-search img.gravatar {
     height: 16px;
     width: 16px;
     display: inline-block;
@@ -514,6 +535,10 @@ li.room:hover {
 .message-separator {
     height: 2px;
     background-color: #88b7d6;
+}
+
+table#search-results {
+    font-size: 13px;
 }
 
 /* This stuff is to support TweetContentProvider, but should be extracted out if other content providers need custom CSS */

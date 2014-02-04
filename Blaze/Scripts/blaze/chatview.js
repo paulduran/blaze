@@ -44,7 +44,7 @@ ChatView.prototype.init = function (roomsModel, campfire) {
             $(this).insertAtCaret('\n');
         }
     });
-    $('#tabs-lobby').live('click', function () {
+    $('#tabs-lobby, #tabs-search, #tabs-transcript').on('click', function () {
         var name = $(this).data('name');
         self.changeRoom(name);
     });
@@ -234,6 +234,12 @@ ChatView.prototype.changeRoom = function (roomId) {
                 }
             }
         });
+        $('#send-message').show();
+    } else if (roomId == 'search' || roomId == 'transcript') {
+        $('#tabs-' + roomId).addClass('current');
+        $('#messages-' + roomId).addClass('current').show();
+        $('#userlist-' + roomId).addClass('current').show();
+        $('#send-message').hide();
     } else {
         // lobby        
         $('#tabs-' + roomId).addClass('current');
@@ -242,6 +248,15 @@ ChatView.prototype.changeRoom = function (roomId) {
     }
     $('#new-message').focus();
     self.scrollToEnd();
+};
+
+ChatView.prototype.scrollIntoTranscriptView = function (message) {
+    // this check shouldn't be necessary, seems to be a timezone problem in that
+    // sometimes the message doesn't appear on that day's transcript.
+    var item = $('#messages-transcript #m-' + message.id());
+    if (item.length > 0) {
+        item[0].scrollIntoView(true);
+    }
 };
 
 ChatView.prototype.show = function () {

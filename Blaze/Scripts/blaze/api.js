@@ -71,6 +71,27 @@ Campfire.prototype.uploadFile = function(roomId, data, callback) {
     // not completed yet!
 };
 
+Campfire.prototype.searchMessages = function (searchTerm, callback) {
+    var self = this;
+    var data = {};
+    data['q'] = searchTerm;
+    var base = self.base.replace('/x', '/search');
+    $.ajax({
+        url: base + '/search',
+        data: data,
+        type: 'GET',
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function (reply) {
+            callback(reply.messages);
+        },
+        error: function (xhr, txt, err) {
+            console && console.log('searchMessages failure: ' + txt + ' (' + err + ')');
+            callback([]);
+        },
+        dataType: 'json'
+    });
+};
+
 Campfire.prototype.sendMessage = function (roomId, type, message, isPaste, callback) {
     var self = this;
     if (message === '') {
@@ -105,6 +126,25 @@ Campfire.prototype.starMessage = function (message) {
         },
         contentType: 'application/xml',
         dataType: 'xml'
+    });
+};
+
+Campfire.prototype.transcript = function (room, message, callback) {
+    var self = this;
+    var base = self.base.replace('/x', '/transcript');
+    var d = new Date(message.created_at());
+    $.ajax({
+        url: base + '/' + room.id() + '/transcript/' + (d.getYear() + 1900) + '/' + (d.getMonth()+1) + '/' + d.getDate(),
+        type: 'GET',
+        beforeSend: $.proxy(self.setAuthHeader, self),
+        success: function (reply) {
+            callback(reply.messages, message);
+        },
+        error: function (xhr, txt, err) {
+            console && console.log('transcript failure: ' + txt + ' (' + err + ')');
+            callback([]);
+        },
+        dataType: 'json'
     });
 };
 

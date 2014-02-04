@@ -171,7 +171,20 @@ ChatController.prototype.getUser = function (id) {
     }
 };
 
-ChatController.prototype.sendMessage = function(room, message, isPaste) {
+ChatController.prototype.searchMessages = function (searchTerm) {
+    var self = this;
+    self.roomsModel.clearSearchResults();
+    self.campfire.searchMessages(searchTerm, function (messages) {
+        $.each(messages, function (i, o) {
+            var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
+            var messageModel = new MessageModel(o, user, self.currentUser, null, self.contentProcessor, self);
+            self.roomsModel.addSearchResult(messageModel);
+        });
+    });
+    self.view.changeRoom('search');
+};
+
+ChatController.prototype.sendMessage = function (room, message, isPaste) {
     var self = this;
     var type = '';
     if (message.indexOf("/play ") === 0) {
@@ -209,4 +222,23 @@ ChatController.prototype.signOut = function () {
 ChatController.prototype.changeTopic = function(room) {
     var self = this;
     self.campfire.changeTopic(room.id(), room.topic());
+};
+
+
+ChatController.prototype.transcript = function (room, message) {
+    var self = this;
+    self.roomsModel.clearTranscriptMessages();
+    self.view.changeRoom('transcript');
+    self.campfire.transcript(room, message, function (messages, selectedMessage) {
+        var lastMessage = null;
+        $.each(messages, function (i, o) {
+            var user = o.user_id ? self.getUser(o.user_id) : new UserModel({ id: 0, name: '' });
+            if (o.type !== 'TimestampMessage') {
+                var messageModel = new MessageModel(o, user, self.currentUser, lastMessage, self.contentProcessor, self);
+                self.roomsModel.addTranscriptMessage(messageModel);
+                lastMessage = messageModel;
+            }
+        });
+        self.view.scrollIntoTranscriptView(selectedMessage);
+    });
 };
